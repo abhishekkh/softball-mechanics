@@ -7,15 +7,15 @@
 
 ### Authentication
 
-- [ ] **AUTH-01**: Coach can create an account with email and password
-- [ ] **AUTH-02**: Coach can log in and stay logged in across browser sessions
-- [ ] **AUTH-03**: Coach can invite an athlete via a shareable link (no full account required for athlete)
-- [ ] **AUTH-04**: Athlete can access their submissions and feedback via invite link / magic link
+- [x] **AUTH-01**: Coach can create an account with email and password
+- [x] **AUTH-02**: Coach can log in and stay logged in across browser sessions
+- [x] **AUTH-03**: Coach can invite an athlete via a shareable link (no full account required for athlete)
+- [x] **AUTH-04**: Athlete can access their submissions and feedback via invite link / magic link
 
 ### Video
 
-- [ ] **VID-01**: Coach or athlete can upload a video from their camera roll (phone or desktop)
-- [ ] **VID-02**: Uploaded video is transcoded to HLS for smooth streaming playback
+- [x] **VID-01**: Coach or athlete can upload a video from their camera roll (phone or desktop)
+- [x] **VID-02**: Uploaded video is transcoded to HLS for smooth streaming playback
 - [ ] **VID-03**: User can scrub through video frame-by-frame
 - [ ] **VID-04**: User can play video at slow motion speeds (0.25x, 0.5x)
 
@@ -41,8 +41,8 @@
 
 ### Roster & Session Management
 
-- [ ] **ROST-01**: Coach can view their athlete roster
-- [ ] **ROST-02**: Coach can invite an athlete to their roster via a shareable link
+- [x] **ROST-01**: Coach can view their athlete roster
+- [x] **ROST-02**: Coach can invite an athlete to their roster via a shareable link
 - [ ] **ROST-03**: Coach can view session history for a specific athlete
 
 ## v2 Requirements
@@ -88,14 +88,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
-| VID-01 | Phase 1 | Pending |
-| VID-02 | Phase 1 | Pending |
-| ROST-01 | Phase 1 | Pending |
-| ROST-02 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
+| VID-01 | Phase 1 | Complete |
+| VID-02 | Phase 1 | Complete |
+| ROST-01 | Phase 1 | Complete |
+| ROST-02 | Phase 1 | Complete |
 | AI-01 | Phase 2 | Pending |
 | AI-02 | Phase 2 | Pending |
 | AI-03 | Phase 2 | Pending |
