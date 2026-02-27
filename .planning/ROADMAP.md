@@ -50,7 +50,15 @@ Plans:
   1. Coach can see a pose skeleton overlay (body landmarks) rendered on any video frame in the review workspace
   2. Joint angles (hip rotation, elbow slot, shoulder tilt) are displayed automatically for any selected frame
   3. The video timeline shows AI-flagged frames with a mechanics issue indicator and confidence score the coach can use as a reference
-**Plans**: TBD
+**Plans**: 6 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Supabase migration 005 (video_analyses + video_analysis_frames tables + RLS) + TypeScript type contracts + Inngest Step 6 pending-analysis trigger
+- [ ] 02-02-PLAN.md — Pose library (angles/flags/landmarks pure functions) + MediaPipe Web Worker with Comlink + local WASM assets
+- [ ] 02-03-PLAN.md — POST /api/analysis route — persists MediaPipe results from browser to Supabase with upsert
+- [ ] 02-04-PLAN.md — usePoseAnalysis hook + VideoWithOverlay (HLS + canvas skeleton) + AnalysisTimeline (flagged frame markers)
+- [ ] 02-05-PLAN.md — MechanicsSidebar (joint angles + flags + Prev/Next navigation) + /review/[videoId] review workspace page
+- [ ] 02-06-PLAN.md — End-to-end Phase 2 verification checkpoint (skeleton overlay, joint angles, flagging)
 
 ### Phase 3: Annotation Workspace
 **Goal**: Coaches can annotate a video frame with drawing tools, add written coaching cues, then deliver a structured feedback package
@@ -82,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | Complete | 2026-02-27 |
-| 2. AI Pose Analysis | 0/TBD | Not started | - |
+| 2. AI Pose Analysis | 0/6 | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |
