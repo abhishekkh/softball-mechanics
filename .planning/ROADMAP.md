@@ -29,7 +29,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Coach or athlete can upload a video from desktop or phone and the video plays back in the browser via HLS streaming within two minutes of upload
   4. Coach can invite an athlete and view their full roster
   5. Coach and athlete see separate role-scoped views — coach sees session queue, athlete sees their own submissions only
-**Plans**: TBD
+**Plans**: 5 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Next.js 15 scaffold + all Phase 1 dependencies + Supabase migration SQL with full schema and RLS
+- [ ] 01-02-PLAN.md — Infrastructure wiring: Supabase clients, Next.js auth middleware, R2 client, Inngest client + serve handler + transcodeVideo function
+- [ ] 01-03-PLAN.md — Auth pages: coach signup/login, server actions, auth callback route, athlete invite acceptance
+- [ ] 01-04-PLAN.md — Video upload pipeline: presign route, VideoUploader (desktop + mobile), UploadQueue, TranscodingStatus, HLSPlayer
+- [ ] 01-05-PLAN.md — Roster + dashboards: coach session queue, athlete submissions view, invite modal, roster table, end-to-end verification checkpoint
 
 ### Phase 2: AI Pose Analysis
 **Goal**: The app automatically extracts softball-specific pose data from uploaded videos so coaches can see a skeleton overlay, joint angles, and flagged mechanics issues on any frame
@@ -70,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/5 | Planned | - |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |
