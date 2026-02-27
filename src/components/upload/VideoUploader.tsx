@@ -42,7 +42,10 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
         }),
       })
 
-      if (!presignRes.ok) throw new Error('Failed to get upload URL')
+      if (!presignRes.ok) {
+        const body = await presignRes.json().catch(() => ({}))
+        throw new Error(body?.error ? `Presign failed: ${JSON.stringify(body.error)}` : `Presign failed: ${presignRes.status}`)
+      }
       const { presignedUrl, videoId, r2Key } = await presignRes.json()
       updateItem(itemId, { videoId })
 
