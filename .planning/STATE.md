@@ -1,3 +1,16 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
+last_updated: "2026-02-27T05:46:56.298Z"
+progress:
+  total_phases: 1
+  completed_phases: 1
+  total_plans: 5
+  completed_plans: 5
+---
+
 # Project State
 
 ## Project Reference
@@ -10,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 4 of 5 in current phase
-Status: In progress
-Last activity: 2026-02-27 — Completed 01-04 (video upload pipeline: presign route, VideoUploader, UploadQueue, TranscodingStatus, HLSPlayer); 4/5 plans done in Phase 1
+Plan: 5 of 5 in current phase
+Status: Checkpoint — awaiting human verification (Task 3: end-to-end Phase 1 flow)
+Last activity: 2026-02-27 — Completed 01-05 Tasks 1-2 (dashboard, submissions, roster, upload wire-up); at checkpoint:human-verify
 
-Progress: [████░░░░░░] 20%
+Progress: [█████░░░░░] 25%
 
 ## Performance Metrics
 
@@ -27,10 +40,10 @@ Progress: [████░░░░░░] 20%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 4/5 | 12 min | 3 min |
+| 01-foundation | 5/5 | 14 min | 2.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-05 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -59,6 +72,8 @@ Recent decisions affecting current work:
 - [01-04]: XHR used instead of fetch for R2 upload — fetch does not expose upload progress events; XHR xhr.upload.progress is required for per-file progress bars
 - [01-04]: Mobile input has no capture attribute — capture forces live camera recording; omitting it lets athletes select from camera roll
 - [01-04]: TranscodingStatus uses useEffect for onReady callback — TanStack Query v5 removed onSuccess from useQuery; useEffect is the v5-correct pattern
+- [Phase 01-foundation]: [01-05]: Upload page requires athlete selection before enabling VideoUploader — prevents unassigned uploads
+- [Phase 01-foundation]: [01-05]: UploadPageClient is thin client wrapper so server component can fetch roster and pass to client
 
 ### Pending Todos
 
@@ -72,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-04-PLAN.md — Video upload pipeline (presign route, VideoUploader, UploadQueue, TranscodingStatus, HLSPlayer). Ready to execute 01-05-PLAN.md.
+Stopped at: Completed 01-05 Tasks 1-2 (dashboard, submissions, roster, upload wire-up); at checkpoint:human-verify Task 3 — End-to-end Phase 1 verification awaiting approval.
 Resume file: None
