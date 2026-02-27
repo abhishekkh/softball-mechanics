@@ -68,6 +68,7 @@ export async function inviteAthlete(email: string, coachId: string): Promise<{ s
   })
 
   if (error) {
+    console.error('[inviteAthlete] inviteUserByEmail error:', { status: error.status, message: error.message })
     if (error.status === 422 || error.message.toLowerCase().includes('already')) {
       // User already exists — send a magic link via OTP (implicit flow so no PKCE cookie needed)
       const implicitClient = createAdminClient(
@@ -80,10 +81,11 @@ export async function inviteAthlete(email: string, coachId: string): Promise<{ s
         options: { emailRedirectTo: redirectTo, shouldCreateUser: false },
       })
       if (otpError) {
+        console.error('[inviteAthlete] signInWithOtp error:', { status: otpError.status, message: otpError.message })
         return { error: 'Failed to send invite link. Please try again.' }
       }
     } else {
-      return { error: 'Failed to send invite. Please try again.' }
+      return { error: `Failed to send invite: ${error.message}` }
     }
   } else {
     userId = data.user?.id
