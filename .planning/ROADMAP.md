@@ -53,7 +53,7 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Supabase migration 005 (video_analyses + video_analysis_frames tables + RLS) + TypeScript type contracts + Inngest Step 6 pending-analysis trigger
+- [x] 02-01-PLAN.md — Supabase migration 005 (video_analyses + video_analysis_frames tables + RLS) + TypeScript type contracts + Inngest Step 6 pending-analysis trigger (completed 2026-02-27)
 - [ ] 02-02-PLAN.md — Pose library (angles/flags/landmarks pure functions) + MediaPipe Web Worker with Comlink + local WASM assets
 - [ ] 02-03-PLAN.md — POST /api/analysis route — persists MediaPipe results from browser to Supabase with upsert
 - [ ] 02-04-PLAN.md — usePoseAnalysis hook + VideoWithOverlay (HLS + canvas skeleton) + AnalysisTimeline (flagged frame markers)
@@ -90,6 +90,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | Complete | 2026-02-27 |
-| 2. AI Pose Analysis | 0/6 | Not started | - |
+| 2. AI Pose Analysis | 1/6 | In progress | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |

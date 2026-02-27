@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-02-27T22:17:56Z"
+status: in_progress
+last_updated: "2026-02-27T23:55:13Z"
 progress:
-  total_phases: 1
+  total_phases: 4
   completed_phases: 1
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 14
+  completed_plans: 10
 ---
 
 # Project State
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-26)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus:** Phase 1 - Foundation
+**Current focus:** Phase 2 - AI Pose Analysis
 
 ## Current Position
 
-Phase: 1 of 4 (Foundation)
-Plan: 9 of 9 in current phase — COMPLETE
-Status: Phase 1 complete — all 9 plans executed, UAT tests 1, 6, 9 confirmed passing
-Last activity: 2026-02-27 — Completed 01-09 (NEXT_PUBLIC_APP_URL deployed domain fix, Supabase redirect URLs configured, UAT test 6 invite flow verified)
+Phase: 2 of 4 (AI Pose Analysis)
+Plan: 1 of 5 in current phase — COMPLETE
+Status: Phase 2 in progress — Plan 01 executed (schema foundation + types + Inngest Step 6)
+Last activity: 2026-02-27 — Completed 02-01 (video_analyses + video_analysis_frames migration, src/types/analysis.ts, Inngest Step 6 signal-analysis-ready)
 
-Progress: [██████████] 100% (Phase 1 complete)
+Progress: [██████████░░░░░░░░░░] 50% (Phase 1 complete, Phase 2 started)
 
 ## Performance Metrics
 
@@ -41,15 +41,17 @@ Progress: [██████████] 100% (Phase 1 complete)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 9/9 | 160 min | 17.8 min |
+| 02-ai-pose-analysis | 1/5 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (4 min), 01-06 (2 min), 01-07 (2 min), 01-08 (5 min), 01-09 (137 min incl. human verify wait)
-- Trend: Stable (01-09 duration dominated by checkpoint wait)
+- Last 5 plans: 01-06 (2 min), 01-07 (2 min), 01-08 (5 min), 01-09 (137 min incl. human verify wait), 02-01 (2 min)
+- Trend: Stable
 
 *Updated after each plan completion*
 | Phase 01-foundation P07 | 2 | 2 tasks | 4 files |
 | Phase 01-foundation P08 | 5 | 2 tasks | 3 files |
 | Phase 01-foundation P09 | 137 | 2 tasks | 2 files |
+| Phase 02-ai-pose-analysis P01 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -87,6 +89,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: [01-08]: R2 presign errors caught at route layer (not lib/r2.ts) — route handler owns HTTP response shape
 - [Phase 01-foundation]: [01-09]: NEXT_PUBLIC_APP_URL must match Supabase Site URL and Redirect URLs allowlist exactly — localhost value causes otp_expired on invite email links
 - [Phase 01-foundation]: [01-09]: .env.local.example placeholder updated to https://your-deployed-domain.vercel.app — documents that deployed HTTPS domain is required, not localhost
+- [Phase 02-ai-pose-analysis]: [02-01]: Step 6 is non-fatal — insert failure logs error but does not throw, keeping transcoding idempotent and retryable
+- [Phase 02-ai-pose-analysis]: [02-01]: AnalysisStatus uses string union type (not enum) — matches Supabase CHECK constraint exactly, avoids runtime enum mismatch
+- [Phase 02-ai-pose-analysis]: [02-01]: JSONB for landmarks and flags columns — schema-flexible storage for variable-length arrays; REAL columns for computed angles enable efficient queries
 
 ### Pending Todos
 
@@ -100,5 +105,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-09-PLAN.md — Phase 1 Foundation fully complete. All 9 plans executed. UAT tests 1, 6, 9 confirmed passing. Ready for Phase 2.
+Stopped at: Completed 02-01-PLAN.md — Phase 2 Plan 01 complete. DB schema, TypeScript types, and Inngest Step 6 wired. Migration 005_video_analyses.sql ready to push. Ready for Phase 2 Plan 02 (browser MediaPipe worker).
 Resume file: None
