@@ -94,28 +94,34 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUTH-04 | Phase 1 | Pending |
 | VID-01 | Phase 1 | Pending |
 | VID-02 | Phase 1 | Pending |
-| VID-03 | Phase 2 | Pending |
-| VID-04 | Phase 2 | Pending |
-| ANN-01 | Phase 2 | Pending |
-| ANN-02 | Phase 2 | Pending |
-| ANN-03 | Phase 2 | Pending |
-| ANN-04 | Phase 2 | Pending |
-| ANN-05 | Phase 2 | Pending |
-| AI-01 | Phase 3 | Pending |
-| AI-02 | Phase 3 | Pending |
-| AI-03 | Phase 3 | Pending |
+| ROST-01 | Phase 1 | Pending |
+| ROST-02 | Phase 1 | Pending |
+| AI-01 | Phase 2 | Pending |
+| AI-02 | Phase 2 | Pending |
+| AI-03 | Phase 2 | Pending |
+| VID-03 | Phase 3 | Pending |
+| VID-04 | Phase 3 | Pending |
+| ANN-01 | Phase 3 | Pending |
+| ANN-02 | Phase 3 | Pending |
+| ANN-03 | Phase 3 | Pending |
+| ANN-04 | Phase 3 | Pending |
+| ANN-05 | Phase 3 | Pending |
 | FEED-01 | Phase 4 | Pending |
 | FEED-02 | Phase 4 | Pending |
 | FEED-03 | Phase 4 | Pending |
-| ROST-01 | Phase 1 | Pending |
-| ROST-02 | Phase 1 | Pending |
 | ROST-03 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 22 total
 - Mapped to phases: 22
-- Unmapped: 0 ✓
+- Unmapped: 0
+
+Phase breakdown:
+- Phase 1 (Foundation): AUTH-01, AUTH-02, AUTH-03, AUTH-04, VID-01, VID-02, ROST-01, ROST-02 — 8 requirements
+- Phase 2 (AI Pose Analysis): AI-01, AI-02, AI-03 — 3 requirements
+- Phase 3 (Annotation Workspace): VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05 — 7 requirements
+- Phase 4 (Feedback Delivery): FEED-01, FEED-02, FEED-03, ROST-03 — 4 requirements
 
 ---
 *Requirements defined: 2026-02-26*
-*Last updated: 2026-02-26 after initial definition*
+*Last updated: 2026-02-26 — phase order revised: AI Pose Analysis moved to Phase 2, Annotation Workspace moved to Phase 3*
