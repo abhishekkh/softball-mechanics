@@ -1,11 +1,31 @@
 'use client'
 
 import { signIn } from '@/actions/auth'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
+  // Handle implicit-flow invite links: /login#access_token=...&type=invite
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (!hash.includes('access_token')) return
+    const params = new URLSearchParams(hash)
+    const accessToken = params.get('access_token')
+    const refreshToken = params.get('refresh_token')
+    const type = params.get('type')
+    if (!accessToken || !refreshToken) return
+    const supabase = createClient()
+    supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken }).then(({ error }) => {
+      if (!error) {
+        router.replace(type === 'invite' || type === 'magiclink' ? '/invite/accept' : '/submissions')
+      }
+    })
+  }, [router])
 
   async function handleSubmit(formData: FormData) {
     setLoading(true)

@@ -31,6 +31,10 @@ export async function GET(request: NextRequest) {
       if (next && next !== '/' && next.startsWith('/')) {
         return NextResponse.redirect(new URL(next, origin))
       }
+      // Invite type always goes to accept page; others use role-based routing
+      if (type === 'invite' || type === 'magiclink') {
+        return NextResponse.redirect(new URL('/invite/accept', origin))
+      }
       const role = data.user.user_metadata?.role ?? 'coach'
       const destination = role === 'athlete' ? '/submissions' : '/dashboard'
       return NextResponse.redirect(new URL(destination, origin))

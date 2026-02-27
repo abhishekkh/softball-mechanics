@@ -58,7 +58,7 @@ export async function signOut() {
 
 export async function inviteAthlete(email: string, coachId: string): Promise<{ success: true; userId: string | undefined } | { error: string }> {
   const admin = getAdminClient()
-  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/invite/accept`
+  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
 
   let userId: string | undefined
 
