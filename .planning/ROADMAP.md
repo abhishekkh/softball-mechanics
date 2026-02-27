@@ -12,7 +12,7 @@ This roadmap delivers the core upload-analyze-annotate-deliver coaching loop acr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress)
+- [x] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress) (completed 2026-02-27)
 - [ ] **Phase 2: AI Pose Analysis** - Softball-specific pose skeleton overlay and joint angle computation
 - [ ] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes
 - [ ] **Phase 4: Feedback Delivery** - Athlete feedback inbox, session history, and side-by-side comparison view
@@ -79,7 +79,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 5/7 | Gap closure | - |
+| 1. Foundation | 7/7 | Complete   | 2026-02-27 |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |

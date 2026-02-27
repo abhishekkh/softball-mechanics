@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-27T05:46:56.298Z"
+last_updated: "2026-02-27T05:45:00Z"
 progress:
   total_phases: 1
   completed_phases: 1
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 7
+  completed_plans: 7
 ---
 
 # Project State
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 5 of 5 in current phase
-Status: Checkpoint — awaiting human verification (Task 3: end-to-end Phase 1 flow)
-Last activity: 2026-02-27 — Completed 01-05 Tasks 1-2 (dashboard, submissions, roster, upload wire-up); at checkpoint:human-verify
+Plan: 6 of 7 in current phase
+Status: In progress — 01-06 complete, 01-07 pending
+Last activity: 2026-02-27 — Completed 01-06 (invite acceptance flow: PKCE-compatible end-to-end)
 
 Progress: [█████░░░░░] 25%
 
@@ -40,10 +40,10 @@ Progress: [█████░░░░░] 25%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 5/5 | 14 min | 2.8 min |
+| 01-foundation | 6/7 | 16 min | 2.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-05 (2 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-05 (2 min), 01-06 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -74,6 +74,8 @@ Recent decisions affecting current work:
 - [01-04]: TranscodingStatus uses useEffect for onReady callback — TanStack Query v5 removed onSuccess from useQuery; useEffect is the v5-correct pattern
 - [Phase 01-foundation]: [01-05]: Upload page requires athlete selection before enabling VideoUploader — prevents unassigned uploads
 - [Phase 01-foundation]: [01-05]: UploadPageClient is thin client wrapper so server component can fetch roster and pass to client
+- [Phase 01-foundation]: acceptInvite uses admin client (service role) to update coach_athletes — RLS restricts updates to coach owner; athlete is not the coach so service role required
+- [Phase 01-foundation]: /auth/callback honors ?next= param for explicit routing overrides — protects against open redirect by requiring value starts with '/'
 
 ### Pending Todos
 
@@ -87,5 +89,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-05 Tasks 1-2 (dashboard, submissions, roster, upload wire-up); at checkpoint:human-verify Task 3 — End-to-end Phase 1 verification awaiting approval.
+Stopped at: Completed 01-06-PLAN.md — PKCE invite acceptance flow fixed (inviteAthlete redirectTo, /auth/callback ?next= routing, /invite/accept page).
 Resume file: None
