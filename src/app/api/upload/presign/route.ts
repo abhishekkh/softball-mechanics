@@ -5,9 +5,9 @@ import { z } from 'zod'
 
 const PresignSchema = z.object({
   filename: z.string().min(1).max(255),
-  contentType: z.string().regex(/^video\//),  // Must be a video MIME type
-  athleteId: z.string().uuid(),               // Which athlete this video is for
-  coachId: z.string().uuid(),                 // The coach's user ID
+  contentType: z.string().regex(/^video\//),              // Must be a video MIME type
+  athleteId: z.string().uuid().optional().nullable(),     // Optional — coach can upload without athlete assignment (deferred)
+  coachId: z.string().uuid(),                             // The coach's user ID
 })
 
 export async function POST(request: NextRequest) {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   // Create initial video record in DB (status: 'processing')
   const { error: dbError } = await supabase.from('videos').insert({
     id: videoId,
-    athlete_id: athleteId,
+    athlete_id: athleteId ?? null,
     uploaded_by: user.id,
     coach_id: coachId,
     title: filename.replace(/\.[^.]+$/, ''),  // Strip extension for default title

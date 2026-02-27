@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone'
 import { UploadQueue, type QueueItem } from './UploadQueue'
 
 interface VideoUploaderProps {
-  athleteId: string   // Must be provided — coach assigns athlete before uploading
+  athleteId?: string  // Optional — coach can upload without athlete assignment (deferred)
   coachId: string
   onUploadComplete?: (videoId: string) => void
 }
@@ -36,8 +36,8 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           filename: file.name,
-          contentType: file.type,   // Pass exact MIME type — R2 validates signature against this
-          athleteId,
+          contentType: file.type,           // Pass exact MIME type — R2 validates signature against this
+          athleteId: athleteId ?? null,     // Explicit null so presign receives null (not omitted key)
           coachId,
         }),
       })
