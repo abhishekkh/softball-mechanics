@@ -40,7 +40,7 @@ Plans:
 - [ ] 01-06-PLAN.md — GAP: Fix invite flow — PKCE-compatible redirectTo, /auth/callback ?next= routing, /invite/accept page
 - [ ] 01-07-PLAN.md — GAP: Optional athlete on upload — nullable athlete_id migration, remove upload gate
 - [x] 01-08-PLAN.md — GAP: Middleware root route fix + .mov/.mkv contentType fallback (UAT tests 1 and 9) (completed 2026-02-27)
-- [ ] 01-09-PLAN.md — GAP: Remaining UAT gap closure (pending)
+- [x] 01-09-PLAN.md — GAP: NEXT_PUBLIC_APP_URL deployed domain fix + Supabase redirect URLs config (UAT test 6 invite flow) (completed 2026-02-27)
 
 ### Phase 2: AI Pose Analysis
 **Goal**: The app automatically extracts softball-specific pose data from uploaded videos so coaches can see a skeleton overlay, joint angles, and flagged mechanics issues on any frame
@@ -81,7 +81,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 8/9 | In Progress|  |
+| 1. Foundation | 9/9 | Complete | 2026-02-27 |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |

@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-27T20:02:00.188Z"
+last_updated: "2026-02-27T22:17:56Z"
 progress:
   total_phases: 1
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 8 of 9 in current phase
-Status: In Progress — UAT gap closure plans executing
-Last activity: 2026-02-27 — Completed 01-08 (middleware root route fix + .mov/.mkv contentType fallback, UAT tests 1 and 9)
+Plan: 9 of 9 in current phase — COMPLETE
+Status: Phase 1 complete — all 9 plans executed, UAT tests 1, 6, 9 confirmed passing
+Last activity: 2026-02-27 — Completed 01-09 (NEXT_PUBLIC_APP_URL deployed domain fix, Supabase redirect URLs configured, UAT test 6 invite flow verified)
 
-Progress: [█████████░] 89% (8/9 plans complete)
+Progress: [██████████] 100% (Phase 1 complete)
 
 ## Performance Metrics
 
@@ -40,15 +40,16 @@ Progress: [█████████░] 89% (8/9 plans complete)
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 8/9 | 23 min | 2.9 min |
+| 01-foundation | 9/9 | 160 min | 17.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (2 min), 01-04 (4 min), 01-06 (2 min), 01-07 (2 min), 01-08 (5 min)
-- Trend: Stable
+- Last 5 plans: 01-04 (4 min), 01-06 (2 min), 01-07 (2 min), 01-08 (5 min), 01-09 (137 min incl. human verify wait)
+- Trend: Stable (01-09 duration dominated by checkpoint wait)
 
 *Updated after each plan completion*
 | Phase 01-foundation P07 | 2 | 2 tasks | 4 files |
 | Phase 01-foundation P08 | 5 | 2 tasks | 3 files |
+| Phase 01-foundation P09 | 137 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -84,6 +85,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: [01-08]: Two-entry middleware matcher array — '/' explicit first entry + existing regex — avoids regex rewrite risk
 - [Phase 01-foundation]: [01-08]: VideoUploader uses file.type || 'video/mp4' fallback — keeps Zod /^video\// regex valid for .mov/.mkv/.avi uploads
 - [Phase 01-foundation]: [01-08]: R2 presign errors caught at route layer (not lib/r2.ts) — route handler owns HTTP response shape
+- [Phase 01-foundation]: [01-09]: NEXT_PUBLIC_APP_URL must match Supabase Site URL and Redirect URLs allowlist exactly — localhost value causes otp_expired on invite email links
+- [Phase 01-foundation]: [01-09]: .env.local.example placeholder updated to https://your-deployed-domain.vercel.app — documents that deployed HTTPS domain is required, not localhost
 
 ### Pending Todos
 
@@ -97,5 +100,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-08-PLAN.md — middleware root route fix and .mov/.mkv MIME fallback (UAT tests 1 and 9 unblocked)
+Stopped at: Completed 01-09-PLAN.md — Phase 1 Foundation fully complete. All 9 plans executed. UAT tests 1, 6, 9 confirmed passing. Ready for Phase 2.
 Resume file: None
