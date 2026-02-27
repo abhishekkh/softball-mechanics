@@ -1,6 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { UploadPageClient } from '@/components/upload/UploadPageClient'
+
+function getAdmin() {
+  return createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
 export default async function UploadPage() {
   const supabase = await createClient()
@@ -25,15 +33,16 @@ export default async function UploadPage() {
       .filter(Boolean)
   }
 
-  // For athletes: look up their coach so videos can be associated correctly
+  // For athletes: look up their coach via service role (bypasses RLS; handles
+  // cases where athlete_id is still NULL or email casing differs)
   if (role === 'athlete') {
-    const { data } = await supabase
+    const admin = getAdmin()
+    const { data } = await admin
       .from('coach_athletes')
       .select('coach_id')
-      .eq('athlete_id', user.id)
-      .eq('status', 'active')
+      .or(`athlete_id.eq.${user.id},athlete_email.ilike.${user.email}`)
       .limit(1)
-      .single()
+      .maybeSingle()
 
     athleteCoachId = data?.coach_id ?? undefined
   }
