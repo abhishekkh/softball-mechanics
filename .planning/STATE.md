@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-27T05:45:00Z"
+last_updated: "2026-02-27T16:24:58.220Z"
 progress:
   total_phases: 1
   completed_phases: 1
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 6 of 7 in current phase
-Status: In progress — 01-06 complete, 01-07 pending
-Last activity: 2026-02-27 — Completed 01-06 (invite acceptance flow: PKCE-compatible end-to-end)
+Plan: 7 of 7 in current phase — COMPLETE
+Status: Phase 1 complete — all gap-closure plans executed
+Last activity: 2026-02-27 — Completed 01-07 (optional athlete upload: removed DB NOT NULL, Zod required, UI canUpload gate)
 
-Progress: [█████░░░░░] 25%
+Progress: [██████████] 100% (Phase 1 complete)
 
 ## Performance Metrics
 
@@ -40,13 +40,14 @@ Progress: [█████░░░░░] 25%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 6/7 | 16 min | 2.7 min |
+| 01-foundation | 7/7 | 18 min | 2.6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-05 (2 min), 01-06 (2 min)
+- Last 5 plans: 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-06 (2 min), 01-07 (2 min)
 - Trend: Stable
 
 *Updated after each plan completion*
+| Phase 01-foundation P07 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: [01-05]: UploadPageClient is thin client wrapper so server component can fetch roster and pass to client
 - [Phase 01-foundation]: acceptInvite uses admin client (service role) to update coach_athletes — RLS restricts updates to coach owner; athlete is not the coach so service role required
 - [Phase 01-foundation]: /auth/callback honors ?next= param for explicit routing overrides — protects against open redirect by requiring value starts with '/'
+- [Phase 01-foundation]: [01-07]: athlete_id is now nullable in videos table — coaches can upload without assigning an athlete (deferred assignment pattern)
+- [Phase 01-foundation]: [01-07]: RLS INSERT policy updated — third OR clause (coach_id = auth.uid() AND athlete_id IS NULL) required because NULL comparisons are never truthy in SQL
+- [Phase 01-foundation]: [01-07]: UploadPageClient canUpload gate removed — VideoUploader always renders; athlete dropdown is advisory only
 
 ### Pending Todos
 
@@ -89,5 +93,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-06-PLAN.md — PKCE invite acceptance flow fixed (inviteAthlete redirectTo, /auth/callback ?next= routing, /invite/accept page).
+Stopped at: Completed 01-07-PLAN.md — Phase 1 Foundation complete. All 7 plans executed. UAT tests 8-10 unblocked.
 Resume file: None

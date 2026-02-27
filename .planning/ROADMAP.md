@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 7 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Next.js 15 scaffold + all Phase 1 dependencies + Supabase migration SQL with full schema and RLS
+- [x] 01-01-PLAN.md — Next.js 15 scaffold + all Phase 1 dependencies + Supabase migration SQL with full schema and RLS (completed 2026-02-27)
 - [ ] 01-02-PLAN.md — Infrastructure wiring: Supabase clients, Next.js auth middleware, R2 client, Inngest client + serve handler + transcodeVideo function
 - [x] 01-03-PLAN.md — Auth pages: coach signup/login, server actions, auth callback route, athlete invite acceptance
 - [ ] 01-04-PLAN.md — Video upload pipeline: presign route, VideoUploader (desktop + mobile), UploadQueue, TranscodingStatus, HLSPlayer
