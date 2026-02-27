@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-27T16:24:58.220Z"
+last_updated: "2026-02-27T20:02:00.188Z"
 progress:
   total_phases: 1
-  completed_phases: 1
-  total_plans: 7
-  completed_plans: 7
+  completed_phases: 0
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 7 of 7 in current phase — COMPLETE
-Status: Phase 1 complete — all gap-closure plans executed
-Last activity: 2026-02-27 — Completed 01-07 (optional athlete upload: removed DB NOT NULL, Zod required, UI canUpload gate)
+Plan: 8 of 9 in current phase
+Status: In Progress — UAT gap closure plans executing
+Last activity: 2026-02-27 — Completed 01-08 (middleware root route fix + .mov/.mkv contentType fallback, UAT tests 1 and 9)
 
-Progress: [██████████] 100% (Phase 1 complete)
+Progress: [█████████░] 89% (8/9 plans complete)
 
 ## Performance Metrics
 
@@ -40,14 +40,15 @@ Progress: [██████████] 100% (Phase 1 complete)
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 7/7 | 18 min | 2.6 min |
+| 01-foundation | 8/9 | 23 min | 2.9 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (2 min), 01-03 (2 min), 01-04 (4 min), 01-06 (2 min), 01-07 (2 min)
+- Last 5 plans: 01-03 (2 min), 01-04 (4 min), 01-06 (2 min), 01-07 (2 min), 01-08 (5 min)
 - Trend: Stable
 
 *Updated after each plan completion*
 | Phase 01-foundation P07 | 2 | 2 tasks | 4 files |
+| Phase 01-foundation P08 | 5 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: [01-07]: athlete_id is now nullable in videos table — coaches can upload without assigning an athlete (deferred assignment pattern)
 - [Phase 01-foundation]: [01-07]: RLS INSERT policy updated — third OR clause (coach_id = auth.uid() AND athlete_id IS NULL) required because NULL comparisons are never truthy in SQL
 - [Phase 01-foundation]: [01-07]: UploadPageClient canUpload gate removed — VideoUploader always renders; athlete dropdown is advisory only
+- [Phase 01-foundation]: [01-08]: Two-entry middleware matcher array — '/' explicit first entry + existing regex — avoids regex rewrite risk
+- [Phase 01-foundation]: [01-08]: VideoUploader uses file.type || 'video/mp4' fallback — keeps Zod /^video\// regex valid for .mov/.mkv/.avi uploads
+- [Phase 01-foundation]: [01-08]: R2 presign errors caught at route layer (not lib/r2.ts) — route handler owns HTTP response shape
 
 ### Pending Todos
 
@@ -93,5 +97,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Checkpoint — 01-09 Task 2 of 2 — Supabase dashboard URL config + UAT test 6 human verification required.
+Stopped at: Completed 01-08-PLAN.md — middleware root route fix and .mov/.mkv MIME fallback (UAT tests 1 and 9 unblocked)
 Resume file: None
