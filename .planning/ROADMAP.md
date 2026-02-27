@@ -77,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/5 | Planned | - |
+| 1. Foundation | 2/5 | In Progress|  |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |
