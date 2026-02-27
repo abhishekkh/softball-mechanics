@@ -63,7 +63,7 @@ export async function inviteAthlete(email: string, coachId: string) {
 
   const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
     data: { role: 'athlete', invited_by: coachId },
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/invite/accept`,
   })
 
   if (error) throw error

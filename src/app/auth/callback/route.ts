@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
     if (!error && data.user) {
-      // Route by role after successful auth
+      // If explicit next param provided (e.g. invite flow), route there
+      if (next && next !== '/' && next.startsWith('/')) {
+        return NextResponse.redirect(new URL(next, origin))
+      }
+      // Default: role-based redirect for normal login
       const role = data.user.user_metadata?.role ?? 'coach'
       const destination = role === 'athlete' ? '/submissions' : '/dashboard'
       return NextResponse.redirect(new URL(destination, origin))
