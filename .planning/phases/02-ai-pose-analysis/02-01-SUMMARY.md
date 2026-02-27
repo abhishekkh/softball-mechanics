@@ -118,3 +118,11 @@ Or apply `supabase/migrations/005_video_analyses.sql` via the Supabase Dashboard
 ---
 *Phase: 02-ai-pose-analysis*
 *Completed: 2026-02-27*
+
+## Self-Check: PASSED
+
+- FOUND: supabase/migrations/005_video_analyses.sql
+- FOUND: src/types/analysis.ts
+- FOUND: .planning/phases/02-ai-pose-analysis/02-01-SUMMARY.md
+- FOUND: commit 3455ff3 (feat(02-01): add video_analyses and video_analysis_frames migration)
+- FOUND: commit c5d09bf (feat(02-01): add analysis type contracts and Inngest Step 6 wiring)
