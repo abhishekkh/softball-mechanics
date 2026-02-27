@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 Plans:
 - [ ] 01-01-PLAN.md — Next.js 15 scaffold + all Phase 1 dependencies + Supabase migration SQL with full schema and RLS
 - [ ] 01-02-PLAN.md — Infrastructure wiring: Supabase clients, Next.js auth middleware, R2 client, Inngest client + serve handler + transcodeVideo function
-- [ ] 01-03-PLAN.md — Auth pages: coach signup/login, server actions, auth callback route, athlete invite acceptance
+- [x] 01-03-PLAN.md — Auth pages: coach signup/login, server actions, auth callback route, athlete invite acceptance
 - [ ] 01-04-PLAN.md — Video upload pipeline: presign route, VideoUploader (desktop + mobile), UploadQueue, TranscodingStatus, HLSPlayer
 - [ ] 01-05-PLAN.md — Roster + dashboards: coach session queue, athlete submissions view, invite modal, roster table, end-to-end verification checkpoint
 
@@ -77,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/5 | In Progress|  |
+| 1. Foundation | 3/5 | In Progress|  |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |

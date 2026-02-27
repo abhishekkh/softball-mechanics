@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 2 of 5 in current phase
+Plan: 3 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-27 — Completed 01-02 (service wiring: Supabase clients, middleware, R2, Inngest); 2/5 plans done in Phase 1
+Last activity: 2026-02-27 — Completed 01-03 (auth UI: signup/login pages, server actions, invite acceptance); 3/5 plans done in Phase 1
 
-Progress: [██░░░░░░░░] 10%
+Progress: [███░░░░░░░] 15%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
+- Total plans completed: 3
 - Average duration: 3 minutes
 - Total execution time: 0.1 hours
 
@@ -27,11 +27,11 @@ Progress: [██░░░░░░░░] 10%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 2/5 | 6 min | 3 min |
+| 01-foundation | 3/5 | 8 min | 2.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (2 min)
-- Trend: -
+- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min)
+- Trend: Stable
 
 *Updated after each plan completion*
 
@@ -53,6 +53,9 @@ Recent decisions affecting current work:
 - [01-02]: Middleware creates its own Supabase client from @supabase/ssr directly — server.ts uses next/headers cookies() which is unavailable in Edge runtime
 - [01-02]: supabase.auth.getUser() used everywhere (not getSession) — getSession reads cookie without JWT verification, insecure
 - [01-02]: SUPABASE_SERVICE_ROLE_KEY added to .env.local.example (was missing from Plan 01)
+- [01-03]: Invite acceptance uses supabase.auth.setSession() not verifyOtp — inviteUserByEmail sends hash-fragment tokens, not OTP codes
+- [01-03]: inviteAthlete uses admin client (service role key) — inviteUserByEmail is admin-only API; browser client cannot call it
+- [01-03]: Middleware already allows /invite paths through PUBLIC_PATHS — no change needed for invite acceptance page
 
 ### Pending Todos
 
@@ -66,5 +69,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-02-PLAN.md — Service wiring (Supabase clients, middleware, R2, Inngest transcodeVideo). Ready to execute 01-03-PLAN.md.
+Stopped at: Completed 01-03-PLAN.md — Auth UI (signup/login pages, server actions, callback route, athlete invite acceptance). Ready to execute 01-04-PLAN.md.
 Resume file: None
