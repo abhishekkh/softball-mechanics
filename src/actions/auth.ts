@@ -78,3 +78,23 @@ export async function inviteAthlete(email: string, coachId: string) {
 
   return { success: true, userId: data.user?.id }
 }
+
+export async function acceptInvite() {
+  const supabase = await createClient()
+  const { data: { user }, error } = await supabase.auth.getUser()
+  if (error || !user) throw new Error('Not authenticated')
+
+  const admin = getAdminClient()
+  const { error: updateError } = await admin
+    .from('coach_athletes')
+    .update({
+      athlete_id: user.id,
+      status: 'active',
+      joined_at: new Date().toISOString(),
+    })
+    .eq('athlete_email', user.email!)
+    .eq('status', 'pending')
+
+  if (updateError) throw updateError
+  return { success: true }
+}
