@@ -18,13 +18,13 @@ export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
     setStatus('loading')
     setErrorMessage(null)
 
-    try {
-      await inviteAthlete(email, coachId)
+    const result = await inviteAthlete(email, coachId)
+    if ('error' in result) {
+      setStatus('error')
+      setErrorMessage(result.error)
+    } else {
       setStatus('sent')
       setEmail('')
-    } catch (err) {
-      setStatus('error')
-      setErrorMessage(err instanceof Error ? err.message : 'Invite failed')
     }
   }
 

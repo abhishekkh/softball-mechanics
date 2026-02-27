@@ -56,7 +56,7 @@ export async function signOut() {
   redirect('/login')
 }
 
-export async function inviteAthlete(email: string, coachId: string) {
+export async function inviteAthlete(email: string, coachId: string): Promise<{ success: true; userId: string | undefined } | { error: string }> {
   // Uses Supabase Admin API — inviteUserByEmail does NOT support PKCE
   // Athlete receives a magic link email; clicking it completes their signup
   const admin = getAdminClient()
@@ -66,7 +66,12 @@ export async function inviteAthlete(email: string, coachId: string) {
     redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/invite/accept`,
   })
 
-  if (error) throw error
+  if (error) {
+    if (error.message.toLowerCase().includes('already') || error.status === 422) {
+      return { error: 'This email is already registered. Ask the athlete to sign in directly.' }
+    }
+    return { error: 'Failed to send invite. Please try again.' }
+  }
 
   // Create pending coach_athletes record
   const supabase = await createClient()
