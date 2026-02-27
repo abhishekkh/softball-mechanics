@@ -111,13 +111,17 @@ export async function inviteAthlete(email: string, coachId: string): Promise<{ s
   return { success: true, userId }
 }
 
-export async function acceptInvite() {
+export async function acceptInvite(): Promise<{ success: true } | { error: string }> {
   const supabase = await createClient()
   const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) throw new Error('Not authenticated')
+
+  if (error || !user) {
+    console.error('[acceptInvite] getUser failed:', error?.message)
+    return { error: 'Not authenticated' }
+  }
 
   const admin = getAdminClient()
-  const { error: updateError } = await admin
+  const { error: updateError, count } = await admin
     .from('coach_athletes')
     .update({
       athlete_id: user.id,
@@ -126,7 +130,13 @@ export async function acceptInvite() {
     })
     .eq('athlete_email', user.email!)
     .eq('status', 'pending')
+    .select('id')
 
-  if (updateError) throw updateError
+  if (updateError) {
+    console.error('[acceptInvite] update failed:', updateError.message, updateError.code)
+    return { error: 'Failed to activate invite. Please try again.' }
+  }
+
+  console.log('[acceptInvite] updated rows:', count, 'user:', user.email)
   return { success: true }
 }

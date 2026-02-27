@@ -11,19 +11,18 @@ export default function InviteAcceptPage() {
 
   useEffect(() => {
     async function handleAccept() {
-      try {
-        await acceptInvite()
-        setStatus('success')
-        router.replace('/submissions')
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Something went wrong'
-        if (message === 'Not authenticated') {
+      const result = await acceptInvite()
+      if ('error' in result) {
+        if (result.error === 'Not authenticated') {
           router.replace('/login')
           return
         }
-        setErrorMessage(message)
+        setErrorMessage(result.error)
         setStatus('error')
+        return
       }
+      setStatus('success')
+      router.replace('/submissions')
     }
 
     handleAccept()
