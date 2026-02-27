@@ -12,7 +12,7 @@ This roadmap delivers the core upload-analyze-annotate-deliver coaching loop acr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (completed 2026-02-27)
+- [ ] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress)
 - [ ] **Phase 2: AI Pose Analysis** - Softball-specific pose skeleton overlay and joint angle computation
 - [ ] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes
 - [ ] **Phase 4: Feedback Delivery** - Athlete feedback inbox, session history, and side-by-side comparison view
@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Coach or athlete can upload a video from desktop or phone and the video plays back in the browser via HLS streaming within two minutes of upload
   4. Coach can invite an athlete and view their full roster
   5. Coach and athlete see separate role-scoped views — coach sees session queue, athlete sees their own submissions only
-**Plans**: 5 plans
+**Plans**: 7 plans
 
 Plans:
 - [ ] 01-01-PLAN.md — Next.js 15 scaffold + all Phase 1 dependencies + Supabase migration SQL with full schema and RLS
@@ -37,6 +37,8 @@ Plans:
 - [x] 01-03-PLAN.md — Auth pages: coach signup/login, server actions, auth callback route, athlete invite acceptance
 - [ ] 01-04-PLAN.md — Video upload pipeline: presign route, VideoUploader (desktop + mobile), UploadQueue, TranscodingStatus, HLSPlayer
 - [ ] 01-05-PLAN.md — Roster + dashboards: coach session queue, athlete submissions view, invite modal, roster table, end-to-end verification checkpoint
+- [ ] 01-06-PLAN.md — GAP: Fix invite flow — PKCE-compatible redirectTo, /auth/callback ?next= routing, /invite/accept page
+- [ ] 01-07-PLAN.md — GAP: Optional athlete on upload — nullable athlete_id migration, remove upload gate
 
 ### Phase 2: AI Pose Analysis
 **Goal**: The app automatically extracts softball-specific pose data from uploaded videos so coaches can see a skeleton overlay, joint angles, and flagged mechanics issues on any frame
@@ -77,7 +79,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 5/5 | Complete   | 2026-02-27 |
+| 1. Foundation | 5/7 | Gap closure | - |
 | 2. AI Pose Analysis | 0/TBD | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |
