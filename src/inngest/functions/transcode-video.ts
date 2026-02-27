@@ -121,6 +121,22 @@ export const transcodeVideo = inngest.createFunction(
       if (error) throw new Error(`DB update failed: ${error.message}`)
     })
 
+    // Step 6: Create pending analysis record — triggers browser-side MediaPipe analysis on first review
+    await step.run('signal-analysis-ready', async () => {
+      const supabase = getServiceClient()
+      const { error } = await supabase
+        .from('video_analyses')
+        .insert({
+          video_id: videoId,
+          status: 'pending',
+          progress_pct: 0,
+        })
+      // Non-fatal: log but don't throw — transcoding already succeeded
+      if (error) {
+        console.error(`[transcode-video] Failed to create analysis row: ${error.message}`)
+      }
+    })
+
     return { videoId, status: 'ready' }
   }
 )
