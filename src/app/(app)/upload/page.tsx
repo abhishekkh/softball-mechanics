@@ -11,6 +11,8 @@ export default async function UploadPage() {
 
   // For coaches: fetch their athlete roster for the dropdown
   let athletes: { id: string; full_name: string }[] = []
+  let athleteCoachId: string | undefined
+
   if (role === 'coach') {
     const { data } = await supabase
       .from('coach_athletes')
@@ -23,9 +25,22 @@ export default async function UploadPage() {
       .filter(Boolean)
   }
 
+  // For athletes: look up their coach so videos can be associated correctly
+  if (role === 'athlete') {
+    const { data } = await supabase
+      .from('coach_athletes')
+      .select('coach_id')
+      .eq('athlete_id', user.id)
+      .eq('status', 'active')
+      .limit(1)
+      .single()
+
+    athleteCoachId = data?.coach_id ?? undefined
+  }
+
   return (
     <UploadPageClient
-      coachId={role === 'coach' ? user.id : undefined}
+      coachId={role === 'coach' ? user.id : athleteCoachId}
       athleteId={role === 'athlete' ? user.id : undefined}
       athletes={athletes}
     />
