@@ -36,7 +36,7 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           filename: file.name,
-          contentType: file.type,           // Pass exact MIME type — R2 validates signature against this
+          contentType: file.type || 'video/mp4',  // Fallback for .mov/.mkv/.avi where browser omits MIME type
           athleteId: athleteId ?? null,     // Explicit null so presign receives null (not omitted key)
           coachId,
         }),
@@ -50,7 +50,7 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open('PUT', presignedUrl)
-        xhr.setRequestHeader('Content-Type', file.type)  // Must match presigned URL's ContentType
+        xhr.setRequestHeader('Content-Type', file.type || 'video/mp4')  // Must match presigned URL's ContentType
 
         xhr.upload.addEventListener('progress', (e) => {
           if (e.lengthComputable) {

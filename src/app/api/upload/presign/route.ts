@@ -48,7 +48,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Generate presigned URL — contentType must match exactly what browser sends
-  const presignedUrl = await getPresignedPutUrl(r2Key, contentType)
+  let presignedUrl: string
+  try {
+    presignedUrl = await getPresignedPutUrl(r2Key, contentType)
+  } catch (r2Err) {
+    console.error('[presign] R2 presign failed:', r2Err)
+    return NextResponse.json({ error: 'Failed to generate upload URL' }, { status: 500 })
+  }
 
   return NextResponse.json({ presignedUrl, videoId, r2Key })
 }
