@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 1 of 4 (Foundation)
-Plan: 3 of 5 in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-27 — Completed 01-03 (auth UI: signup/login pages, server actions, invite acceptance); 3/5 plans done in Phase 1
+Last activity: 2026-02-27 — Completed 01-04 (video upload pipeline: presign route, VideoUploader, UploadQueue, TranscodingStatus, HLSPlayer); 4/5 plans done in Phase 1
 
-Progress: [███░░░░░░░] 15%
+Progress: [████░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 3 minutes
-- Total execution time: 0.1 hours
+- Total execution time: 0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-foundation | 3/5 | 8 min | 2.7 min |
+| 01-foundation | 4/5 | 12 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min)
+- Last 5 plans: 01-01 (4 min), 01-02 (2 min), 01-03 (2 min), 01-04 (4 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -56,6 +56,9 @@ Recent decisions affecting current work:
 - [01-03]: Invite acceptance uses supabase.auth.setSession() not verifyOtp — inviteUserByEmail sends hash-fragment tokens, not OTP codes
 - [01-03]: inviteAthlete uses admin client (service role key) — inviteUserByEmail is admin-only API; browser client cannot call it
 - [01-03]: Middleware already allows /invite paths through PUBLIC_PATHS — no change needed for invite acceptance page
+- [01-04]: XHR used instead of fetch for R2 upload — fetch does not expose upload progress events; XHR xhr.upload.progress is required for per-file progress bars
+- [01-04]: Mobile input has no capture attribute — capture forces live camera recording; omitting it lets athletes select from camera roll
+- [01-04]: TranscodingStatus uses useEffect for onReady callback — TanStack Query v5 removed onSuccess from useQuery; useEffect is the v5-correct pattern
 
 ### Pending Todos
 
@@ -69,5 +72,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-27
-Stopped at: Completed 01-03-PLAN.md — Auth UI (signup/login pages, server actions, callback route, athlete invite acceptance). Ready to execute 01-04-PLAN.md.
+Stopped at: Completed 01-04-PLAN.md — Video upload pipeline (presign route, VideoUploader, UploadQueue, TranscodingStatus, HLSPlayer). Ready to execute 01-05-PLAN.md.
 Resume file: None
