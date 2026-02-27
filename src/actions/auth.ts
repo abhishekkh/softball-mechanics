@@ -57,31 +57,56 @@ export async function signOut() {
 }
 
 export async function inviteAthlete(email: string, coachId: string): Promise<{ success: true; userId: string | undefined } | { error: string }> {
-  // Uses Supabase Admin API — inviteUserByEmail does NOT support PKCE
-  // Athlete receives a magic link email; clicking it completes their signup
   const admin = getAdminClient()
+  const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/invite/accept`
+
+  let userId: string | undefined
 
   const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
     data: { role: 'athlete', invited_by: coachId },
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/invite/accept`,
+    redirectTo,
   })
 
   if (error) {
-    if (error.message.toLowerCase().includes('already') || error.status === 422) {
-      return { error: 'This email is already registered. Ask the athlete to sign in directly.' }
+    if (error.status === 422 || error.message.toLowerCase().includes('already')) {
+      // User already exists — send a magic link via OTP (implicit flow so no PKCE cookie needed)
+      const implicitClient = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+        { auth: { flowType: 'implicit' } }
+      )
+      const { error: otpError } = await implicitClient.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: redirectTo, shouldCreateUser: false },
+      })
+      if (otpError) {
+        return { error: 'Failed to send invite link. Please try again.' }
+      }
+    } else {
+      return { error: 'Failed to send invite. Please try again.' }
     }
-    return { error: 'Failed to send invite. Please try again.' }
+  } else {
+    userId = data.user?.id
   }
 
-  // Create pending coach_athletes record
+  // Ensure a coach_athletes record exists — insert only if one doesn't already exist
   const supabase = await createClient()
-  await supabase.from('coach_athletes').insert({
-    coach_id: coachId,
-    athlete_email: email,
-    status: 'pending',
-  })
+  const { data: existing } = await supabase
+    .from('coach_athletes')
+    .select('id')
+    .eq('coach_id', coachId)
+    .eq('athlete_email', email)
+    .maybeSingle()
 
-  return { success: true, userId: data.user?.id }
+  if (!existing) {
+    await supabase.from('coach_athletes').insert({
+      coach_id: coachId,
+      athlete_email: email,
+      status: 'pending',
+    })
+  }
+
+  return { success: true, userId }
 }
 
 export async function acceptInvite() {
