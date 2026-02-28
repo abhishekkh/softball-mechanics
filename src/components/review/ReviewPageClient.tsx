@@ -121,6 +121,7 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
 
         {/* Sidebar — analysisErrorMessage passed so error callout renders when status === 'error' */}
         <MechanicsSidebar
+          frames={frames}
           currentFrame={currentFrame}
           analysisStatus={analysisStatus}
           progressPct={progressPct}
