@@ -48,6 +48,16 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
 
       {/* Status badge — polls if processing */}
       <TranscodingStatus videoId={videoId} />
+
+      {/* Review link — only shown when video is transcoded and ready */}
+      {status === 'ready' && (
+        <a
+          href={`/review/${videoId}`}
+          className="ml-2 px-3 py-1.5 text-xs font-medium rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors flex-shrink-0"
+        >
+          Review
+        </a>
+      )}
     </div>
   )
 }
