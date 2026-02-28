@@ -29,9 +29,9 @@
 
 ### AI Analysis
 
-- [ ] **AI-01**: Pose skeleton overlay is rendered on video frames using MediaPipe body landmarks
-- [ ] **AI-02**: Joint angles are automatically computed (hip rotation, elbow slot, shoulder tilt)
-- [ ] **AI-03**: AI flags potential mechanics issues (e.g., "dropping elbow," "early hip rotation") with confidence score
+- [x] **AI-01**: Pose skeleton overlay is rendered on video frames using MediaPipe body landmarks
+- [x] **AI-02**: Joint angles are automatically computed (hip rotation, elbow slot, shoulder tilt)
+- [x] **AI-03**: AI flags potential mechanics issues (e.g., "dropping elbow," "early hip rotation") with confidence score
 
 ### Feedback
 

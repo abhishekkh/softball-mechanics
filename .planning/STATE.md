@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-last_updated: "2026-02-27T23:55:13Z"
+status: unknown
+last_updated: "2026-02-28T00:37:28.608Z"
 progress:
-  total_phases: 4
+  total_phases: 2
   completed_phases: 1
-  total_plans: 14
-  completed_plans: 10
+  total_plans: 15
+  completed_plans: 12
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 2 of 4 (AI Pose Analysis)
-Plan: 1 of 5 in current phase — COMPLETE
-Status: Phase 2 in progress — Plan 01 executed (schema foundation + types + Inngest Step 6)
-Last activity: 2026-02-27 — Completed 02-01 (video_analyses + video_analysis_frames migration, src/types/analysis.ts, Inngest Step 6 signal-analysis-ready)
+Plan: 2 of 6 in current phase — COMPLETE
+Status: Phase 2 in progress — Plan 02 executed (pose library: landmarks, angles, flags; MediaPipe Web Worker + WASM assets)
+Last activity: 2026-02-28 — Completed 02-02 (src/lib/pose/*.ts, src/workers/pose-analyzer.worker.ts, public/mediapipe/ WASM + model)
 
-Progress: [██████████░░░░░░░░░░] 50% (Phase 1 complete, Phase 2 started)
+Progress: [██████████░░░░░░░░░░] 50% (Phase 1 complete, Phase 2 in progress)
 
 ## Performance Metrics
 
@@ -41,7 +41,7 @@ Progress: [██████████░░░░░░░░░░] 50% (Ph
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 9/9 | 160 min | 17.8 min |
-| 02-ai-pose-analysis | 1/5 | 2 min | 2 min |
+| 02-ai-pose-analysis | 2/6 | 10 min | 5 min |
 
 **Recent Trend:**
 - Last 5 plans: 01-06 (2 min), 01-07 (2 min), 01-08 (5 min), 01-09 (137 min incl. human verify wait), 02-01 (2 min)
@@ -52,6 +52,7 @@ Progress: [██████████░░░░░░░░░░] 50% (Ph
 | Phase 01-foundation P08 | 5 | 2 tasks | 3 files |
 | Phase 01-foundation P09 | 137 | 2 tasks | 2 files |
 | Phase 02-ai-pose-analysis P01 | 2 | 2 tasks | 3 files |
+| Phase 02-ai-pose-analysis P02 | 8 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,10 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: [02-01]: Step 6 is non-fatal — insert failure logs error but does not throw, keeping transcoding idempotent and retryable
 - [Phase 02-ai-pose-analysis]: [02-01]: AnalysisStatus uses string union type (not enum) — matches Supabase CHECK constraint exactly, avoids runtime enum mismatch
 - [Phase 02-ai-pose-analysis]: [02-01]: JSONB for landmarks and flags columns — schema-flexible storage for variable-length arrays; REAL columns for computed angles enable efficient queries
+- [Phase 02-ai-pose-analysis]: Worker imports only npm packages (not @/ aliases) — Next.js bundler cannot resolve path aliases inside Web Worker modules
+- [Phase 02-ai-pose-analysis]: MediaPipe initialized from /mediapipe/wasm local path (not CDN) — production-safe, no CDN dependency at analysis time
+- [Phase 02-ai-pose-analysis]: runningMode: IMAGE — discrete frame-by-frame analysis; matches per-frame extraction pattern in Plan 03 hook
+- [Phase 02-ai-pose-analysis]: FLAG_CONFIDENCE_THRESHOLD = 0.70 — only flag mechanics when joint visibility >= 70%, filters low-quality frame noise
 
 ### Pending Todos
 
@@ -104,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-27
-Stopped at: Completed 02-01-PLAN.md — Phase 2 Plan 01 complete. DB schema, TypeScript types, and Inngest Step 6 wired. Migration 005_video_analyses.sql ready to push. Ready for Phase 2 Plan 02 (browser MediaPipe worker).
+Last session: 2026-02-28
+Stopped at: Completed 02-02-PLAN.md — Phase 2 Plan 02 complete. Pose library (landmarks/angles/flags), MediaPipe Web Worker (Comlink), WASM assets, and pose_landmarker_full.task model committed. Ready for Phase 2 Plan 03 (usePoseAnalyzer hook).
 Resume file: None
