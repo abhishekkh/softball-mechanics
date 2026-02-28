@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-28T00:37:28.608Z"
+last_updated: "2026-02-28T00:47:00.000Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 15
-  completed_plans: 14
+  completed_plans: 15
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 2 of 4 (AI Pose Analysis)
-Plan: 4 of 6 in current phase — COMPLETE
-Status: Phase 2 in progress — Plan 04 executed (usePoseAnalysis hook, VideoWithOverlay, AnalysisTimeline)
-Last activity: 2026-02-28 — Completed 02-04 (src/hooks/usePoseAnalysis.ts, src/components/review/VideoWithOverlay.tsx, src/components/review/AnalysisTimeline.tsx)
+Plan: 5 of 6 in current phase — COMPLETE
+Status: Phase 2 in progress — Plan 05 executed (MechanicsSidebar, /review/[videoId] page, ReviewPageClient, dashboard Review link, upload framing tips)
+Last activity: 2026-02-28 — Completed 02-05 (src/components/review/MechanicsSidebar.tsx, src/app/(app)/review/[videoId]/page.tsx, src/components/review/ReviewPageClient.tsx, src/components/dashboard/SessionRow.tsx, src/components/upload/UploadPageClient.tsx)
 
-Progress: [██████████░░░░░░░░░░] 50% (Phase 1 complete, Phase 2 in progress)
+Progress: [███████████████░░░░░] 57% (Phase 1 complete, Phase 2 plan 5/6 done)
 
 ## Performance Metrics
 
@@ -41,7 +41,7 @@ Progress: [██████████░░░░░░░░░░] 50% (Ph
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-foundation | 9/9 | 160 min | 17.8 min |
-| 02-ai-pose-analysis | 2/6 | 10 min | 5 min |
+| 02-ai-pose-analysis | 5/6 | 14 min | 2.8 min |
 
 **Recent Trend:**
 - Last 5 plans: 01-06 (2 min), 01-07 (2 min), 01-08 (5 min), 01-09 (137 min incl. human verify wait), 02-01 (2 min)
@@ -55,6 +55,7 @@ Progress: [██████████░░░░░░░░░░] 50% (Ph
 | Phase 02-ai-pose-analysis P02 | 8 | 2 tasks | 11 files |
 | Phase 02-ai-pose-analysis P03 | 2 | 1 tasks | 1 files |
 | Phase 02-ai-pose-analysis P04 | 2 | 2 tasks | 3 files |
+| Phase 02-ai-pose-analysis P05 | 2 | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,9 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: FLAG_CONFIDENCE_THRESHOLD = 0.70 — only flag mechanics when joint visibility >= 70%, filters low-quality frame noise
 - [Phase 02-ai-pose-analysis]: [02-04]: analysisErrorMessage: string|null exposed by usePoseAnalysis — non-null when status=error; Plan 05 MechanicsSidebar must render error callout above partial frames (per CONTEXT.md "show partial results with a warning — do not hide data")
 - [Phase 02-ai-pose-analysis]: [02-04]: findNearestFrame uses 300ms tolerance (1.5 frames at 5fps) — matches HLS seek granularity to sampled frame grid; O(1) map lookup not needed at this scale
+- [Phase 02-ai-pose-analysis]: [02-05]: MechanicsSidebar Joint Angles renders for complete | low_confidence | error status — partial results never suppressed per CONTEXT.md locked decision "show partial results with a warning"
+- [Phase 02-ai-pose-analysis]: [02-05]: ReviewPageClient uses useMemo videoRef proxy to bridge overlayRef.current?.videoElement to usePoseAnalysis without changing forwardRef contract
+- [Phase 02-ai-pose-analysis]: [02-05]: findFrameAtTime returns null if nearest frame is >300ms away — prevents stale data from showing during video scrubbing between frames
 
 ### Pending Todos
 
@@ -114,5 +118,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 02-04-PLAN.md — Phase 2 Plan 04 complete. usePoseAnalysis hook, VideoWithOverlay (HLS + canvas skeleton overlay), and AnalysisTimeline (flagged frame markers) committed. Ready for Phase 2 Plan 05 (MechanicsSidebar + review page wiring).
+Stopped at: Completed 02-05-PLAN.md — Phase 2 Plan 05 complete. MechanicsSidebar, /review/[videoId] page, ReviewPageClient, dashboard Review link, and upload framing tips committed. Ready for Phase 2 Plan 06 (final phase plan).
 Resume file: None
