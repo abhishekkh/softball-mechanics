@@ -69,22 +69,8 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
       }
     }, [hlsUrl])
 
-    // Sync canvas size to video dimensions on load
-    useEffect(() => {
-      const video = videoRef.current
-      const canvas = canvasRef.current
-      if (!video || !canvas) return
-
-      const syncSize = () => {
-        canvas.width = video.videoWidth || video.clientWidth
-        canvas.height = video.videoHeight || video.clientHeight
-        canvas.style.width = `${video.clientWidth}px`
-        canvas.style.height = `${video.clientHeight}px`
-      }
-
-      video.addEventListener('loadedmetadata', syncSize)
-      return () => video.removeEventListener('loadedmetadata', syncSize)
-    }, [])
+    // No explicit size sync needed — canvas fills parent via CSS (absolute inset-0 w-full h-full)
+    // Internal resolution is updated on each draw to match the actual display size
 
     // Draw skeleton on timeupdate — fires as video plays or is scrubbed
     useEffect(() => {
@@ -98,6 +84,10 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
 
         const ctx = canvas.getContext('2d')
         if (!ctx) return
+
+        // Sync internal resolution to actual display size on every draw
+        canvas.width = canvas.clientWidth
+        canvas.height = canvas.clientHeight
         ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         if (!showSkeleton || frames.length === 0) return
@@ -127,7 +117,7 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
         />
         <canvas
           ref={canvasRef}
-          className="absolute top-0 left-0 pointer-events-none"
+          className="absolute inset-0 w-full h-full pointer-events-none"
         />
       </div>
     )

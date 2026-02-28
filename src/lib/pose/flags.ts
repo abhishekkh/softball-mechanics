@@ -5,7 +5,25 @@
 // VALIDATE THESE RANGES WITH A COACH BEFORE SHIPPING
 
 import { LANDMARK_INDICES, VISIBILITY_THRESHOLD } from './landmarks'
-import type { NormalizedLandmark, MechanicsFlag } from '@/types/analysis'
+import type { NormalizedLandmark, MechanicsFlag, FrameAnalysis } from '@/types/analysis'
+
+/**
+ * Marks the estimated ball-contact frame (peak hip rotation) with isContact=true.
+ * Returns a new array — does not mutate input.
+ */
+export function markContactFrame(frames: FrameAnalysis[]): FrameAnalysis[] {
+  let contactIdx = -1
+  let maxHipRot = -Infinity
+  for (let i = 0; i < frames.length; i++) {
+    const hip = frames[i].angles.hipRotationDeg
+    if (hip !== null && hip > maxHipRot) {
+      maxHipRot = hip
+      contactIdx = i
+    }
+  }
+  if (contactIdx < 0) return frames
+  return frames.map((f, i) => i === contactIdx ? { ...f, isContact: true } : f)
+}
 
 // Claude's discretion: conservative thresholds flagging only clear outliers
 // Use wide ranges for v1 — only flag obvious mechanics problems

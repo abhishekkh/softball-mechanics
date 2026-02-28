@@ -30,6 +30,7 @@ export interface FrameAnalysis {
   landmarks: NormalizedLandmark[]  // 33 MediaPipe body landmarks
   angles: FrameAngles
   flags: MechanicsFlag[]
+  isContact?: boolean  // True on the estimated ball-contact frame (peak hip rotation)
 }
 
 export interface VideoAnalysis {

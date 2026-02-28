@@ -62,7 +62,8 @@ export function drawSkeleton(
     [27,31],[24,26],[26,28],[28,30],[30,32],[28,32],
   ]
 
-  ctx.lineWidth = 3
+  const dotRadius = Math.max(2, Math.round(canvasWidth * 0.004))
+  ctx.lineWidth = Math.max(1, Math.round(canvasWidth * 0.002))
 
   // Draw bones
   for (const [start, end] of POSE_CONNECTIONS) {
@@ -93,7 +94,7 @@ export function drawSkeleton(
     const { px, py } = toPixel(lm)
     ctx.fillStyle = flaggedIndices.has(i) ? ZONE_COLORS.flagged : '#FFFFFF'
     ctx.beginPath()
-    ctx.arc(px, py, 5, 0, 2 * Math.PI)
+    ctx.arc(px, py, dotRadius, 0, 2 * Math.PI)
     ctx.fill()
   }
 }

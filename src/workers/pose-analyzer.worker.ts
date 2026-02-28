@@ -13,10 +13,11 @@ let landmarker: PoseLandmarker | null = null
  * Uses /public/mediapipe/wasm (local, avoids CDN dependency in production).
  */
 async function init(): Promise<void> {
-  const vision = await FilesetResolver.forVisionTasks('/mediapipe/wasm')
+  const origin = self.location.origin
+  const vision = await FilesetResolver.forVisionTasks(`${origin}/mediapipe/wasm`)
   landmarker = await PoseLandmarker.createFromOptions(vision, {
     baseOptions: {
-      modelAssetPath: '/mediapipe/pose_landmarker_full.task',
+      modelAssetPath: `${origin}/mediapipe/pose_landmarker_full.task`,
       delegate: 'GPU',   // Falls back to CPU automatically if GPU unavailable
     },
     runningMode: 'IMAGE',   // IMAGE mode: analyze discrete frames, not continuous stream

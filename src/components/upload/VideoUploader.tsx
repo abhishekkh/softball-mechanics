@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { createClient } from '@/lib/supabase/client'
 import { UploadQueue, type QueueItem } from './UploadQueue'
 
 interface VideoUploaderProps {
@@ -80,9 +81,23 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
         }),
       })
 
-      // 4. Wait for transcoding via polling (handled by TranscodingStatus component on the parent page)
-      // Uploader's job is done — parent page polls for status change
+      // 4. Poll until transcoding completes, then update queue item
       onUploadComplete?.(videoId)
+      const supabase = createClient()
+      const interval = setInterval(async () => {
+        const { data } = await supabase
+          .from('videos')
+          .select('status')
+          .eq('id', videoId)
+          .single()
+        if (data?.status === 'ready') {
+          updateItem(itemId, { status: 'ready' })
+          clearInterval(interval)
+        } else if (data?.status === 'error') {
+          updateItem(itemId, { status: 'error', errorMessage: 'Transcoding failed' })
+          clearInterval(interval)
+        }
+      }, 5000)
 
     } catch (err) {
       updateItem(itemId, {

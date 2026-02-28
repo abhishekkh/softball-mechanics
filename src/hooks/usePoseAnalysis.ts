@@ -12,10 +12,11 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import * as Comlink from 'comlink'
 import { createBrowserClient } from '@supabase/ssr'
 import { computeFrameAngles } from '@/lib/pose/angles'
-import { flagMechanics, checkFramingQuality } from '@/lib/pose/flags'
+import { flagMechanics, checkFramingQuality, markContactFrame } from '@/lib/pose/flags'
 import type { FrameAnalysis, AnalysisStatus, NormalizedLandmark } from '@/types/analysis'
 
-const SAMPLE_FPS = 5   // Analyze one frame every 200ms of video
+const SAMPLE_FPS = 5          // Analyze one frame every 200ms of video
+const HIP_TRANSLATE_THRESHOLD = 0.15  // Stop when hip midpoint moves >15% of frame width (player started running)
 
 interface UsePoseAnalysisResult {
   frames: FrameAnalysis[]
@@ -68,7 +69,7 @@ export function usePoseAnalysis(
       },
       flags: (row.flags ?? []) as ReturnType<typeof flagMechanics>,
     }))
-    setFrames(loaded)
+    setFrames(markContactFrame(loaded))
   }, [videoId, supabase])
 
   const runAnalysis = useCallback(async () => {
@@ -123,6 +124,7 @@ export function usePoseAnalysis(
     const totalFrames = Math.floor(duration * SAMPLE_FPS)
     const collectedFrames: FrameAnalysis[] = []
     let detectedFramingWarning: string | null = null
+    let initialHipX: number | null = null  // Set from first valid frame; used to detect running
 
     const offscreen = new OffscreenCanvas(video.videoWidth || 1280, video.videoHeight || 720)
     const offCtx = offscreen.getContext('2d')!
@@ -153,6 +155,19 @@ export function usePoseAnalysis(
       if (!rawLandmarks || rawLandmarks.length === 0) continue
 
       const landmarks = rawLandmarks as NormalizedLandmark[]
+
+      // Detect when batter starts running: track hip midpoint translation from first valid frame
+      const leftHip = landmarks[23]
+      const rightHip = landmarks[24]
+      if (leftHip && rightHip) {
+        const hipX = (leftHip.x + rightHip.x) / 2
+        if (initialHipX === null) {
+          initialHipX = hipX
+        } else if (Math.abs(hipX - initialHipX) > HIP_TRANSLATE_THRESHOLD) {
+          break  // Player has left the batter's box — stop analysis
+        }
+      }
+
       const angles = computeFrameAngles(landmarks)
       const frameFlags = flagMechanics(
         angles.elbowSlotDeg,
@@ -188,7 +203,7 @@ export function usePoseAnalysis(
     if (abortRef.current) return
 
     setFramingWarning(detectedFramingWarning)
-    setFrames(collectedFrames)
+    setFrames(markContactFrame(collectedFrames))
 
     // Persist to Supabase via API route
     try {

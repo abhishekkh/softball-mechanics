@@ -1,5 +1,7 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
+import { createClient } from '@/lib/supabase/client'
 import { TranscodingStatus } from '@/components/upload/TranscodingStatus'
 import Image from 'next/image'
 
@@ -11,7 +13,28 @@ interface SessionRowProps {
   status: string
 }
 
-export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, status }: SessionRowProps) {
+async function fetchVideoStatus(videoId: string) {
+  const supabase = createClient()
+  const { data } = await supabase
+    .from('videos')
+    .select('status')
+    .eq('id', videoId)
+    .single()
+  return data
+}
+
+export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, status: initialStatus }: SessionRowProps) {
+  const { data } = useQuery({
+    queryKey: ['video-status', videoId],
+    queryFn: () => fetchVideoStatus(videoId),
+    initialData: { status: initialStatus },
+    refetchInterval: (query) => {
+      const status = query.state.data?.status
+      if (status === 'ready' || status === 'error') return false
+      return 5000
+    },
+  })
+  const liveStatus = data?.status ?? initialStatus
   return (
     <div className="flex items-center gap-4 bg-white rounded-lg border border-gray-200 p-4 hover:bg-gray-50 transition-colors">
       {/* Thumbnail */}
@@ -46,11 +69,11 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
         </p>
       </div>
 
-      {/* Status badge — polls if processing */}
+      {/* Status badge — shares query cache with SessionRow's useQuery */}
       <TranscodingStatus videoId={videoId} />
 
-      {/* Review link — only shown when video is transcoded and ready */}
-      {status === 'ready' && (
+      {/* Review link — driven by live polled status */}
+      {liveStatus === 'ready' && (
         <a
           href={`/review/${videoId}`}
           className="ml-2 px-3 py-1.5 text-xs font-medium rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors flex-shrink-0"

@@ -113,7 +113,9 @@ export function MechanicsSidebar({
   const flags = currentFrame?.flags ?? []
 
   return (
-    <aside className="w-72 bg-neutral-900 border-l border-neutral-700 p-4 flex flex-col gap-4 overflow-y-auto">
+    <aside className="w-72 bg-neutral-900 border-l border-neutral-700 flex flex-col">
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
 
       {/* Analysis status */}
       {isAnalyzing && (
@@ -235,8 +237,10 @@ export function MechanicsSidebar({
         )}
       </section>
 
-      {/* Re-analyze */}
-      <div className="mt-auto pt-4 border-t border-neutral-700">
+      </div>
+
+      {/* Re-analyze — pinned to bottom, always visible */}
+      <div className="p-4 border-t border-neutral-700 flex-shrink-0">
         <button
           type="button"
           onClick={onStartReanalysis}
