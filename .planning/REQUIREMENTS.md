@@ -96,9 +96,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VID-02 | Phase 1 | Complete |
 | ROST-01 | Phase 1 | Complete |
 | ROST-02 | Phase 1 | Complete |
-| AI-01 | Phase 2 | In Progress (schema+types: 02-01; overlay: 02-04/05) |
-| AI-02 | Phase 2 | In Progress (schema+types: 02-01; angles: 02-02/04) |
-| AI-03 | Phase 2 | In Progress (schema+types: 02-01; flags: 02-02/04/05) |
+| AI-01 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
+| AI-02 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
+| AI-03 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | VID-03 | Phase 3 | Pending |
 | VID-04 | Phase 3 | Pending |
 | ANN-01 | Phase 3 | Pending |
@@ -124,4 +124,4 @@ Phase breakdown:
 
 ---
 *Requirements defined: 2026-02-26*
-*Last updated: 2026-02-27 — AI-01/02/03 moved to In Progress after 02-01 (schema foundation complete; full implementation in 02-02 through 02-05)*
+*Last updated: 2026-02-28 — AI-01/02/03 marked Complete after 02-06 human verification passed (all 5 flows verified)*
