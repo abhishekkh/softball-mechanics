@@ -8,7 +8,7 @@ progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 15
-  completed_plans: 12
+  completed_plans: 14
 ---
 
 # Project State
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 2 of 4 (AI Pose Analysis)
-Plan: 2 of 6 in current phase — COMPLETE
-Status: Phase 2 in progress — Plan 02 executed (pose library: landmarks, angles, flags; MediaPipe Web Worker + WASM assets)
-Last activity: 2026-02-28 — Completed 02-02 (src/lib/pose/*.ts, src/workers/pose-analyzer.worker.ts, public/mediapipe/ WASM + model)
+Plan: 4 of 6 in current phase — COMPLETE
+Status: Phase 2 in progress — Plan 04 executed (usePoseAnalysis hook, VideoWithOverlay, AnalysisTimeline)
+Last activity: 2026-02-28 — Completed 02-04 (src/hooks/usePoseAnalysis.ts, src/components/review/VideoWithOverlay.tsx, src/components/review/AnalysisTimeline.tsx)
 
 Progress: [██████████░░░░░░░░░░] 50% (Phase 1 complete, Phase 2 in progress)
 
@@ -53,6 +53,8 @@ Progress: [██████████░░░░░░░░░░] 50% (Ph
 | Phase 01-foundation P09 | 137 | 2 tasks | 2 files |
 | Phase 02-ai-pose-analysis P01 | 2 | 2 tasks | 3 files |
 | Phase 02-ai-pose-analysis P02 | 8 | 2 tasks | 11 files |
+| Phase 02-ai-pose-analysis P03 | 2 | 1 tasks | 1 files |
+| Phase 02-ai-pose-analysis P04 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -97,6 +99,8 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: MediaPipe initialized from /mediapipe/wasm local path (not CDN) — production-safe, no CDN dependency at analysis time
 - [Phase 02-ai-pose-analysis]: runningMode: IMAGE — discrete frame-by-frame analysis; matches per-frame extraction pattern in Plan 03 hook
 - [Phase 02-ai-pose-analysis]: FLAG_CONFIDENCE_THRESHOLD = 0.70 — only flag mechanics when joint visibility >= 70%, filters low-quality frame noise
+- [Phase 02-ai-pose-analysis]: [02-04]: analysisErrorMessage: string|null exposed by usePoseAnalysis — non-null when status=error; Plan 05 MechanicsSidebar must render error callout above partial frames (per CONTEXT.md "show partial results with a warning — do not hide data")
+- [Phase 02-ai-pose-analysis]: [02-04]: findNearestFrame uses 300ms tolerance (1.5 frames at 5fps) — matches HLS seek granularity to sampled frame grid; O(1) map lookup not needed at this scale
 
 ### Pending Todos
 
@@ -110,5 +114,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Completed 02-02-PLAN.md — Phase 2 Plan 02 complete. Pose library (landmarks/angles/flags), MediaPipe Web Worker (Comlink), WASM assets, and pose_landmarker_full.task model committed. Ready for Phase 2 Plan 03 (usePoseAnalyzer hook).
+Stopped at: Completed 02-04-PLAN.md — Phase 2 Plan 04 complete. usePoseAnalysis hook, VideoWithOverlay (HLS + canvas skeleton overlay), and AnalysisTimeline (flagged frame markers) committed. Ready for Phase 2 Plan 05 (MechanicsSidebar + review page wiring).
 Resume file: None
