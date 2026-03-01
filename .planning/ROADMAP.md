@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress) (completed 2026-02-27)
 - [x] **Phase 2: AI Pose Analysis** - Softball-specific pose skeleton overlay and joint angle computation (completed 2026-02-28)
 - [x] **Phase 2.1: Production Bug Fixes** - Mobile layout, phone upload errors, video display, duration limit, R2 lifecycle, consent gate (completed 2026-02-28)
+- [ ] **Phase 2.2: AI Mechanics Analysis and Model Evaluation** - Motion-type tagging, new mechanics flags, Gemini VLM prototype, qualitative evaluation report
 - [~] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes (DEFERRED — skipped for MVP)
 - [ ] **Phase 4: Feedback Delivery** - Athlete feedback inbox, session history, and side-by-side comparison view
 
@@ -73,13 +74,17 @@ Plans:
 
 ### Phase 02.2: AI Mechanics Analysis and Model Evaluation (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Evaluate MediaPipe on real softball video, add motion-type tagging to upload flow, add new motion-specific mechanics flags (Bat Casting for hitting, Premature Shoulder Opening for pitching), prototype Gemini Flash VLM as a second opinion layer, and document evaluation findings
+**Requirements**: EVAL-01, EVAL-02, EVAL-03, MOTION-01, MOTION-02, MOTION-03, FLAGS-01, FLAGS-02
 **Depends on:** Phase 2.1
-**Plans:** 0 plans
+**Plans:** 5 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 02.2 to break down)
+- [ ] 02.2-01-PLAN.md — DB migration 006 (motion_type column on videos) + MotionType TypeScript type + AnalysisPayload update
+- [ ] 02.2-02-PLAN.md — Upload UI motion-type selector (Hitting/Pitching radio) + VideoUploader motionType prop + presign route writes motion_type to DB
+- [ ] 02.2-03-PLAN.md — flags.ts refactor: motion dispatch + detectBatCasting (hitting) + detectPrematureShoulderOpening (pitching)
+- [ ] 02.2-04-PLAN.md — Review page reads motion_type from DB + ReviewPageClient/usePoseAnalysis/MechanicsSidebar wired with motionType + motion badge in sidebar
+- [ ] 02.2-05-PLAN.md — Gemini Flash VLM prototype route (POST /api/analysis/vlm-eval) + qualitative evaluation checkpoint + RESEARCH.md evaluation results
 
 ### Phase 3: Annotation Workspace *(DEFERRED — skipped for MVP)*
 **Goal**: Coaches can annotate a video frame with drawing tools, add written coaching cues, then deliver a structured feedback package
@@ -112,5 +117,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | Complete | 2026-02-27 |
 | 2. AI Pose Analysis | 6/6 | Complete | 2026-02-28 |
+| 2.1 Production Bug Fixes | 1/1 | Complete | 2026-02-28 |
+| 2.2 AI Mechanics Analysis and Model Evaluation | 0/5 | Not started | - |
 | 3. Annotation Workspace | 0/TBD | Not started | - |
 | 4. Feedback Delivery | 0/TBD | Not started | - |
