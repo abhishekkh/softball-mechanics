@@ -115,7 +115,7 @@ export function MechanicsSidebar({
   const flags = currentFrame?.flags ?? []
 
   return (
-    <aside className="w-72 bg-neutral-900 border-l border-neutral-700 flex flex-col">
+    <aside className="w-full lg:w-72 bg-neutral-900 border-t border-neutral-700 lg:border-t-0 lg:border-l flex flex-col lg:overflow-hidden">
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
 

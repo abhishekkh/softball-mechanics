@@ -87,10 +87,10 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
   }, [flagNavIndex, flaggedFrames, handleSeek])
 
   return (
-    <div className="flex flex-col h-screen bg-neutral-950">
+    <div className="flex flex-col min-h-screen lg:h-screen bg-neutral-950">
       {/* Header */}
-      <header className="flex items-center gap-4 px-6 py-3 border-b border-neutral-800">
-        <a href="/dashboard" className="text-neutral-400 hover:text-neutral-200 text-sm">
+      <header className="flex items-center gap-4 px-4 sm:px-6 py-3 border-b border-neutral-800 flex-shrink-0">
+        <a href="/dashboard" className="text-neutral-400 hover:text-neutral-200 text-sm whitespace-nowrap">
           &larr; Dashboard
         </a>
         <h1 className="text-neutral-100 text-base font-medium truncate">
@@ -98,11 +98,12 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
         </h1>
       </header>
 
-      {/* Main workspace */}
-      <div className="flex flex-1 overflow-hidden">
+      {/* Main workspace — stacked on mobile, side-by-side on desktop */}
+      <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
         {/* Video + timeline */}
-        <div className="flex-1 flex flex-col overflow-hidden p-4 gap-2">
-          <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <div className="flex flex-col p-3 lg:p-4 gap-2 lg:flex-1 lg:overflow-hidden">
+          {/* Video container: fixed 16:9 aspect on mobile, flex-1 on desktop */}
+          <div className="aspect-video lg:aspect-auto lg:flex-1 lg:overflow-hidden relative bg-black">
             <VideoWithOverlay
               ref={overlayRef}
               hlsUrl={hlsUrl}
@@ -119,7 +120,7 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
           />
         </div>
 
-        {/* Sidebar — analysisErrorMessage passed so error callout renders when status === 'error' */}
+        {/* Sidebar — full-width below video on mobile, fixed-width panel on desktop */}
         <MechanicsSidebar
           frames={frames}
           currentFrame={currentFrame}
