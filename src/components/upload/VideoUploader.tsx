@@ -11,11 +11,23 @@ function getVideoDuration(file: File): Promise<number> {
   return new Promise((resolve, reject) => {
     const video = document.createElement('video')
     video.preload = 'metadata'
+
+    // Some iPhone formats (HEVC, certain .mov codecs) never fire loadedmetadata or onerror.
+    // Without a timeout the promise hangs forever and blocks the upload.
+    const timeout = setTimeout(() => {
+      URL.revokeObjectURL(video.src)
+      reject(new Error('Timeout reading video metadata'))
+    }, 4000)
+
     video.onloadedmetadata = () => {
+      clearTimeout(timeout)
       URL.revokeObjectURL(video.src)
       resolve(video.duration)
     }
-    video.onerror = () => reject(new Error('Cannot read video metadata'))
+    video.onerror = () => {
+      clearTimeout(timeout)
+      reject(new Error('Cannot read video metadata'))
+    }
     video.src = URL.createObjectURL(file)
   })
 }
