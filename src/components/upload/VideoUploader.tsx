@@ -35,10 +35,11 @@ function getVideoDuration(file: File): Promise<number> {
 interface VideoUploaderProps {
   athleteId?: string  // Optional — coach can upload without athlete assignment (deferred)
   coachId: string
+  motionType?: 'hitting' | 'pitching'  // Optional with default — backward compat
   onUploadComplete?: (videoId: string) => void
 }
 
-export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUploaderProps) {
+export function VideoUploader({ athleteId, coachId, motionType = 'hitting', onUploadComplete }: VideoUploaderProps) {
   const [queue, setQueue] = useState<QueueItem[]>([])
   const mobileInputRef = useRef<HTMLInputElement>(null)
 
@@ -81,6 +82,7 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
           contentType: file.type || 'video/mp4',  // Fallback for .mov/.mkv/.avi where browser omits MIME type
           athleteId: athleteId ?? null,     // Explicit null so presign receives null (not omitted key)
           coachId,
+          motionType,  // Added Phase 2.2 — tags motion for motion-specific analysis
         }),
       })
 
@@ -146,7 +148,7 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
         errorMessage: err instanceof Error ? err.message : 'Upload failed',
       })
     }
-  }, [athleteId, coachId, onUploadComplete, updateItem])
+  }, [athleteId, coachId, motionType, onUploadComplete, updateItem])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.slice(0, 10).forEach(uploadFile)  // Max 10 files
