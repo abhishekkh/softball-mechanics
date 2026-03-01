@@ -5,6 +5,21 @@ import { useDropzone } from 'react-dropzone'
 import { createClient } from '@/lib/supabase/client'
 import { UploadQueue, type QueueItem } from './UploadQueue'
 
+const MAX_DURATION_SECONDS = 5
+
+function getVideoDuration(file: File): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video')
+    video.preload = 'metadata'
+    video.onloadedmetadata = () => {
+      URL.revokeObjectURL(video.src)
+      resolve(video.duration)
+    }
+    video.onerror = () => reject(new Error('Cannot read video metadata'))
+    video.src = URL.createObjectURL(file)
+  })
+}
+
 interface VideoUploaderProps {
   athleteId?: string  // Optional — coach can upload without athlete assignment (deferred)
   coachId: string
@@ -30,6 +45,20 @@ export function VideoUploader({ athleteId, coachId, onUploadComplete }: VideoUpl
     }])
 
     try {
+      // 0. Validate video duration before uploading
+      try {
+        const duration = await getVideoDuration(file)
+        if (duration > MAX_DURATION_SECONDS) {
+          updateItem(itemId, {
+            status: 'error',
+            errorMessage: `Video is ${Math.round(duration)}s long. Please trim it to ${MAX_DURATION_SECONDS} seconds or less before uploading.`,
+          })
+          return
+        }
+      } catch {
+        // Can't read metadata (e.g. unsupported format) — proceed and let the server handle it
+      }
+
       // 1. Request presigned URL from server
       updateItem(itemId, { status: 'uploading' })
       const presignRes = await fetch('/api/upload/presign', {
