@@ -6,7 +6,7 @@
 <domain>
 ## Phase Boundary
 
-Coach video review workspace where coaches freeze frames, draw annotations (freehand, straight lines, arrows, angle overlays, text), pick colors, and those annotations replay in sync during scrubbing and playback. Also includes frame-by-frame stepping and slow-motion playback controls. The workspace must work on both desktop browsers and iPad/mobile with touch and stylus support.
+Coach video review workspace where coaches freeze frames, draw annotations (freehand, straight lines, arrows, angle overlays, text), pick colors, and those annotations replay in sync during scrubbing and playback. Also includes frame-by-frame stepping and slow-motion playback controls. The annotation workspace is supported on desktop browsers and iPad only — it is not available on phone-sized screens.
 
 Delivering feedback to athletes (Phase 4) and adding written coaching cues tied to timestamps (FEED-01) are out of scope for this phase.
 
@@ -51,12 +51,13 @@ Delivering feedback to athletes (Phase 4) and adding written coaching cues tied 
 - Arrow keys (left/right) step frame-by-frame when video is paused
 - Speed controls (0.25x, 0.5x, 1x) live in the video player bar, always visible
 
-### Frame-by-Frame Controls (iPad/Mobile Touch)
+### Frame-by-Frame Controls (iPad Touch)
 - Swipe left/right on the paused video to step frames (gesture-native, no extra buttons needed)
 - Drawing canvas supports both finger touch and Apple Pencil / stylus (pointer events API — no special config)
 - Annotation toolbar appears only in annotation mode (slides/fades in on freeze)
 - Speed controls stay in the player bar
 - In annotation mode: one finger draws; two-finger pinch zooms canvas; two-finger drag pans canvas
+- **Phone-sized screens are not supported** — the annotation workspace is not displayed on phones
 
 ### Claude's Discretion
 - Exact floating toolbar visual design and positioning (top-left, top-right, etc.)
@@ -64,14 +65,16 @@ Delivering feedback to athletes (Phase 4) and adding written coaching cues tied 
 - Canvas zoom/pan reset behavior when exiting annotation mode
 - Error handling for failed annotation saves (retry, toast, etc.)
 - Exact color palette beyond the required four
+- Exact UX for the phone-not-supported gate (e.g. hide annotation controls behind a `sm:hidden` / `md:block` Tailwind breakpoint, show a "Use a tablet or computer to annotate" message, or redirect to standard playback — pick the cleanest approach)
 
 </decisions>
 
 <specifics>
 ## Specific Ideas
 
-- Works on both desktop browsers and iPad/mobile — responsive and touch-first in annotation mode
+- Supported on desktop browsers and iPad only — not available on phone-sized screens
 - Apple Pencil / stylus support via pointer events API
+- Show a "not available on this device" message (or redirect to the standard playback view) when the annotation workspace is accessed on a phone
 - Timeline marker dots for annotated frames should visually match the Phase 2 AI-flagged frame marker pattern for consistency
 
 </specifics>

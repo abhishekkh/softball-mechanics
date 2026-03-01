@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-26)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus:** Phase 2 - AI Pose Analysis
+**Current focus:** Phase 3 - Annotation Workspace
 
 ## Current Position
 
-Phase: 2 of 4 (AI Pose Analysis) — COMPLETE
-Plan: 6 of 6 in current phase — COMPLETE
-Status: Phase 2 complete — Plan 06 human verification passed (all 5 flows verified: framing tips, dashboard Review link, skeleton overlay, live joint angles, flagged frame markers)
-Last activity: 2026-02-28 — Completed 02-06 (human verification checkpoint approved; 9 post-build fixes applied during verification)
+Phase: 2.1 of 4 (Bug Fixes) — COMPLETE
+Plan: 1 of 1 in current phase — COMPLETE
+Status: Phase 2.1 complete — six production bugs fixed and verified by user
+Last activity: 2026-02-28 — Completed Phase 2.1 bug fixes (mobile layout, FFmpeg phone upload, video AR, skeleton overlay, 5s limit, R2 lifecycle, consent gate)
 
-Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete)
+Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete)
 
 ## Performance Metrics
 
