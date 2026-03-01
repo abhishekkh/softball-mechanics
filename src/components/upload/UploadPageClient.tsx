@@ -11,6 +11,7 @@ interface UploadPageClientProps {
 
 export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageClientProps) {
   const [selectedAthleteId, setSelectedAthleteId] = useState(athleteId ?? '')
+  const [hasConsented, setHasConsented] = useState(false)
 
   const isCoach = !!coachId
   const effectiveAthleteId = isCoach ? selectedAthleteId : athleteId!
@@ -63,7 +64,28 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
         </div>
       </div>
 
-      <VideoUploader athleteId={effectiveAthleteId || undefined} coachId={effectiveCoachId} />
+      {/* Legal consent — must be accepted before upload zone is enabled */}
+      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4">
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={hasConsented}
+            onChange={(e) => setHasConsented(e.target.checked)}
+            className="mt-0.5 h-4 w-4 flex-shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          />
+          <span className="text-sm text-gray-700">
+            I confirm that I have obtained consent from the athlete (or a parent/guardian if the athlete is a minor) to record, upload, and analyze this video. The video will be stored securely and used solely for softball mechanics analysis.
+          </span>
+        </label>
+      </div>
+
+      {hasConsented ? (
+        <VideoUploader athleteId={effectiveAthleteId || undefined} coachId={effectiveCoachId} />
+      ) : (
+        <div className="rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 p-10 text-center">
+          <p className="text-sm text-gray-400">Please accept the consent statement above to enable video upload.</p>
+        </div>
+      )}
     </div>
   )
 }
