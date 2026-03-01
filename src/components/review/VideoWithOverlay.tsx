@@ -19,6 +19,35 @@ interface Props {
   onTimeUpdate?: (currentTimeSec: number) => void
 }
 
+/**
+ * Computes the sub-rectangle of the canvas where the video content is actually
+ * rendered when the video element uses object-contain sizing.
+ * Returns the full canvas rect as a fallback if dimensions are zero.
+ */
+function computeVideoRenderRect(
+  videoW: number,
+  videoH: number,
+  containerW: number,
+  containerH: number
+): { x: number; y: number; w: number; h: number } {
+  if (!videoW || !videoH) return { x: 0, y: 0, w: containerW, h: containerH }
+
+  const videoAspect = videoW / videoH
+  const containerAspect = containerW / containerH
+
+  if (videoAspect > containerAspect) {
+    // Video is wider than container — letterbox (black bars top & bottom)
+    const w = containerW
+    const h = containerW / videoAspect
+    return { x: 0, y: (containerH - h) / 2, w, h }
+  } else {
+    // Video is taller than container — pillarbox (black bars left & right)
+    const h = containerH
+    const w = containerH * videoAspect
+    return { x: (containerW - w) / 2, y: 0, w, h }
+  }
+}
+
 // Find the nearest frame for a given time in milliseconds (±300ms window)
 function findNearestFrame(
   frames: FrameAnalysis[],
@@ -69,9 +98,6 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
       }
     }, [hlsUrl])
 
-    // No explicit size sync needed — canvas fills parent via CSS (absolute inset-0 w-full h-full)
-    // Internal resolution is updated on each draw to match the actual display size
-
     // Draw skeleton on timeupdate — fires as video plays or is scrubbed
     useEffect(() => {
       const video = videoRef.current
@@ -100,7 +126,17 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
           frameData.flags.flatMap((f: MechanicsFlag) => f.jointIndices)
         )
 
-        drawSkeleton(ctx, frameData.landmarks, canvas.width, canvas.height, flaggedIndices)
+        // Compute where the video content renders within the canvas.
+        // The video uses object-contain so it may be letterboxed or pillarboxed.
+        // Skeleton landmarks (0–1 normalized) must be mapped to the actual render rect.
+        const renderRect = computeVideoRenderRect(
+          video.videoWidth,
+          video.videoHeight,
+          canvas.width,
+          canvas.height
+        )
+
+        drawSkeleton(ctx, frameData.landmarks, canvas.width, canvas.height, flaggedIndices, renderRect)
       }
 
       video.addEventListener('timeupdate', handleTimeUpdate)
@@ -108,10 +144,11 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
     }, [frames, showSkeleton, onTimeUpdate])
 
     return (
-      <div className="relative inline-block w-full">
+      // Container fills the parent (which provides defined dimensions via aspect-video or flex-1)
+      <div className="relative w-full h-full bg-black">
         <video
           ref={videoRef}
-          className="w-full block"
+          className="absolute inset-0 w-full h-full object-contain"
           controls
           playsInline
         />

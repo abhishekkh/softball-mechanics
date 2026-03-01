@@ -37,19 +37,29 @@ export const LANDMARK_INDICES = {
  * Draws the MediaPipe pose skeleton onto a Canvas 2D context.
  * Uses PoseLandmarker.POSE_CONNECTIONS for bone connectivity.
  * Skips landmarks with visibility < VISIBILITY_THRESHOLD.
+ *
+ * renderRect allows callers to specify the sub-region of the canvas where
+ * the video actually renders (e.g. when using object-contain with pillarboxing).
+ * Defaults to the full canvas when not provided.
  */
 export function drawSkeleton(
   ctx: CanvasRenderingContext2D,
   landmarks: NormalizedLandmark[],
   canvasWidth: number,
   canvasHeight: number,
-  flaggedIndices: Set<number> = new Set()
+  flaggedIndices: Set<number> = new Set(),
+  renderRect?: { x: number; y: number; w: number; h: number }
 ): void {
   if (!landmarks || landmarks.length === 0) return
 
+  const rx = renderRect?.x ?? 0
+  const ry = renderRect?.y ?? 0
+  const rw = renderRect?.w ?? canvasWidth
+  const rh = renderRect?.h ?? canvasHeight
+
   const toPixel = (lm: NormalizedLandmark) => ({
-    px: lm.x * canvasWidth,
-    py: lm.y * canvasHeight,
+    px: rx + lm.x * rw,
+    py: ry + lm.y * rh,
   })
 
   // POSE_CONNECTIONS is available on the PoseLandmarker class from @mediapipe/tasks-vision
@@ -62,8 +72,8 @@ export function drawSkeleton(
     [27,31],[24,26],[26,28],[28,30],[30,32],[28,32],
   ]
 
-  const dotRadius = Math.max(2, Math.round(canvasWidth * 0.004))
-  ctx.lineWidth = Math.max(1, Math.round(canvasWidth * 0.002))
+  const dotRadius = Math.max(2, Math.round(rw * 0.004))
+  ctx.lineWidth = Math.max(1, Math.round(rw * 0.002))
 
   // Draw bones
   for (const [start, end] of POSE_CONNECTIONS) {
