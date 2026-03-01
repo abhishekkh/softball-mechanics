@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress) (completed 2026-02-27)
 - [x] **Phase 2: AI Pose Analysis** - Softball-specific pose skeleton overlay and joint angle computation (completed 2026-02-28)
 - [x] **Phase 2.1: Production Bug Fixes** - Mobile layout, phone upload errors, video display, duration limit, R2 lifecycle, consent gate (completed 2026-02-28)
-- [ ] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes
+- [~] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes (DEFERRED — skipped for MVP)
 - [ ] **Phase 4: Feedback Delivery** - Athlete feedback inbox, session history, and side-by-side comparison view
 
 ## Phase Details
@@ -71,7 +71,7 @@ Plans:
 Plans:
 - [x] 02.1-01-PLAN.md — Six bug fixes: responsive nav + review layout, FFmpeg /tmp guard + aspect ratio, skeleton overlay alignment, 5s duration limit, R2 lifecycle policy, legal consent gate (completed 2026-02-28)
 
-### Phase 3: Annotation Workspace
+### Phase 3: Annotation Workspace *(DEFERRED — skipped for MVP)*
 **Goal**: Coaches can annotate a video frame with drawing tools, add written coaching cues, then deliver a structured feedback package
 **Depends on**: Phase 2
 **Requirements**: VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05

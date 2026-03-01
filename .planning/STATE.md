@@ -18,7 +18,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-26)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus:** Phase 3 - Annotation Workspace
+**Current focus: Phase 4 - Feedback Delivery
 
 ## Current Position
 
