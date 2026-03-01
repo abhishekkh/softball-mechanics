@@ -12,6 +12,7 @@ interface UploadPageClientProps {
 export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageClientProps) {
   const [selectedAthleteId, setSelectedAthleteId] = useState(athleteId ?? '')
   const [hasConsented, setHasConsented] = useState(false)
+  const [motionType, setMotionType] = useState<'hitting' | 'pitching'>('hitting')
 
   const isCoach = !!coachId
   const effectiveAthleteId = isCoach ? selectedAthleteId : athleteId!
@@ -47,6 +48,28 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
         </div>
       )}
 
+      {/* Motion type selector — required for motion-specific analysis */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Motion Type
+        </label>
+        <div className="flex gap-4">
+          {(['hitting', 'pitching'] as const).map((type) => (
+            <label key={type} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="motionType"
+                value={type}
+                checked={motionType === type}
+                onChange={() => setMotionType(type)}
+                className="h-4 w-4 text-blue-600 border-gray-300"
+              />
+              <span className="text-sm text-gray-700 capitalize">{type}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
       {/* Framing guidance — locked decision from Phase 2 CONTEXT.md */}
       <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
         <div className="flex gap-3">
@@ -80,7 +103,7 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
       </div>
 
       {hasConsented ? (
-        <VideoUploader athleteId={effectiveAthleteId || undefined} coachId={effectiveCoachId} />
+        <VideoUploader athleteId={effectiveAthleteId || undefined} coachId={effectiveCoachId} motionType={motionType} />
       ) : (
         <div className="rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 p-10 text-center">
           <p className="text-sm text-gray-400">Please accept the consent statement above to enable video upload.</p>
