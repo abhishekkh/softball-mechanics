@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-01T05:44:19.390Z"
+last_updated: "2026-03-01T05:44:53.383Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 26
-  completed_plans: 17
+  completed_plans: 18
 ---
 
 # Project State
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — In Progress
-Plan: 1 of 5 in current phase — COMPLETE
-Status: Phase 2.2 Plan 01 complete — MotionType type contract and DB migration established
-Last activity: 2026-03-01 — Completed Phase 2.2 Plan 01: motion_type DB column + MotionType TypeScript type; Plans 02-04 unblocked
+Plan: 2 of 5 in current phase — COMPLETE
+Status: Phase 2.2 Plan 02 complete — Hitting/Pitching selector wired from UI to DB via presign route
+Last activity: 2026-03-01 — Completed Phase 2.2 Plan 02: motion-type radio selector in upload page, motionType prop through VideoUploader, motion_type written to videos DB row
 
-Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plan 01 complete)
+Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02-ai-pose-analysis P06 | 45 | 1 task (human verify) | 6 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P01 | 5 | 2 tasks | 2 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P03 | 1 | 1 tasks | 1 files |
+| Phase 02.2-ai-mechanics-analysis-and-model-evaluation P02 | 2 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -116,6 +117,9 @@ Recent decisions affecting current work:
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MotionType is a video-level property (not per-frame) — kept off FrameAnalysis; CHECK constraint includes 'unknown' as explicit valid state; DEFAULT 'unknown' preserves backward compat without backfill
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: flagMechanics 5th param defaults to 'hitting' — zero-diff backward compat; 'unknown' routes to hitting for pre-Phase-2.2 videos
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: detectBatCasting hardcoded to RHH lead-side (left wrist/hip) — left-handed hitter support deferred to future enhancement
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: motionType optional in VideoUploaderProps with default 'hitting' — backward compat for future uses without selector
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: motionType in useCallback dep array prevents stale closure sending wrong motion type after radio change
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: Zod .default('hitting') on PresignSchema — server-side fallback if client omits field
 
 ### Roadmap Evolution
 
@@ -133,5 +137,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 02.2-01-PLAN.md — motion_type DB column + MotionType TypeScript type established. Plans 02, 03, 04 unblocked.
+Stopped at: Completed 02.2-02-PLAN.md — motion-type selector wired from UploadPageClient through VideoUploader to presign route and videos DB. Plan 03 unblocked.
 Resume file: None
