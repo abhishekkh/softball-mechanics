@@ -71,6 +71,16 @@ Plans:
 Plans:
 - [x] 02.1-01-PLAN.md — Six bug fixes: responsive nav + review layout, FFmpeg /tmp guard + aspect ratio, skeleton overlay alignment, 5s duration limit, R2 lifecycle policy, legal consent gate (completed 2026-02-28)
 
+### Phase 02.2: AI Mechanics Analysis and Model Evaluation (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 2.1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 02.2 to break down)
+
 ### Phase 3: Annotation Workspace *(DEFERRED — skipped for MVP)*
 **Goal**: Coaches can annotate a video frame with drawing tools, add written coaching cues, then deliver a structured feedback package
 **Depends on**: Phase 2

@@ -112,6 +112,10 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: [02-06]: Canvas sized to videoElement.videoWidth/videoHeight (natural dimensions), not CSS layout size — CSS size causes skeleton landmark coordinate misalignment
 - [Phase 02-ai-pose-analysis]: [02-06]: /api/inngest excluded from auth middleware PUBLIC_PATHS — Inngest webhook was receiving 401 before event processing could occur
 
+### Roadmap Evolution
+
+- Phase 2.2 inserted after Phase 2.1: AI Mechanics Analysis and Model Evaluation (URGENT) — evaluate current MediaPipe accuracy on softball motions, research alternative/better models, improve mechanics feedback quality
+
 ### Pending Todos
 
 None yet.
