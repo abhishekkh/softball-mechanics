@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-01T05:41:08.468Z"
+last_updated: "2026-03-01T05:44:19.390Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 26
-  completed_plans: 16
+  completed_plans: 17
 ---
 
 # Project State
@@ -58,6 +58,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02-ai-pose-analysis P05 | 2 | 3 tasks | 5 files |
 | Phase 02-ai-pose-analysis P06 | 45 | 1 task (human verify) | 6 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P01 | 5 | 2 tasks | 2 files |
+| Phase 02.2-ai-mechanics-analysis-and-model-evaluation P03 | 1 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -113,6 +114,8 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: [02-06]: Canvas sized to videoElement.videoWidth/videoHeight (natural dimensions), not CSS layout size — CSS size causes skeleton landmark coordinate misalignment
 - [Phase 02-ai-pose-analysis]: [02-06]: /api/inngest excluded from auth middleware PUBLIC_PATHS — Inngest webhook was receiving 401 before event processing could occur
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MotionType is a video-level property (not per-frame) — kept off FrameAnalysis; CHECK constraint includes 'unknown' as explicit valid state; DEFAULT 'unknown' preserves backward compat without backfill
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: flagMechanics 5th param defaults to 'hitting' — zero-diff backward compat; 'unknown' routes to hitting for pre-Phase-2.2 videos
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: detectBatCasting hardcoded to RHH lead-side (left wrist/hip) — left-handed hitter support deferred to future enhancement
 
 ### Roadmap Evolution
 
