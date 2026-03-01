@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import type { FrameAnalysis, AnalysisStatus, MechanicsFlag } from '@/types/analysis'
 import { IDEAL_RANGES } from '@/lib/pose/flags'
 import { AnalysisSummary } from './AnalysisSummary'
@@ -11,8 +10,6 @@ interface Props {
   analysisStatus: AnalysisStatus | null
   progressPct: number
   framingWarning: string | null
-  // Non-null when status === 'error'. Triggers error callout per CONTEXT.md locked decision:
-  // "show partial results with a warning — do not hide data".
   analysisErrorMessage: string | null
   showSkeleton: boolean
   onToggleSkeleton: () => void
@@ -117,166 +114,145 @@ export function MechanicsSidebar({
   const angles = currentFrame?.angles ?? null
   const flags = currentFrame?.flags ?? []
 
-  const [activeTab, setActiveTab] = useState<'summary' | 'frame'>('summary')
-
   return (
     <aside className="w-72 bg-neutral-900 border-l border-neutral-700 flex flex-col">
-      {/* Tab switcher */}
-      {isComplete && (
-        <div className="flex border-b border-neutral-700 flex-shrink-0">
-          {(['summary', 'frame'] as const).map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-2.5 text-xs font-medium transition-colors capitalize ${
-                activeTab === tab
-                  ? 'text-neutral-100 border-b-2 border-blue-500'
-                  : 'text-neutral-500 hover:text-neutral-300'
-              }`}
-            >
-              {tab === 'summary' ? 'Summary' : 'Current Frame'}
-            </button>
-          ))}
-        </div>
-      )}
-
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
 
-      {/* Analysis status — always visible */}
-      {isAnalyzing && (
-        <div>
-          <div className="flex justify-between text-xs text-neutral-400 mb-1">
-            <span>Analyzing…</span>
-            <span>{progressPct}%</span>
-          </div>
-          <div className="w-full bg-neutral-700 rounded-full h-1.5">
-            <div
-              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
-              style={{ width: `${progressPct}%` }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Analysis error callout — locked CONTEXT.md decision: "show partial results with a warning — do not hide data" */}
-      {analysisErrorMessage && (
-        <div className="bg-red-900/30 border border-red-700 rounded p-2 text-xs text-red-300">
-          Analysis error: {analysisErrorMessage}. Showing partial results below.
-          You can re-analyze using the button at the bottom.
-        </div>
-      )}
-
-      {/* Framing warning — always visible */}
-      {framingWarning && (
-        <div className="bg-amber-900/30 border border-amber-700 rounded p-2 text-xs text-amber-300">
-          {framingWarning}
-        </div>
-      )}
-
-      {/* Summary tab */}
-      {activeTab === 'summary' && (
-        <AnalysisSummary frames={frames} />
-      )}
-
-      {/* Current Frame tab */}
-      {(activeTab === 'frame' || !isComplete) && (
-        <>
-          {/* Skeleton toggle */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-neutral-300">Skeleton Overlay</span>
-            <button
-              type="button"
-              onClick={onToggleSkeleton}
-              className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                showSkeleton ? 'bg-blue-600' : 'bg-neutral-600'
-              }`}
-              aria-label={showSkeleton ? 'Hide skeleton overlay' : 'Show skeleton overlay'}
-            >
-              <span
-                className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
-                  showSkeleton ? 'translate-x-4' : 'translate-x-1'
-                }`}
-              />
-            </button>
-          </div>
-
-          {/* Joint angles */}
-          <section>
-            <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
-              Joint Angles
-            </h3>
-            {isComplete ? (
-              <div>
-                <AngleRow
-                  label="Hip Rotation"
-                  value={angles?.hipRotationDeg ?? null}
-                  idealMin={IDEAL_RANGES.hipRotation.min}
-                  idealMax={IDEAL_RANGES.hipRotation.max}
-                />
-                <AngleRow
-                  label="Elbow Slot"
-                  value={angles?.elbowSlotDeg ?? null}
-                  idealMin={IDEAL_RANGES.elbowSlot.min}
-                  idealMax={IDEAL_RANGES.elbowSlot.max}
-                />
-                <AngleRow
-                  label="Shoulder Tilt"
-                  value={angles?.shoulderTiltDeg ?? null}
-                  idealMin={IDEAL_RANGES.shoulderTilt.min}
-                  idealMax={IDEAL_RANGES.shoulderTilt.max}
-                />
-              </div>
-            ) : (
-              <p className="text-xs text-neutral-500">
-                {isAnalyzing ? 'Available after analysis completes' : 'Analysis not yet run'}
-              </p>
-            )}
-          </section>
-
-          {/* Mechanics flags */}
-          <section>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
-                Mechanics Issues
-              </h3>
-              {totalFlaggedFrames > 0 && (
-                <span className="text-xs text-neutral-500">
-                  {currentFlagIndex !== null ? `${currentFlagIndex + 1} / ${totalFlaggedFrames}` : totalFlaggedFrames + ' flagged'}
-                </span>
-              )}
+        {/* Analysis progress */}
+        {isAnalyzing && (
+          <div>
+            <div className="flex justify-between text-xs text-neutral-400 mb-1">
+              <span>Analyzing…</span>
+              <span>{progressPct}%</span>
             </div>
-            <FlagPanel flags={flags} />
+            <div className="w-full bg-neutral-700 rounded-full h-1.5">
+              <div
+                className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                style={{ width: `${progressPct}%` }}
+              />
+            </div>
+          </div>
+        )}
 
-            {/* Prev / Next flag navigation */}
+        {/* Analysis error callout */}
+        {analysisErrorMessage && (
+          <div className="bg-red-900/30 border border-red-700 rounded p-2 text-xs text-red-300">
+            Analysis error: {analysisErrorMessage}. Showing partial results below.
+            You can re-analyze using the button at the bottom.
+          </div>
+        )}
+
+        {/* Framing warning */}
+        {framingWarning && (
+          <div className="bg-amber-900/30 border border-amber-700 rounded p-2 text-xs text-amber-300">
+            {framingWarning}
+          </div>
+        )}
+
+        {/* Skeleton toggle */}
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-neutral-300">Skeleton Overlay</span>
+          <button
+            type="button"
+            onClick={onToggleSkeleton}
+            className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+              showSkeleton ? 'bg-blue-600' : 'bg-neutral-600'
+            }`}
+            aria-label={showSkeleton ? 'Hide skeleton overlay' : 'Show skeleton overlay'}
+          >
+            <span
+              className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
+                showSkeleton ? 'translate-x-4' : 'translate-x-1'
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Current Frame — joint angles */}
+        <section>
+          <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
+            Current Frame
+          </h3>
+          {isComplete ? (
+            <div>
+              <AngleRow
+                label="Hip Rotation"
+                value={angles?.hipRotationDeg ?? null}
+                idealMin={IDEAL_RANGES.hipRotation.min}
+                idealMax={IDEAL_RANGES.hipRotation.max}
+              />
+              <AngleRow
+                label="Elbow Slot"
+                value={angles?.elbowSlotDeg ?? null}
+                idealMin={IDEAL_RANGES.elbowSlot.min}
+                idealMax={IDEAL_RANGES.elbowSlot.max}
+              />
+              <AngleRow
+                label="Shoulder Tilt"
+                value={angles?.shoulderTiltDeg ?? null}
+                idealMin={IDEAL_RANGES.shoulderTilt.min}
+                idealMax={IDEAL_RANGES.shoulderTilt.max}
+              />
+            </div>
+          ) : (
+            <p className="text-xs text-neutral-500">
+              {isAnalyzing ? 'Available after analysis completes' : 'Analysis not yet run'}
+            </p>
+          )}
+        </section>
+
+        {/* Current Frame — mechanics flags */}
+        <section>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider">
+              Mechanics Issues
+            </h3>
             {totalFlaggedFrames > 0 && (
-              <div className="flex gap-2 mt-2">
-                <button
-                  type="button"
-                  onClick={onPrevFlag}
-                  disabled={!hasPrevFlag}
-                  className="flex-1 py-1.5 text-xs rounded bg-neutral-700 text-neutral-300 disabled:opacity-40 hover:bg-neutral-600 disabled:cursor-not-allowed transition-colors"
-                >
-                  Prev Flag
-                </button>
-                <button
-                  type="button"
-                  onClick={onNextFlag}
-                  disabled={!hasNextFlag}
-                  className="flex-1 py-1.5 text-xs rounded bg-neutral-700 text-neutral-300 disabled:opacity-40 hover:bg-neutral-600 disabled:cursor-not-allowed transition-colors"
-                >
-                  Next Flag
-                </button>
-              </div>
+              <span className="text-xs text-neutral-500">
+                {currentFlagIndex !== null ? `${currentFlagIndex + 1} / ${totalFlaggedFrames}` : totalFlaggedFrames + ' flagged'}
+              </span>
             )}
+          </div>
+          <FlagPanel flags={flags} />
+
+          {totalFlaggedFrames > 0 && (
+            <div className="flex gap-2 mt-2">
+              <button
+                type="button"
+                onClick={onPrevFlag}
+                disabled={!hasPrevFlag}
+                className="flex-1 py-1.5 text-xs rounded bg-neutral-700 text-neutral-300 disabled:opacity-40 hover:bg-neutral-600 disabled:cursor-not-allowed transition-colors"
+              >
+                Prev Flag
+              </button>
+              <button
+                type="button"
+                onClick={onNextFlag}
+                disabled={!hasNextFlag}
+                className="flex-1 py-1.5 text-xs rounded bg-neutral-700 text-neutral-300 disabled:opacity-40 hover:bg-neutral-600 disabled:cursor-not-allowed transition-colors"
+              >
+                Next Flag
+              </button>
+            </div>
+          )}
+        </section>
+
+        {/* Summary — always visible below current frame when analysis is complete */}
+        {isComplete && (
+          <section>
+            <div className="border-t border-neutral-700 pt-4">
+              <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
+                Session Summary
+              </h3>
+              <AnalysisSummary frames={frames} theme="dark" />
+            </div>
           </section>
-        </>
-      )}
+        )}
 
       </div>
 
-      {/* Re-analyze — pinned to bottom, always visible */}
+      {/* Re-analyze — pinned to bottom */}
       <div className="p-4 border-t border-neutral-700 flex-shrink-0">
         <button
           type="button"
