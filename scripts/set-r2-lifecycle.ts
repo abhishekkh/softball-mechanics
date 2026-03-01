@@ -1,5 +1,5 @@
 /**
- * One-time setup script: applies a 14-day object expiration lifecycle rule
+ * One-time setup script: applies a 7-day object expiration lifecycle rule
  * to the raw/ prefix in the R2 bucket, so uploaded source videos are
  * automatically deleted after transcoding is no longer needed.
  *
@@ -32,16 +32,16 @@ async function main() {
     LifecycleConfiguration: {
       Rules: [
         {
-          ID: 'expire-raw-videos-14d',
+          ID: 'expire-raw-videos-7d',
           Status: 'Enabled',
           Filter: { Prefix: 'raw/' },
-          Expiration: { Days: 14 },
+          Expiration: { Days: 7 },
         },
       ],
     },
   }))
 
-  console.log(`✓ Lifecycle rule set on bucket "${bucket}": raw/ objects expire after 14 days`)
+  console.log(`✓ Lifecycle rule set on bucket "${bucket}": raw/ objects expire after 7 days`)
 
   // Verify by reading back
   const { Rules } = await r2.send(new GetBucketLifecycleConfigurationCommand({ Bucket: bucket }))
