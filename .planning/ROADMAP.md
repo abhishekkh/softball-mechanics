@@ -77,7 +77,7 @@ Plans:
 **Goal:** Evaluate MediaPipe on real softball video, add motion-type tagging to upload flow, add new motion-specific mechanics flags (Bat Casting for hitting, Premature Shoulder Opening for pitching), prototype Gemini Flash VLM as a second opinion layer, and document evaluation findings
 **Requirements**: EVAL-01, EVAL-02, EVAL-03, MOTION-01, MOTION-02, MOTION-03, FLAGS-01, FLAGS-02
 **Depends on:** Phase 2.1
-**Plans:** 5 plans
+**Plans:** 1/5 plans executed
 
 Plans:
 - [ ] 02.2-01-PLAN.md — DB migration 006 (motion_type column on videos) + MotionType TypeScript type + AnalysisPayload update

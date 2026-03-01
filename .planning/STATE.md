@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-28T06:15:19.408Z"
+last_updated: "2026-03-01T05:41:08.468Z"
 progress:
-  total_phases: 2
+  total_phases: 6
   completed_phases: 2
-  total_plans: 15
-  completed_plans: 15
+  total_plans: 26
+  completed_plans: 16
 ---
 
 # Project State
@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 
 ## Current Position
 
-Phase: 2.1 of 4 (Bug Fixes) — COMPLETE
-Plan: 1 of 1 in current phase — COMPLETE
-Status: Phase 2.1 complete — six production bugs fixed and verified by user
-Last activity: 2026-02-28 — Completed Phase 2.1 bug fixes (mobile layout, FFmpeg phone upload, video AR, skeleton overlay, 5s limit, R2 lifecycle, consent gate)
+Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — In Progress
+Plan: 1 of 5 in current phase — COMPLETE
+Status: Phase 2.2 Plan 01 complete — MotionType type contract and DB migration established
+Last activity: 2026-03-01 — Completed Phase 2.2 Plan 01: motion_type DB column + MotionType TypeScript type; Plans 02-04 unblocked
 
-Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete)
+Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plan 01 complete)
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02-ai-pose-analysis P04 | 2 | 2 tasks | 3 files |
 | Phase 02-ai-pose-analysis P05 | 2 | 3 tasks | 5 files |
 | Phase 02-ai-pose-analysis P06 | 45 | 1 task (human verify) | 6 files |
+| Phase 02.2-ai-mechanics-analysis-and-model-evaluation P01 | 5 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -111,6 +112,7 @@ Recent decisions affecting current work:
 - [Phase 02-ai-pose-analysis]: [02-06]: MediaPipe WASM must use absolute origin URL in Web Worker — relative paths fail when Next.js rewrites asset routes; pattern: new URL('/mediapipe/wasm', self.location.origin).href
 - [Phase 02-ai-pose-analysis]: [02-06]: Canvas sized to videoElement.videoWidth/videoHeight (natural dimensions), not CSS layout size — CSS size causes skeleton landmark coordinate misalignment
 - [Phase 02-ai-pose-analysis]: [02-06]: /api/inngest excluded from auth middleware PUBLIC_PATHS — Inngest webhook was receiving 401 before event processing could occur
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MotionType is a video-level property (not per-frame) — kept off FrameAnalysis; CHECK constraint includes 'unknown' as explicit valid state; DEFAULT 'unknown' preserves backward compat without backfill
 
 ### Roadmap Evolution
 
@@ -127,6 +129,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-28
-Stopped at: Completed 02-06-PLAN.md — Phase 2 complete. All 5 verification flows passed (framing tips, dashboard Review link, skeleton overlay, live joint angles, flagged frame markers). 9 post-build fixes applied during human verification. Ready for Phase 3: Annotation Workspace.
+Last session: 2026-03-01
+Stopped at: Completed 02.2-01-PLAN.md — motion_type DB column + MotionType TypeScript type established. Plans 02, 03, 04 unblocked.
 Resume file: None
