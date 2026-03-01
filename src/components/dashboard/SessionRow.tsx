@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
 import { TranscodingStatus } from '@/components/upload/TranscodingStatus'
-import { AnalysisSummary, type SummaryFrame } from '@/components/review/AnalysisSummary'
+import type { SummaryFrame } from '@/components/review/AnalysisSummary'
 import Image from 'next/image'
 
 interface SessionRowProps {
@@ -126,12 +126,38 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
         )}
       </div>
 
-      {/* Analysis summary — shown below the row once analysis is complete */}
-      {summaryFrames && summaryFrames.length > 0 && (
-        <div className="border-t border-gray-100 px-4 py-3">
-          <AnalysisSummary frames={summaryFrames} theme="light" />
-        </div>
-      )}
+      {/* Issue labels — shown once analysis is complete */}
+      {summaryFrames && summaryFrames.length > 0 && (() => {
+        const seen = new Map<string, 'warning' | 'error'>()
+        for (const frame of summaryFrames) {
+          for (const flag of frame.flags) {
+            if (!seen.has(flag.issue)) seen.set(flag.issue, flag.severity)
+          }
+        }
+        const issues = Array.from(seen.entries())
+        return (
+          <div className="border-t border-gray-100 px-4 py-2 flex flex-wrap gap-1.5">
+            {issues.length === 0 ? (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 font-medium">
+                Clean mechanics
+              </span>
+            ) : (
+              issues.map(([issue, severity]) => (
+                <span
+                  key={issue}
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                    severity === 'error'
+                      ? 'bg-red-100 text-red-700'
+                      : 'bg-amber-100 text-amber-700'
+                  }`}
+                >
+                  {issue}
+                </span>
+              ))
+            )}
+          </div>
+        )
+      })()}
     </div>
   )
 }
