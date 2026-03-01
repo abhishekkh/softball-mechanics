@@ -4,6 +4,10 @@
 
 export type AnalysisStatus = 'pending' | 'analyzing' | 'complete' | 'error' | 'low_confidence'
 
+// Motion type for the video — set at upload time by coach/athlete.
+// 'unknown' is the default for videos uploaded before Phase 2.2.
+export type MotionType = 'hitting' | 'pitching' | 'unknown'
+
 export interface NormalizedLandmark {
   x: number
   y: number
@@ -50,6 +54,7 @@ export interface AnalysisPayload {
   videoId: string
   frames: FrameAnalysis[]
   framingWarning?: string
+  motionType?: MotionType  // Optional — added in Phase 2.2; used by flag dispatch
 }
 
 // Shape for upsert into video_analysis_frames
