@@ -79,9 +79,9 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
   return (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
       {/* Row */}
-      <div className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors">
+      <div className="flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors">
         {/* Thumbnail */}
-        <div className="w-20 h-14 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
+        <div className="w-16 h-12 sm:w-20 sm:h-14 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
           {thumbnailUrl ? (
             <Image
               src={thumbnailUrl}
@@ -101,29 +101,30 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
           )}
         </div>
 
-        {/* Athlete info */}
+        {/* Athlete info + status + action — stacked so nothing gets squeezed */}
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-gray-900 truncate">{athleteName}</p>
           <p className="text-xs text-gray-500 mt-0.5">
             {new Date(uploadedAt).toLocaleDateString('en-US', {
               month: 'short', day: 'numeric', year: 'numeric',
-              hour: '2-digit', minute: '2-digit',
+            })}
+            {' · '}
+            {new Date(uploadedAt).toLocaleTimeString('en-US', {
+              hour: 'numeric', minute: '2-digit',
             })}
           </p>
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <TranscodingStatus videoId={videoId} />
+            {liveStatus === 'ready' && (
+              <a
+                href={`/review/${videoId}`}
+                className="px-3 py-1 text-xs font-medium rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+              >
+                Review
+              </a>
+            )}
+          </div>
         </div>
-
-        {/* Status badge */}
-        <TranscodingStatus videoId={videoId} />
-
-        {/* Review link */}
-        {liveStatus === 'ready' && (
-          <a
-            href={`/review/${videoId}`}
-            className="ml-2 px-3 py-1.5 text-xs font-medium rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors flex-shrink-0"
-          >
-            Review
-          </a>
-        )}
       </div>
 
       {/* Issue labels — shown once analysis is complete */}
