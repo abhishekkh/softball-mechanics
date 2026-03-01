@@ -47,10 +47,20 @@ export const transcodeVideo = inngest.createFunction(
     // Step 2: Run FFmpeg → single 720p HLS
     const hlsOutputDir = `/tmp/${videoId}-hls`
     await step.run('transcode-to-hls', async () => {
+      // Re-download input if /tmp was cleared between steps (e.g. different Lambda instance)
+      if (!existsSync(localInputPath)) {
+        const result = await r2.send(new GetObjectCommand({
+          Bucket: process.env.R2_BUCKET_NAME!,
+          Key: key,
+        }))
+        const buffer = await streamToBuffer(result.Body as Readable)
+        await writeFile(localInputPath, buffer)
+      }
       if (!existsSync(hlsOutputDir)) await mkdir(hlsOutputDir, { recursive: true })
       await runFfmpeg([
         '-i', localInputPath,
-        '-vf', 'scale=1280:720',
+        // scale=-2:720 preserves aspect ratio (portrait phone videos stay portrait)
+        '-vf', 'scale=-2:720',
         '-c:v', 'libx264',
         '-b:v', '2800k',
         '-c:a', 'aac',
@@ -85,6 +95,15 @@ export const transcodeVideo = inngest.createFunction(
     // Step 4: Extract thumbnail (frame at 2 seconds)
     const thumbnailKey = `videos/${videoId}/thumbnail.jpg`
     await step.run('extract-thumbnail', async () => {
+      // Re-download input if /tmp was cleared between steps
+      if (!existsSync(localInputPath)) {
+        const result = await r2.send(new GetObjectCommand({
+          Bucket: process.env.R2_BUCKET_NAME!,
+          Key: key,
+        }))
+        const buffer = await streamToBuffer(result.Body as Readable)
+        await writeFile(localInputPath, buffer)
+      }
       const thumbnailPath = `/tmp/${videoId}-thumb.jpg`
       await runFfmpeg([
         '-i', localInputPath,
