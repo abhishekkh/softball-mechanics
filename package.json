@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "set-r2-lifecycle": "npx tsx --env-file=.env.local scripts/set-r2-lifecycle.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.999.0",
