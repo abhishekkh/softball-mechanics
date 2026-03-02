@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T04:50:41.271Z"
+last_updated: "2026-03-02T04:55:03.016Z"
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 26
-  completed_plans: 19
+  completed_plans: 20
 ---
 
 # Project State
@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 
 ## Current Position
 
-Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — In Progress
-Plan: 5 of 5 in current phase — COMPLETE
-Status: Phase 2.2 Plan 05 complete — Model evaluation done; MediaPipe PASS, Gemini Flash overlay confirmed, YOLO11 deferred; EVAL-03 decision locked
-Last activity: 2026-03-01 — Completed Phase 2.2 Plan 05: Gemini Flash VLM prototype route, YOLO11 ONNX worker prototype, developer evaluation on real softball clips, evaluation results in RESEARCH.md
+Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — COMPLETE
+Plan: 5 of 5 in current phase — COMPLETE (Plan 04 was out-of-order; now all 5 plans complete)
+Status: Phase 2.2 Plan 04 complete — motionType wired DB-to-flagMechanics() with 'Hitting/Pitching Analysis' badge in MechanicsSidebar; Phase 2.2 fully wired end-to-end
+Last activity: 2026-03-02 — Completed Phase 2.2 Plan 04: motionType flows from DB SELECT → ReviewPageClient → usePoseAnalysis → flagMechanics(); sidebar badge shows analysis mode
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -61,6 +61,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P03 | 1 | 1 tasks | 1 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P02 | 2 | 2 tasks | 3 files |
 | Phase 02.2 P05 | 15 | 3 tasks | 4 files |
+| Phase 02.2-ai-mechanics-analysis-and-model-evaluation P04 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -124,6 +125,7 @@ Recent decisions affecting current work:
 - [Phase 02.2]: MediaPipe EVAL-01 PASS — keep as primary pose estimator; Gemini Flash adds value as optional VLM overlay; YOLO11 deferred (not available locally)
 - [Phase 02.2]: GEMINI_API_KEY must not have NEXT_PUBLIC_ prefix — server-side only in src/app/api/
 - [Phase 02.2]: YOLO11 17 COCO keypoints require separate YOLO_LANDMARK_INDICES — never mix with MediaPipe 33-point index scheme
+- [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MechanicsSidebar badge hidden when motionType is 'unknown' — avoids confusing coaches reviewing pre-Phase-2.2 footage
 
 ### Roadmap Evolution
 
