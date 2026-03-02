@@ -1,7 +1,7 @@
 'use client'
 
 import type { FrameAnalysis, AnalysisStatus, MechanicsFlag, MotionType } from '@/types/analysis'
-import { IDEAL_RANGES } from '@/lib/pose/flags'
+import { IDEAL_RANGES, PITCHING_IDEAL_RANGES } from '@/lib/pose/flags'
 import { AnalysisSummary } from './AnalysisSummary'
 
 interface Props {
@@ -116,6 +116,13 @@ export function MechanicsSidebar({
   const angles = currentFrame?.angles ?? null
   const flags = currentFrame?.flags ?? []
 
+  const isPitching = motionType === 'pitching'
+  const hipLabel    = isPitching ? 'Hip Drive'  : 'Hip Rotation'
+  const elbowLabel  = isPitching ? 'Arm Slot'   : 'Elbow Slot'
+  const hipRanges   = isPitching ? PITCHING_IDEAL_RANGES.hipDrive  : IDEAL_RANGES.hipRotation
+  const elbowRanges = isPitching ? PITCHING_IDEAL_RANGES.elbowSlot : IDEAL_RANGES.elbowSlot
+  // Shoulder tilt is identical for both motion types — no conditional needed
+
   return (
     <aside className="w-full lg:w-72 bg-neutral-900 border-t border-neutral-700 lg:border-t-0 lg:border-l flex flex-col lg:overflow-hidden">
       {/* Scrollable content */}
@@ -189,16 +196,16 @@ export function MechanicsSidebar({
           {isComplete ? (
             <div>
               <AngleRow
-                label="Hip Rotation"
+                label={hipLabel}
                 value={angles?.hipRotationDeg ?? null}
-                idealMin={IDEAL_RANGES.hipRotation.min}
-                idealMax={IDEAL_RANGES.hipRotation.max}
+                idealMin={hipRanges.min}
+                idealMax={hipRanges.max}
               />
               <AngleRow
-                label="Elbow Slot"
+                label={elbowLabel}
                 value={angles?.elbowSlotDeg ?? null}
-                idealMin={IDEAL_RANGES.elbowSlot.min}
-                idealMax={IDEAL_RANGES.elbowSlot.max}
+                idealMin={elbowRanges.min}
+                idealMax={elbowRanges.max}
               />
               <AngleRow
                 label="Shoulder Tilt"
