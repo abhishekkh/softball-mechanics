@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T05:17:50.774Z"
+last_updated: "2026-03-02T05:55:23.694Z"
 progress:
-  total_phases: 6
+  total_phases: 7
   completed_phases: 3
-  total_plans: 26
-  completed_plans: 20
+  total_plans: 29
+  completed_plans: 21
 ---
 
 # Project State
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-26)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus: Phase 4 - Feedback Delivery
+**Current focus: Phase 02.3 - Better Pitching Mechanics + Gemini VLM Commentary
 
 ## Current Position
 
-Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — COMPLETE
-Plan: 5 of 5 in current phase — COMPLETE (Plan 04 was out-of-order; now all 5 plans complete)
-Status: Phase 2.2 Plan 04 complete — motionType wired DB-to-flagMechanics() with 'Hitting/Pitching Analysis' badge in MechanicsSidebar; Phase 2.2 fully wired end-to-end
-Last activity: 2026-03-02 — Completed Phase 2.2 Plan 04: motionType flows from DB SELECT → ReviewPageClient → usePoseAnalysis → flagMechanics(); sidebar badge shows analysis mode
+Phase: 02.3 of 4 (Better Pitching Mechanics Analysis and Gemini Flash VLM Summary) — IN PROGRESS
+Plan: 1 of 3 in current phase — Plan 01 complete (pitching flags + SummaryFrame extension)
+Status: Phase 02.3 Plan 01 complete — detectArmCircleBentElbow + detectStrideOffPowerLine + PITCHING_IDEAL_RANGES shipped; SummaryFrame extended for Plan 03
+Last activity: 2026-03-01 — Completed 02.3-01-PLAN.md
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -62,6 +62,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P02 | 2 | 2 tasks | 3 files |
 | Phase 02.2 P05 | 15 | 3 tasks | 4 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P04 | 2 | 2 tasks | 4 files |
+| Phase 02.3 P01 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -126,6 +127,8 @@ Recent decisions affecting current work:
 - [Phase 02.2]: GEMINI_API_KEY must not have NEXT_PUBLIC_ prefix — server-side only in src/app/api/
 - [Phase 02.2]: YOLO11 17 COCO keypoints require separate YOLO_LANDMARK_INDICES — never mix with MediaPipe 33-point index scheme
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MechanicsSidebar badge hidden when motionType is 'unknown' — avoids confusing coaches reviewing pre-Phase-2.2 footage
+- [Phase 02.3]: Import angleBetweenThreePoints from angles.ts in flags.ts instead of inlining — already exported, no code duplication
+- [Phase 02.3]: Vitest chosen as first test framework in project — no babel config overhead vs Jest, works cleanly with ESM + TypeScript
 
 ### Roadmap Evolution
 

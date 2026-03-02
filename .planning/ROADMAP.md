@@ -62,6 +62,18 @@ Plans:
 - [ ] 02-05-PLAN.md — MechanicsSidebar (joint angles + flags + Prev/Next navigation) + /review/[videoId] review workspace page
 - [x] 02-06-PLAN.md — End-to-end Phase 2 verification checkpoint (skeleton overlay, joint angles, flagging) (completed 2026-02-28)
 
+### Phase 02.3: better pitching mechanics analysis and Gemini flash VLM summary (INSERTED)
+
+**Goal:** Add two new pitching mechanics flags (Arm Circle bent elbow, Stride Off Power Line), pitching-specific ideal ranges and sidebar label rename, and Gemini Flash VLM commentary wired into the Session Summary section with DB persistence.
+**Requirements**: PITCH-FLAG-01, PITCH-FLAG-02, PITCH-RANGES-01, PITCH-LABELS-01, VLM-COMMENTARY-01, VLM-DB-01
+**Depends on:** Phase 2.2
+**Plans:** 1/3 plans executed
+
+Plans:
+- [ ] 02.3-01-PLAN.md — New pitching flags (detectArmCircleBentElbow, detectStrideOffPowerLine) + PITCHING_IDEAL_RANGES + SummaryFrame isContact/timestampMs extension
+- [ ] 02.3-02-PLAN.md — MechanicsSidebar motion-type-aware angle labels (Hip Drive / Arm Slot) + PITCHING_IDEAL_RANGES display
+- [ ] 02.3-03-PLAN.md — DB migration 007 (vlm_summary) + vlm-eval route promotion + AnalysisSummary VLM button + ReviewPageClient contact-frame extraction + usePoseAnalysis vlm_summary load
+
 ### Phase 02.1: Production Bug Fixes (INSERTED)
 
 **Goal:** Fix six production issues discovered after Phase 2 before starting Phase 3
