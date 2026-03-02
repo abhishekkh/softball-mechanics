@@ -5,6 +5,7 @@
 // VALIDATE THESE RANGES WITH A COACH BEFORE SHIPPING
 
 import { LANDMARK_INDICES, VISIBILITY_THRESHOLD } from './landmarks'
+import { angleBetweenThreePoints } from './angles'
 import type { NormalizedLandmark, MechanicsFlag, FrameAnalysis, MotionType } from '@/types/analysis'
 
 /**
@@ -35,6 +36,15 @@ export const IDEAL_RANGES = {
 
 // Claude's discretion: 70% confidence threshold to filter low-visibility noise
 export const FLAG_CONFIDENCE_THRESHOLD = 0.70
+
+// Pitching-specific ideal ranges — added Phase 02.3
+// Source: PMC11969493 (hip rotation 44 ± 12° at release), clinical judgment for others
+// LOW-MEDIUM confidence — validate with coach before shipping
+export const PITCHING_IDEAL_RANGES = {
+  elbowSlot:    { min: 60, max: 120 },   // wider band — windmill allows more variation
+  shoulderTilt: { min: -20, max: 20 },   // same constraint as hitting
+  hipDrive:     { min: 35, max: 60 },    // pelvic rotation degrees at ball release
+} as const
 
 /**
  * Validates video framing quality using a heuristic.
@@ -125,6 +135,85 @@ function detectPrematureShoulderOpening(
       confidence: 0.75,  // Fixed proxy — no per-landmark confidence in this version
       severity: 'warning',
       jointIndices: [LANDMARK_INDICES.LEFT_SHOULDER, LANDMARK_INDICES.RIGHT_SHOULDER],
+    }]
+  }
+  return []
+}
+
+/**
+ * Arm Circle (Bent Elbow): pitching arm elbow angle drops below extension threshold
+ * during wind-up phase, indicating the arm circle is breaking down.
+ *
+ * Threshold: < 120° (conservative — only clearly bent elbows, avoids false positives
+ * on follow-through where elbow naturally flexes post-release).
+ * Right-handed pitcher: uses right arm landmarks (shoulder 12, elbow 14, wrist 16).
+ * Left-handed pitcher support is a future enhancement.
+ *
+ * Source: PMC8739590 qualitative arm-circle description; no prescriptive angle in literature.
+ * Claude discretion on threshold per CONTEXT.md.
+ *
+ * Added Phase 02.3.
+ */
+function detectArmCircleBentElbow(landmarks: NormalizedLandmark[]): MechanicsFlag[] {
+  const shoulder = landmarks[LANDMARK_INDICES.RIGHT_SHOULDER]  // index 12
+  const elbow    = landmarks[LANDMARK_INDICES.RIGHT_ELBOW]     // index 14
+  const wrist    = landmarks[LANDMARK_INDICES.RIGHT_WRIST]     // index 16
+
+  if (!shoulder || !elbow || !wrist) return []
+  if (shoulder.visibility < FLAG_CONFIDENCE_THRESHOLD) return []
+  if (elbow.visibility < FLAG_CONFIDENCE_THRESHOLD) return []
+  if (wrist.visibility < FLAG_CONFIDENCE_THRESHOLD) return []
+
+  const elbowAngle = angleBetweenThreePoints(shoulder, elbow, wrist)
+  // Extended arm during wind-up should be > 140°. Threshold at 120° flags only
+  // clearly bent elbows — conservative to avoid false positives.
+  const BENT_THRESHOLD = 120
+
+  if (elbowAngle < BENT_THRESHOLD) {
+    const conf = (shoulder.visibility + elbow.visibility + wrist.visibility) / 3
+    return [{
+      issue: 'Arm Circle (Bent Elbow)',
+      confidence: conf,
+      severity: 'warning',
+      jointIndices: [LANDMARK_INDICES.RIGHT_ELBOW],
+    }]
+  }
+  return []
+}
+
+/**
+ * Stride Off Power Line: stride foot (left ankle for RHP) lands significantly off
+ * the pitcher's power line, measured using MediaPipe normalized z-coordinate
+ * (depth estimate relative to hip midpoint).
+ *
+ * [Experimental] — MediaPipe z-coordinate is a depth estimate and less reliable than x/y.
+ * For side-view footage (required by this app's framing quality check), stride direction
+ * runs along the camera's depth axis, making z the correct axis to check.
+ * Threshold: |z_delta| > 0.15 normalized units, derived from PMC11542118 ±0.2m mean.
+ *
+ * Right-handed pitcher: LEFT_ANKLE (27) = stride foot, RIGHT_ANKLE (28) = pivot foot.
+ *
+ * Added Phase 02.3.
+ */
+function detectStrideOffPowerLine(landmarks: NormalizedLandmark[]): MechanicsFlag[] {
+  const strideAnkle = landmarks[LANDMARK_INDICES.LEFT_ANKLE]   // index 27 — stride foot RHP
+  const driveAnkle  = landmarks[LANDMARK_INDICES.RIGHT_ANKLE]  // index 28 — pivot foot RHP
+
+  if (!strideAnkle || !driveAnkle) return []
+  if (strideAnkle.visibility < FLAG_CONFIDENCE_THRESHOLD) return []
+  if (driveAnkle.visibility < FLAG_CONFIDENCE_THRESHOLD) return []
+
+  // Use z-axis (depth) for side-view camera — stride direction is into/out of camera plane
+  const depthOffset = Math.abs(strideAnkle.z - driveAnkle.z)
+  const STRIDE_OFFSET_THRESHOLD = 0.15  // normalized depth units, per PMC11542118
+
+  if (depthOffset > STRIDE_OFFSET_THRESHOLD) {
+    const conf = (strideAnkle.visibility + driveAnkle.visibility) / 2
+    return [{
+      issue: 'Stride Off Power Line [Experimental]',
+      confidence: conf,
+      severity: 'warning',
+      jointIndices: [LANDMARK_INDICES.LEFT_ANKLE, LANDMARK_INDICES.RIGHT_ANKLE],
     }]
   }
   return []
@@ -227,6 +316,10 @@ function flagPitchingMechanics(
 
   // New Phase 2.2: Premature Shoulder Opening (pitching-specific)
   flags.push(...detectPrematureShoulderOpening(shoulderTilt, hipRotation))
+
+  // Phase 02.3: New pitching-specific flags
+  flags.push(...detectArmCircleBentElbow(landmarks))
+  flags.push(...detectStrideOffPowerLine(landmarks))
 
   return flags
 }

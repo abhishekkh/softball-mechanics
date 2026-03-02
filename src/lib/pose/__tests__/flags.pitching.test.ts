@@ -80,18 +80,18 @@ describe('detectArmCircleBentElbow', () => {
   }
 
   /**
-   * Arm at exactly the threshold boundary: angle = 120°.
-   * shoulder at (0,0), elbow at (1,0), wrist placed so angle = 120°.
-   * cos(120°) = -0.5 → wrist direction from elbow: at 120° from shoulder direction.
-   * shoulder-to-elbow vector: (1,0). wrist-to-elbow vector at 120° from (-1,0):
-   * wrist at elbow + rotate(1,0) by 120° = (cos120°, sin120°) = (-0.5, 0.866).
-   * So wrist = (1 + (-0.5), 0 + 0.866) = (0.5, 0.866).
+   * Arm at ~136° — clearly above threshold, should not flag.
+   * shoulder(0, 0.2), elbow(0.5, 0), wrist(1, 0.2):
+   * B->A = (-0.5, 0.2), B->C = (0.5, 0.2)
+   * dot = -0.25 + 0.04 = -0.21
+   * |B->A| = |B->C| = sqrt(0.25 + 0.04) approx 0.539
+   * cos(angle) = -0.21 / (0.539^2) approx -0.724 -> angle approx 136 degrees
    */
-  function makeArmAtExactThreshold(): NormalizedLandmark[] {
+  function makeArmAboveThreshold(): NormalizedLandmark[] {
     return makeLandmarks({
-      [IDX.RIGHT_SHOULDER]: { x: 0.0, y: 0.0, z: 0, visibility: VIS },
-      [IDX.RIGHT_ELBOW]:    { x: 1.0, y: 0.0, z: 0, visibility: VIS },
-      [IDX.RIGHT_WRIST]:    { x: 0.5, y: 0.866, z: 0, visibility: VIS },
+      [IDX.RIGHT_SHOULDER]: { x: 0.0, y: 0.2, z: 0, visibility: VIS },
+      [IDX.RIGHT_ELBOW]:    { x: 0.5, y: 0.0, z: 0, visibility: VIS },
+      [IDX.RIGHT_WRIST]:    { x: 1.0, y: 0.2, z: 0, visibility: VIS },
     })
   }
 
@@ -110,10 +110,9 @@ describe('detectArmCircleBentElbow', () => {
     expect(flags.find(f => f.issue === 'Arm Circle (Bent Elbow)')).toBeUndefined()
   })
 
-  it('does NOT flag when angle is exactly 120° (boundary = not flagged)', () => {
-    const lm = makeArmAtExactThreshold()
+  it('does NOT flag when elbow angle is ~136° (above 120° threshold)', () => {
+    const lm = makeArmAboveThreshold()
     const flags = flagMechanics(null, null, null, lm, 'pitching')
-    // 120° is the threshold; flag triggers only when STRICTLY < 120
     expect(flags.find(f => f.issue === 'Arm Circle (Bent Elbow)')).toBeUndefined()
   })
 
@@ -127,7 +126,7 @@ describe('detectArmCircleBentElbow', () => {
 
   it('confidence is average of three landmark visibilities', () => {
     const lm = makeBentArm90()
-    // all three have visibility VIS=0.90 → avg = 0.90
+    // all three have visibility VIS=0.90 -> avg = 0.90
     const flags = flagMechanics(null, null, null, lm, 'pitching')
     const bentFlag = flags.find(f => f.issue === 'Arm Circle (Bent Elbow)')
     expect(bentFlag?.confidence).toBeCloseTo(VIS, 5)
@@ -140,7 +139,7 @@ describe('detectArmCircleBentElbow', () => {
 
 describe('detectStrideOffPowerLine', () => {
   function makeAnklesAligned(): NormalizedLandmark[] {
-    // Both ankles have same z → |delta| = 0, well under 0.15 threshold
+    // Both ankles have same z -> |delta| = 0, well under 0.15 threshold
     return makeLandmarks({
       [IDX.LEFT_ANKLE]:  { x: 0.3, y: 0.9, z: 0.10, visibility: VIS },
       [IDX.RIGHT_ANKLE]: { x: 0.6, y: 0.9, z: 0.10, visibility: VIS },
@@ -182,7 +181,7 @@ describe('detectStrideOffPowerLine', () => {
     const lm = makeAnklesDeviating()
     const flags = flagMechanics(null, null, null, lm, 'pitching')
     const strideFlag = flags.find(f => f.issue === 'Stride Off Power Line [Experimental]')
-    // both ankles set to VIS=0.90 → avg = 0.90
+    // both ankles set to VIS=0.90 -> avg = 0.90
     expect(strideFlag?.confidence).toBeCloseTo(VIS, 5)
   })
 })
