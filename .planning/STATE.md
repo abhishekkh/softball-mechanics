@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T05:55:23.694Z"
+last_updated: "2026-03-02T05:58:15.497Z"
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 29
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 02.3 of 4 (Better Pitching Mechanics Analysis and Gemini Flash VLM Summary) — IN PROGRESS
-Plan: 1 of 3 in current phase — Plan 01 complete (pitching flags + SummaryFrame extension)
-Status: Phase 02.3 Plan 01 complete — detectArmCircleBentElbow + detectStrideOffPowerLine + PITCHING_IDEAL_RANGES shipped; SummaryFrame extended for Plan 03
-Last activity: 2026-03-01 — Completed 02.3-01-PLAN.md
+Plan: 2 of 3 in current phase — Plan 02 complete (MechanicsSidebar motion-type-aware labels)
+Status: Phase 02.3 Plan 02 complete — MechanicsSidebar shows Hip Drive/Arm Slot with pitching ranges for motionType=pitching; Hip Rotation/Elbow Slot unchanged for hitting/unknown
+Last activity: 2026-03-02 — Completed 02.3-02-PLAN.md
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -63,6 +63,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.2 P05 | 15 | 3 tasks | 4 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P04 | 2 | 2 tasks | 4 files |
 | Phase 02.3 P01 | 5 | 2 tasks | 4 files |
+| Phase 02.3 P02 | 1 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -129,6 +130,7 @@ Recent decisions affecting current work:
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: MechanicsSidebar badge hidden when motionType is 'unknown' — avoids confusing coaches reviewing pre-Phase-2.2 footage
 - [Phase 02.3]: Import angleBetweenThreePoints from angles.ts in flags.ts instead of inlining — already exported, no code duplication
 - [Phase 02.3]: Vitest chosen as first test framework in project — no babel config overhead vs Jest, works cleanly with ESM + TypeScript
+- [Phase 02.3]: isPitching derived const used for label and range selection — single branching point, easy to extend to future motionTypes
 
 ### Roadmap Evolution
 
@@ -146,6 +148,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-01
-Stopped at: Completed 02.2-05-PLAN.md — model evaluation complete; MediaPipe PASS, Gemini Flash adds overlay value, YOLO11 deferred; EVAL-03 decision locked in RESEARCH.md.
+Last session: 2026-03-02
+Stopped at: Completed 02.3-02-PLAN.md — MechanicsSidebar motion-type-aware labels and ideal ranges; pitching shows Hip Drive (35-60deg) + Arm Slot (60-120deg); Plan 03 (Gemini VLM) is next.
 Resume file: None
