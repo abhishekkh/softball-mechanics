@@ -12,6 +12,8 @@ export interface SummaryFrame {
     elbowSlotDeg: number | null
     shoulderTiltDeg: number | null
   }
+  isContact?: boolean    // true on the estimated ball-contact frame (peak hip rotation) — added Phase 02.3
+  timestampMs?: number   // video position in milliseconds; needed for Plan 03 Gemini frame extraction — added Phase 02.3
 }
 
 interface IssueTally {
