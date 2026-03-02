@@ -130,6 +130,7 @@ Recent decisions affecting current work:
 ### Roadmap Evolution
 
 - Phase 2.2 inserted after Phase 2.1: AI Mechanics Analysis and Model Evaluation (URGENT) — evaluate current MediaPipe accuracy on softball motions, research alternative/better models, improve mechanics feedback quality
+- Phase 02.3 inserted after Phase 2: better pitching mechanics analysis and Gemini flash VLM summary (URGENT)
 
 ### Pending Todos
 
