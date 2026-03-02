@@ -1,7 +1,7 @@
 // src/app/api/analysis/vlm-eval/route.ts
-// PROTOTYPE ONLY — Phase 2.2 evaluation tool.
-// Not wired into the main analysis pipeline.
-// Used to qualitatively compare Gemini Flash mechanics analysis vs MediaPipe flags.
+// Production route — Phase 02.3.
+// Accepts a base64 JPEG contact frame, calls Gemini Flash with a coach-to-athlete prompt,
+// persists the commentary to video_analyses.vlm_summary, and returns the text.
 //
 // SECURITY: GEMINI_API_KEY must NOT have NEXT_PUBLIC_ prefix.
 // This route runs only on the server — never import @google/genai in client code.
@@ -14,10 +14,11 @@ import { z } from 'zod'
 const RequestSchema = z.object({
   base64Frame: z.string().min(1),   // JPEG frame as base64 string (no data: prefix)
   motionType: z.enum(['hitting', 'pitching']).default('hitting'),
+  videoId: z.string().uuid(),
 })
 
 export async function POST(request: NextRequest) {
-  // Auth check — only authenticated users can call this prototype route
+  // Auth check — only authenticated users can call this route
   const supabase = await createClient()
   const { data: { user }, error: authError } = await supabase.auth.getUser()
   if (authError || !user) {
@@ -37,20 +38,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parseResult.error.flatten() }, { status: 400 })
   }
 
-  const { base64Frame, motionType } = parseResult.data
+  const { base64Frame, motionType, videoId } = parseResult.data
 
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
 
-  const prompt = `You are a certified softball mechanics coach with 10+ years of experience.
-Analyze this single frame from a ${motionType} motion.
-Identify any mechanical issues visible in this frame. Focus specifically on:
-- Elbow position and arm path
-- Shoulder tilt and upper body alignment
-- Hip rotation and lower body position
-- Weight distribution and balance
-
-Respond in 2-3 sentences maximum. Be specific about which body part shows the issue and what the problem is.
-If the frame quality or body visibility is insufficient for analysis, say so briefly.`
+  const prompt = `You are a certified softball coach speaking directly to your athlete after reviewing their ${motionType} technique.
+Look at this single frame and identify the most important mechanical issue you see.
+Address the athlete directly in 2-3 sentences. Be specific about which body part needs attention and what to fix.
+Example tone: "Your arm circle is breaking down at the top. Focus on keeping the elbow extended through the wind-up — this transfers more power into your release."
+If the image is unclear or shows insufficient body visibility, say: "The footage quality makes it hard to give specific feedback — try filming from the side with your full body in frame."
+Do not use bullet points. Write like you're talking to your athlete, not writing a report.`
 
   try {
     const response = await ai.models.generateContent({
@@ -66,6 +63,17 @@ If the frame quality or body visibility is insufficient for analysis, say so bri
       ],
     })
     const description = response.text
+
+    // Persist — non-fatal if this fails; coach can regenerate
+    try {
+      await supabase
+        .from('video_analyses')
+        .update({ vlm_summary: description })
+        .eq('video_id', videoId)
+    } catch (dbErr) {
+      console.error('[vlm-eval] DB persist failed (non-fatal):', dbErr)
+    }
+
     return NextResponse.json({ description, motionType })
   } catch (err) {
     console.error('[vlm-eval] Gemini API error:', err)
