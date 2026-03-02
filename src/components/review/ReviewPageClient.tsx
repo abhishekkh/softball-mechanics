@@ -5,12 +5,13 @@ import { VideoWithOverlay, type VideoWithOverlayHandle } from './VideoWithOverla
 import { MechanicsSidebar } from './MechanicsSidebar'
 import { AnalysisTimeline } from './AnalysisTimeline'
 import { usePoseAnalysis } from '@/hooks/usePoseAnalysis'
-import type { FrameAnalysis } from '@/types/analysis'
+import type { FrameAnalysis, MotionType } from '@/types/analysis'
 
 interface Props {
   videoId: string
   hlsUrl: string
   videoTitle: string | null
+  motionType: MotionType  // Added Phase 2.2 — passed to usePoseAnalysis and sidebar
 }
 
 // Find the nearest FrameAnalysis to a given time in seconds
@@ -26,7 +27,7 @@ function findFrameAtTime(frames: FrameAnalysis[], timeSec: number): FrameAnalysi
   return minDiff <= 300 ? nearest : null
 }
 
-export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
+export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Props) {
   const [showSkeleton, setShowSkeleton] = useState(true)
   const [currentTimeSec, setCurrentTimeSec] = useState(0)
   const [videoDurationSec, setVideoDurationSec] = useState(0)
@@ -41,7 +42,7 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
   // so the error callout is rendered per CONTEXT.md locked decision:
   // "show partial results with a warning — do not hide data"
   const { frames, analysisStatus, progressPct, framingWarning, analysisErrorMessage, startReanalysis } =
-    usePoseAnalysis(videoId, videoRef as React.RefObject<HTMLVideoElement | null>)
+    usePoseAnalysis(videoId, videoRef as React.RefObject<HTMLVideoElement | null>, motionType)
 
   const currentFrame = useMemo(
     () => findFrameAtTime(frames, currentTimeSec),
@@ -137,6 +138,7 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle }: Props) {
           hasNextFlag={flagNavIndex < flaggedFrames.length - 1}
           currentFlagIndex={currentFlagIndex}
           totalFlaggedFrames={flaggedFrames.length}
+          motionType={motionType}
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ async function getVideo(videoId: string) {
 
   const { data: video } = await supabase
     .from('videos')
-    .select('id, title, hls_url, coach_id, athlete_id, status')
+    .select('id, title, hls_url, coach_id, athlete_id, status, motion_type')
     .eq('id', videoId)
     .single()
 
@@ -63,6 +63,7 @@ export default async function ReviewPage({
       videoId={video.id}
       hlsUrl={video.hls_url as string}
       videoTitle={video.title as string | null}
+      motionType={(video.motion_type ?? 'unknown') as import('@/types/analysis').MotionType}
     />
   )
 }

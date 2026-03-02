@@ -1,6 +1,6 @@
 'use client'
 
-import type { FrameAnalysis, AnalysisStatus, MechanicsFlag } from '@/types/analysis'
+import type { FrameAnalysis, AnalysisStatus, MechanicsFlag, MotionType } from '@/types/analysis'
 import { IDEAL_RANGES } from '@/lib/pose/flags'
 import { AnalysisSummary } from './AnalysisSummary'
 
@@ -20,6 +20,7 @@ interface Props {
   hasNextFlag: boolean
   currentFlagIndex: number | null
   totalFlaggedFrames: number
+  motionType?: MotionType  // Optional with fallback — backward compat
 }
 
 function AngleRow({
@@ -108,6 +109,7 @@ export function MechanicsSidebar({
   hasNextFlag,
   currentFlagIndex,
   totalFlaggedFrames,
+  motionType = 'unknown',
 }: Props) {
   const isAnalyzing = analysisStatus === 'analyzing' || analysisStatus === 'pending'
   const isComplete = analysisStatus === 'complete' || analysisStatus === 'low_confidence' || analysisStatus === 'error'
@@ -168,6 +170,16 @@ export function MechanicsSidebar({
             />
           </button>
         </div>
+
+        {/* Motion type badge — shows which analysis mode was applied */}
+        {motionType !== 'unknown' && (
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-neutral-400 uppercase tracking-wider">
+              {motionType === 'pitching' ? 'Pitching Analysis' : 'Hitting Analysis'}
+            </span>
+            <span className={`h-1.5 w-1.5 rounded-full ${motionType === 'pitching' ? 'bg-purple-500' : 'bg-blue-500'}`} />
+          </div>
+        )}
 
         {/* Current Frame — joint angles */}
         <section>

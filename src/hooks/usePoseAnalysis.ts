@@ -13,7 +13,7 @@ import * as Comlink from 'comlink'
 import { createBrowserClient } from '@supabase/ssr'
 import { computeFrameAngles } from '@/lib/pose/angles'
 import { flagMechanics, checkFramingQuality, markContactFrame } from '@/lib/pose/flags'
-import type { FrameAnalysis, AnalysisStatus, NormalizedLandmark } from '@/types/analysis'
+import type { FrameAnalysis, AnalysisStatus, NormalizedLandmark, MotionType } from '@/types/analysis'
 
 const SAMPLE_FPS = 5          // Analyze one frame every 200ms of video
 const HIP_TRANSLATE_THRESHOLD = 0.15  // Stop when hip midpoint moves >15% of frame width (player started running)
@@ -32,7 +32,8 @@ interface UsePoseAnalysisResult {
 
 export function usePoseAnalysis(
   videoId: string,
-  videoRef: React.RefObject<HTMLVideoElement | null>
+  videoRef: React.RefObject<HTMLVideoElement | null>,
+  motionType: MotionType = 'unknown'  // Default to 'unknown' — backward compat
 ): UsePoseAnalysisResult {
   const [frames, setFrames] = useState<FrameAnalysis[]>([])
   const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus | null>(null)
@@ -173,7 +174,8 @@ export function usePoseAnalysis(
         angles.elbowSlotDeg,
         angles.shoulderTiltDeg,
         angles.hipRotationDeg,
-        landmarks
+        landmarks,
+        motionType
       )
 
       // Check framing quality on first valid frame only
@@ -229,7 +231,7 @@ export function usePoseAnalysis(
       setAnalysisStatus('error')
       setAnalysisErrorMessage(String(err))
     }
-  }, [videoId, videoRef, supabase])
+  }, [videoId, videoRef, supabase, motionType])
 
   useEffect(() => {
     if (!videoId) return
