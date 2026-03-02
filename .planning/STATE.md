@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-01T05:44:53.383Z"
+last_updated: "2026-03-02T04:50:41.271Z"
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 26
-  completed_plans: 18
+  completed_plans: 19
 ---
 
 # Project State
@@ -23,9 +23,9 @@ See: .planning/PROJECT.md (updated 2026-02-26)
 ## Current Position
 
 Phase: 2.2 of 4 (AI Mechanics Analysis and Model Evaluation) — In Progress
-Plan: 2 of 5 in current phase — COMPLETE
-Status: Phase 2.2 Plan 02 complete — Hitting/Pitching selector wired from UI to DB via presign route
-Last activity: 2026-03-01 — Completed Phase 2.2 Plan 02: motion-type radio selector in upload page, motionType prop through VideoUploader, motion_type written to videos DB row
+Plan: 5 of 5 in current phase — COMPLETE
+Status: Phase 2.2 Plan 05 complete — Model evaluation done; MediaPipe PASS, Gemini Flash overlay confirmed, YOLO11 deferred; EVAL-03 decision locked
+Last activity: 2026-03-01 — Completed Phase 2.2 Plan 05: Gemini Flash VLM prototype route, YOLO11 ONNX worker prototype, developer evaluation on real softball clips, evaluation results in RESEARCH.md
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -60,6 +60,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P01 | 5 | 2 tasks | 2 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P03 | 1 | 1 tasks | 1 files |
 | Phase 02.2-ai-mechanics-analysis-and-model-evaluation P02 | 2 | 2 tasks | 3 files |
+| Phase 02.2 P05 | 15 | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,9 @@ Recent decisions affecting current work:
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: motionType optional in VideoUploaderProps with default 'hitting' — backward compat for future uses without selector
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: motionType in useCallback dep array prevents stale closure sending wrong motion type after radio change
 - [Phase 02.2-ai-mechanics-analysis-and-model-evaluation]: Zod .default('hitting') on PresignSchema — server-side fallback if client omits field
+- [Phase 02.2]: MediaPipe EVAL-01 PASS — keep as primary pose estimator; Gemini Flash adds value as optional VLM overlay; YOLO11 deferred (not available locally)
+- [Phase 02.2]: GEMINI_API_KEY must not have NEXT_PUBLIC_ prefix — server-side only in src/app/api/
+- [Phase 02.2]: YOLO11 17 COCO keypoints require separate YOLO_LANDMARK_INDICES — never mix with MediaPipe 33-point index scheme
 
 ### Roadmap Evolution
 
@@ -137,5 +141,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-01
-Stopped at: Completed 02.2-02-PLAN.md — motion-type selector wired from UploadPageClient through VideoUploader to presign route and videos DB. Plan 03 unblocked.
+Stopped at: Completed 02.2-05-PLAN.md — model evaluation complete; MediaPipe PASS, Gemini Flash adds overlay value, YOLO11 deferred; EVAL-03 decision locked in RESEARCH.md.
 Resume file: None
