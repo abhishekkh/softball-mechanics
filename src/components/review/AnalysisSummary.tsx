@@ -1,6 +1,6 @@
 'use client'
 
-import type { MechanicsFlag } from '@/types/analysis'
+import type { MechanicsFlag, AnalysisStatus } from '@/types/analysis'
 import { IDEAL_RANGES } from '@/lib/pose/flags'
 
 // Lightweight frame shape — FrameAnalysis satisfies this, and it's what
@@ -68,9 +68,20 @@ function computeAngleStats(frames: SummaryFrame[]): AngleStat[] {
 interface Props {
   frames: SummaryFrame[]
   theme?: 'dark' | 'light'
+  vlmCommentary?: string | null       // Existing or freshly generated Gemini text
+  onRequestCommentary?: () => Promise<void>  // Callback; ReviewPageClient implements
+  isCommentaryLoading?: boolean       // True while Gemini call is in-flight
+  analysisStatus?: AnalysisStatus | null  // Gate: only show button when complete/low_confidence
 }
 
-export function AnalysisSummary({ frames, theme = 'dark' }: Props) {
+export function AnalysisSummary({
+  frames,
+  theme = 'dark',
+  vlmCommentary,
+  onRequestCommentary,
+  isCommentaryLoading = false,
+  analysisStatus,
+}: Props) {
   if (frames.length === 0) {
     return (
       <p className={`text-xs py-2 ${theme === 'dark' ? 'text-neutral-500' : 'text-gray-400'}`}>
@@ -170,6 +181,48 @@ export function AnalysisSummary({ frames, theme = 'dark' }: Props) {
         <p className={`text-xs ${isDark ? 'text-neutral-500' : 'text-gray-400'}`}>
           Angle data was low-visibility on most frames. Try re-filming from the side.
         </p>
+      )}
+
+      {/* AI Commentary — only show when analysis is complete/low_confidence and contact frame exists */}
+      {(analysisStatus === 'complete' || analysisStatus === 'low_confidence') &&
+        frames.some(f => f.isContact) && (
+        <section>
+          <div className={`border-t pt-4 ${isDark ? 'border-neutral-700' : 'border-gray-200'}`}>
+            <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isDark ? 'text-neutral-500' : 'text-gray-500'}`}>
+              AI Commentary
+            </h3>
+            {vlmCommentary ? (
+              <div className="flex flex-col gap-2">
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-neutral-300' : 'text-gray-700'}`}>
+                  {vlmCommentary}
+                </p>
+                {onRequestCommentary && (
+                  <button
+                    type="button"
+                    onClick={onRequestCommentary}
+                    disabled={isCommentaryLoading}
+                    className={`text-xs self-start underline disabled:opacity-50 ${isDark ? 'text-neutral-500 hover:text-neutral-300' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    {isCommentaryLoading ? 'Regenerating\u2026' : 'Regenerate'}
+                  </button>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={onRequestCommentary}
+                disabled={isCommentaryLoading || !onRequestCommentary}
+                className={`w-full py-2 text-xs rounded border disabled:opacity-50 transition-colors ${
+                  isDark
+                    ? 'border-neutral-600 text-neutral-300 hover:bg-neutral-800 disabled:cursor-not-allowed'
+                    : 'border-gray-300 text-gray-600 hover:bg-gray-50 disabled:cursor-not-allowed'
+                }`}
+              >
+                {isCommentaryLoading ? 'Getting AI Commentary\u2026' : 'Get AI Commentary'}
+              </button>
+            )}
+          </div>
+        </section>
       )}
     </div>
   )

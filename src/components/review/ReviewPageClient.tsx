@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, useMemo } from 'react'
+import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
 import { VideoWithOverlay, type VideoWithOverlayHandle } from './VideoWithOverlay'
 import { MechanicsSidebar } from './MechanicsSidebar'
 import { AnalysisTimeline } from './AnalysisTimeline'
@@ -41,8 +41,17 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
   // Destructure all values including analysisErrorMessage — required to pass to MechanicsSidebar
   // so the error callout is rendered per CONTEXT.md locked decision:
   // "show partial results with a warning — do not hide data"
-  const { frames, analysisStatus, progressPct, framingWarning, analysisErrorMessage, startReanalysis } =
+  const { frames, analysisStatus, progressPct, framingWarning, analysisErrorMessage, startReanalysis, vlmSummary } =
     usePoseAnalysis(videoId, videoRef as React.RefObject<HTMLVideoElement | null>, motionType)
+
+  // VLM commentary state — initialized from DB on page load via vlmSummary from hook
+  const [vlmCommentary, setVlmCommentary] = useState<string | null>(null)
+  const [isCommentaryLoading, setIsCommentaryLoading] = useState(false)
+
+  // Sync vlmSummary from hook to local state on initial page load
+  useEffect(() => {
+    if (vlmSummary) setVlmCommentary(vlmSummary)
+  }, [vlmSummary])
 
   const currentFrame = useMemo(
     () => findFrameAtTime(frames, currentTimeSec),
@@ -86,6 +95,49 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
     setFlagNavIndex(idx)
     if (flaggedFrames[idx]) handleSeek(flaggedFrames[idx].timestampMs / 1000)
   }, [flagNavIndex, flaggedFrames, handleSeek])
+
+  // Extract the contact frame as base64 JPEG by seeking the video element to that timestamp
+  const extractContactFrame = useCallback(async (timestampMs: number): Promise<string | null> => {
+    const video = overlayRef.current?.videoElement
+    if (!video) return null
+    video.currentTime = timestampMs / 1000
+    await new Promise<void>((resolve) => {
+      video.addEventListener('seeked', () => resolve(), { once: true })
+    })
+    const canvas = document.createElement('canvas')
+    canvas.width = video.videoWidth || 1280
+    canvas.height = video.videoHeight || 720
+    canvas.getContext('2d')!.drawImage(video, 0, 0)
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.8)
+    return dataUrl.replace('data:image/jpeg;base64,', '')
+  }, [])
+
+  const handleRequestCommentary = useCallback(async () => {
+    const contactFrame = frames.find(f => f.isContact)
+    if (!contactFrame || contactFrame.timestampMs === undefined) return
+    setIsCommentaryLoading(true)
+    try {
+      const base64Frame = await extractContactFrame(contactFrame.timestampMs)
+      if (!base64Frame) return
+      const res = await fetch('/api/analysis/vlm-eval', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          base64Frame,
+          motionType: motionType === 'unknown' ? 'hitting' : motionType,
+          videoId,
+        }),
+      })
+      if (res.ok) {
+        const { description } = await res.json()
+        setVlmCommentary(description ?? null)
+      }
+    } catch (err) {
+      console.error('[ReviewPageClient] VLM commentary error:', err)
+    } finally {
+      setIsCommentaryLoading(false)
+    }
+  }, [frames, motionType, videoId, extractContactFrame])
 
   return (
     <div className="flex flex-col min-h-screen lg:h-screen bg-neutral-950">
@@ -139,6 +191,9 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
           currentFlagIndex={currentFlagIndex}
           totalFlaggedFrames={flaggedFrames.length}
           motionType={motionType}
+          vlmCommentary={vlmCommentary}
+          onRequestCommentary={handleRequestCommentary}
+          isCommentaryLoading={isCommentaryLoading}
         />
       </div>
     </div>

@@ -21,6 +21,9 @@ interface Props {
   currentFlagIndex: number | null
   totalFlaggedFrames: number
   motionType?: MotionType  // Optional with fallback — backward compat
+  vlmCommentary?: string | null
+  onRequestCommentary?: () => Promise<void>
+  isCommentaryLoading?: boolean
 }
 
 function AngleRow({
@@ -110,6 +113,9 @@ export function MechanicsSidebar({
   currentFlagIndex,
   totalFlaggedFrames,
   motionType = 'unknown',
+  vlmCommentary,
+  onRequestCommentary,
+  isCommentaryLoading = false,
 }: Props) {
   const isAnalyzing = analysisStatus === 'analyzing' || analysisStatus === 'pending'
   const isComplete = analysisStatus === 'complete' || analysisStatus === 'low_confidence' || analysisStatus === 'error'
@@ -264,7 +270,14 @@ export function MechanicsSidebar({
               <h3 className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-3">
                 Session Summary
               </h3>
-              <AnalysisSummary frames={frames} theme="dark" />
+              <AnalysisSummary
+                frames={frames}
+                theme="dark"
+                vlmCommentary={vlmCommentary}
+                onRequestCommentary={onRequestCommentary}
+                isCommentaryLoading={isCommentaryLoading}
+                analysisStatus={analysisStatus}
+              />
             </div>
           </section>
         )}

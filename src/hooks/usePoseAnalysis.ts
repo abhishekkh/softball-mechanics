@@ -28,6 +28,9 @@ interface UsePoseAnalysisResult {
   // "show partial results with a warning — do not hide data".
   analysisErrorMessage: string | null
   startReanalysis: () => void
+  // Loaded from video_analyses.vlm_summary on page init.
+  // Non-null when a previous "Get AI Commentary" call was persisted to DB.
+  vlmSummary: string | null
 }
 
 export function usePoseAnalysis(
@@ -40,6 +43,7 @@ export function usePoseAnalysis(
   const [progressPct, setProgressPct] = useState(0)
   const [framingWarning, setFramingWarning] = useState<string | null>(null)
   const [analysisErrorMessage, setAnalysisErrorMessage] = useState<string | null>(null)
+  const [vlmSummary, setVlmSummary] = useState<string | null>(null)
   const [triggerAnalysis, setTriggerAnalysis] = useState(0)
 
   const workerRef = useRef<Worker | null>(null)
@@ -241,7 +245,7 @@ export function usePoseAnalysis(
       // Include error_message so we can surface it when status === 'error'.
       const { data: existing } = await supabase
         .from('video_analyses')
-        .select('status, progress_pct, framing_warning, error_message')
+        .select('status, progress_pct, framing_warning, error_message, vlm_summary')
         .eq('video_id', videoId)
         .single()
 
@@ -249,6 +253,7 @@ export function usePoseAnalysis(
         const status = existing.status as AnalysisStatus
         setAnalysisStatus(status)
         setFramingWarning(existing.framing_warning as string | null)
+        setVlmSummary(existing.vlm_summary as string | null)
 
         if (status === 'complete' || status === 'low_confidence') {
           await loadStoredFrames()
@@ -293,5 +298,5 @@ export function usePoseAnalysis(
     setTriggerAnalysis((n) => n + 1)
   }, [videoId, supabase])
 
-  return { frames, analysisStatus, progressPct, framingWarning, analysisErrorMessage, startReanalysis }
+  return { frames, analysisStatus, progressPct, framingWarning, analysisErrorMessage, startReanalysis, vlmSummary }
 }
