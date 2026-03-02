@@ -67,7 +67,7 @@ Plans:
 **Goal:** Add two new pitching mechanics flags (Arm Circle bent elbow, Stride Off Power Line), pitching-specific ideal ranges and sidebar label rename, and Gemini Flash VLM commentary wired into the Session Summary section with DB persistence.
 **Requirements**: PITCH-FLAG-01, PITCH-FLAG-02, PITCH-RANGES-01, PITCH-LABELS-01, VLM-COMMENTARY-01, VLM-DB-01
 **Depends on:** Phase 2.2
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02.3-01-PLAN.md — New pitching flags (detectArmCircleBentElbow, detectStrideOffPowerLine) + PITCHING_IDEAL_RANGES + SummaryFrame isContact/timestampMs extension

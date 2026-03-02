@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T05:58:15.497Z"
+last_updated: "2026-03-02T06:03:48.869Z"
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 29
-  completed_plans: 22
+  completed_plans: 23
 ---
 
 # Project State
@@ -131,6 +131,7 @@ Recent decisions affecting current work:
 - [Phase 02.3]: Import angleBetweenThreePoints from angles.ts in flags.ts instead of inlining — already exported, no code duplication
 - [Phase 02.3]: Vitest chosen as first test framework in project — no babel config overhead vs Jest, works cleanly with ESM + TypeScript
 - [Phase 02.3]: isPitching derived const used for label and range selection — single branching point, easy to extend to future motionTypes
+- [Phase 02.3]: extractContactFrame uses video.currentTime seek + canvas JPEG; DB persist is non-fatal; vlmSummary from hook synced to local state via useEffect; motionType unknown falls back to hitting for vlm-eval
 
 ### Roadmap Evolution
 
