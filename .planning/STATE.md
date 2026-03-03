@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T14:58:12.094Z"
+last_updated: "2026-03-03T15:03:03.950Z"
 progress:
-  total_phases: 9
-  completed_phases: 5
+  total_phases: 10
+  completed_phases: 6
   total_plans: 36
-  completed_plans: 29
+  completed_plans: 30
 ---
 
 # Project State
@@ -72,6 +72,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P03 | 3 | 1 tasks | 2 files |
 | Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P01 | 3 | 2 tasks | 6 files |
 | Phase 02.5 P04 | 15 | 2 tasks | 1 files |
+| Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P02 | 3 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -158,6 +159,9 @@ Recent decisions affecting current work:
 - [Phase 02.5]: In-memory rate limiter via Map in middleware — resets per cold start, acceptable for v1 without Redis
 - [Phase 02.5]: RLS write policies scoped by video ownership join: video_id IN (SELECT id FROM videos WHERE coach_id = auth.uid())
 - [Phase 02.5]: lg:min-h-0 on flex children: add to aside element so inner overflow-y-auto can activate when parent has bounded height on desktop; has no effect on mobile flex-col stack layout
+- [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: ErrorBoundary uses 'use client' class component — React has no functional error boundary API as of React 19
+- [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: Cast Supabase join results via (x as unknown as ProfileRow | null) — Supabase infers foreign key joins as array type; direct cast fails TS2352; unknown bridge is correct workaround
+- [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: Upload page filter excludes ProfileRow entries where full_name is null to match UploadPageClient prop type { id: string; full_name: string }[]
 
 ### Roadmap Evolution
 
@@ -165,6 +169,7 @@ Recent decisions affecting current work:
 - Phase 02.3 inserted after Phase 2: better pitching mechanics analysis and Gemini flash VLM summary (URGENT)
 - Phase 02.4 inserted after Phase 2: invite via email (Resend) and provide feedback via email from review page (originally SMS/Twilio, replanned 2026-03-02 to Resend email)
 - Phase 02.5 inserted after Phase 2: Review UX and usability across devices, Security, Performance and Code (URGENT)
+- Phase 5 added: Branding and marketing
 
 ### Pending Todos
 
