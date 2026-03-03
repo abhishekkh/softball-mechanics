@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { sendEmail } from '@/lib/email'
 
 // Admin client for invite — uses service role key, server-only
 function getAdminClient() {
@@ -106,6 +107,28 @@ export async function inviteAthlete(email: string, coachId: string): Promise<{ s
       athlete_email: email,
       status: 'pending',
     })
+  }
+
+  // Send branded invite email via Resend (non-fatal — Supabase invite already sent)
+  try {
+    const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+    await sendEmail(
+      email,
+      'Your coach has invited you to review your mechanics',
+      `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
+        <h2 style="color:#1d4ed8;margin-bottom:16px">You've been invited!</h2>
+        <p style="color:#374151;line-height:1.6">Your coach has invited you to the Softball Mechanics app where you can view detailed AI-powered analysis of your technique.</p>
+        <p style="margin-top:24px">
+          <a href="${inviteLink}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
+            Accept Invite &amp; View Your Analysis
+          </a>
+        </p>
+        <p style="color:#9ca3af;font-size:12px;margin-top:24px">If you did not expect this invitation, you can safely ignore this email.</p>
+      </div>`
+    )
+  } catch (emailErr) {
+    // Non-fatal — Supabase invite email already sent; log and continue
+    console.error('[inviteAthlete] Resend branded email failed (non-fatal):', emailErr)
   }
 
   return { success: true, userId }
