@@ -43,7 +43,7 @@ export async function sendFeedbackEmail(
     ? summary
     : 'Your coach has reviewed your mechanics video. Log in to view your full analysis and joint angle data.'
 
-  const submissionsUrl = `${process.env.NEXT_PUBLIC_APP_URL}/submissions`
+  const submissionsUrl = `${process.env.NEXT_PUBLIC_APP_URL}/review/${videoId}`
 
   const html = `
     <div style="font-family:sans-serif;max-width:540px;margin:0 auto;padding:24px">
