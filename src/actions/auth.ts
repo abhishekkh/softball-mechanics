@@ -119,7 +119,7 @@ export async function inviteAthlete(email: string, coachId: string, athleteName:
 
   // Send branded invite email via Resend (non-fatal — Supabase invite already sent)
   try {
-    const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+    const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/login`
     await sendEmail(
       email,
       'Your coach has invited you to review your mechanics',
