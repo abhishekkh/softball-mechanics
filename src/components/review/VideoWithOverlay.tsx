@@ -151,6 +151,7 @@ export const VideoWithOverlay = forwardRef<VideoWithOverlayHandle, Props>(
           className="absolute inset-0 w-full h-full object-contain"
           controls
           playsInline
+          crossOrigin="anonymous"
         />
         <canvas
           ref={canvasRef}

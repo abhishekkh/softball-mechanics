@@ -148,6 +148,9 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
       if (res.ok) {
         const { description } = await res.json()
         setVlmCommentary(description ?? null)
+      } else {
+        const body = await res.json().catch(() => ({}))
+        console.error('[ReviewPageClient] VLM eval failed', res.status, body)
       }
     } catch (err) {
       console.error('[ReviewPageClient] VLM commentary error:', err)
