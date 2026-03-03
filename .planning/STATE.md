@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T16:08:09.874Z"
+last_updated: "2026-03-03T16:59:58.834Z"
 progress:
   total_phases: 10
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 40
-  completed_plans: 33
+  completed_plans: 34
 ---
 
 # Project State
@@ -77,6 +77,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 05-branding-and-marketing P02 | 3 | 1 tasks | 1 files |
 | Phase 05-branding-and-marketing P03 | 2 | 2 tasks | 8 files |
 | Phase 05-branding-and-marketing P02 | 5 | 2 tasks | 1 files |
+| Phase 05-branding-and-marketing P04 | 15 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -175,6 +176,9 @@ Recent decisions affecting current work:
 - [Phase 05-branding-and-marketing]: Consent text broadened to 'baseball and softball mechanics analysis' — more inclusive and accurate
 - [Phase 05-branding-and-marketing]: Landing page tagline 'Help every athlete reach their potential.' — warm, outcome-focused, athlete-centered (not AI-SaaS framing)
 - [Phase 05-branding-and-marketing]: Feature copy uses 'As a coach, you can...' framing — emphasizes coach capability over AI technology
+- [Phase 05-branding-and-marketing]: OG image placed in public/ (not src/app/) to avoid duplicate og:image from Next.js file-convention auto-detection; explicit metadata.openGraph.images in layout.tsx points to /opengraph-image.png
+- [Phase 05-branding-and-marketing]: OG image is a placeholder 1x1 PNG; proper 1200x630 branded image required before production launch
+- [Phase 05-branding-and-marketing]: Static 'Review' title used for dynamic /review/[videoId] route; dynamic per-video titles deferred to future enhancement
 
 ### Roadmap Evolution
 

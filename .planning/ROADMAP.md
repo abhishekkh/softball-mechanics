@@ -166,7 +166,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 **Goal:** Rebrand the app from "Softball Mechanics" to "Diamond Mechanics", build the public-facing marketing landing page at the root URL, apply brand identity consistently across the internal app and auth pages, and deliver SEO/meta assets (per-page titles, favicon, OG image).
 **Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05
 **Depends on:** Phase 4
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Requirement IDs defined:
 - BRAND-01: App renamed "Diamond Mechanics" everywhere — all user-facing UI text, email copy, page titles, and consent strings
