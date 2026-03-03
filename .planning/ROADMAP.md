@@ -67,7 +67,7 @@ Plans:
 **Goal:** Make the app production-ready, resilient, and performant by closing security gaps, adding error boundaries, expanding test coverage to hitting flags, and fixing mobile review layout — without adding new features.
 **Requirements**: UX-SEC-01, UX-SEC-02, UX-SEC-03, UX-SEC-04, UX-SEC-05, UX-CODE-01, UX-CODE-02, UX-CODE-03, UX-TEST-01, UX-TEST-02, UX-MOBILE-01, UX-MOBILE-02
 **Depends on:** Phase 2
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 - [ ] 02.5-01-PLAN.md — Security: RLS migration 008 (fix USING(true) write policies) + presign coachId fix + vlm-eval detail leak + debug log removal + rate limiting in middleware + review page supabase helper fix

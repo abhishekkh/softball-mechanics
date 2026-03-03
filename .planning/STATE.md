@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T05:35:24.320Z"
+last_updated: "2026-03-03T06:03:38.711Z"
 progress:
   total_phases: 9
   completed_phases: 5
-  total_plans: 32
-  completed_plans: 26
+  total_plans: 36
+  completed_plans: 27
 ---
 
 # Project State
@@ -69,6 +69,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.4 P02 | 2 | 2 tasks | 2 files |
 | Phase 02.4-invite-email-and-feedback P03 | 5 | 2 tasks | 4 files |
 | Phase 02.4-invite-email-and-feedback P03 | 15 | 3 tasks | 4 files |
+| Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P03 | 3 | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -148,6 +149,8 @@ Recent decisions affecting current work:
 - [Phase 02.4-invite-email-and-feedback]: sendFeedbackEmail() double .eq() guard (id + coach_id) replicates RLS at query level without explicit policy on video_analyses
 - [Phase 02.4-invite-email-and-feedback]: Feedback button state machine (idle/sending/sent/error) prop-drilled from ReviewPageClient to MechanicsSidebar — error surfaces after click not as disabled button
 - [Phase 02.4-invite-email-and-feedback]: Deep-link feedback email to /review/[videoId] not /submissions — athlete lands directly on specific video analysis
+- [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: angles.test.ts makeLm() defaults to HIGH visibility — opposite of flags tests LOW default; angle tests test null-return explicitly with VIS_LOW overrides
+- [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: Cross-motion isolation tests grouped in dedicated describe block for discoverability
 
 ### Roadmap Evolution
 
