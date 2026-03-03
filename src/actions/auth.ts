@@ -160,6 +160,5 @@ export async function acceptInvite(): Promise<{ success: true } | { error: strin
     return { error: 'Failed to activate invite. Please try again.' }
   }
 
-  console.log('[acceptInvite] updated rows:', count, 'user:', user.email)
   return { success: true }
 }

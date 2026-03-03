@@ -1,21 +1,9 @@
 import { redirect, notFound } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { createServerClient } from '@supabase/ssr'
+import { createClient } from '@/lib/supabase/server'
 import { ReviewPageClient } from '@/components/review/ReviewPageClient'
 
 async function getVideo(videoId: string) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: () => {},
-      },
-    }
-  )
-
+  const supabase = await createClient()
   const { data: video } = await supabase
     .from('videos')
     .select('id, title, hls_url, coach_id, athlete_id, status, motion_type')
@@ -31,19 +19,7 @@ export default async function ReviewPage({
   params: Promise<{ videoId: string }>
 }) {
   const { videoId } = await params
-  const cookieStore = await cookies()
-
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: () => {},
-      },
-    }
-  )
-
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
@@ -54,9 +30,7 @@ export default async function ReviewPage({
   if (video.coach_id !== user.id) redirect('/dashboard')
 
   // Video must be transcoded before analysis is possible
-  if (video.status !== 'ready') {
-    redirect('/dashboard')
-  }
+  if (video.status !== 'ready') redirect('/dashboard')
 
   return (
     <ReviewPageClient

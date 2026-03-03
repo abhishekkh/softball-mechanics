@@ -7,7 +7,7 @@ const PresignSchema = z.object({
   filename: z.string().min(1).max(255),
   contentType: z.string().regex(/^video\//),              // Must be a video MIME type
   athleteId: z.string().uuid().optional().nullable(),     // Optional — coach can upload without athlete assignment (deferred)
-  coachId: z.string().uuid(),                             // The coach's user ID
+  // coachId intentionally omitted — derived from auth user.id on the server, never trusted from client
   motionType: z.enum(['hitting', 'pitching']).default('hitting'),  // Added Phase 2.2
 })
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parseResult.error.flatten() }, { status: 400 })
   }
 
-  const { filename, contentType, athleteId, coachId, motionType } = parseResult.data
+  const { filename, contentType, athleteId, motionType } = parseResult.data
 
   // Generate a unique video ID upfront (used as R2 key and DB record)
   const videoId = crypto.randomUUID()
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     id: videoId,
     athlete_id: athleteId ?? null,
     uploaded_by: user.id,
-    coach_id: coachId,
+    coach_id: user.id,
     title: filename.replace(/\.[^.]+$/, ''),  // Strip extension for default title
     raw_r2_key: r2Key,
     status: 'processing',

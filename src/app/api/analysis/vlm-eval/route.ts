@@ -77,9 +77,6 @@ Do not use bullet points. Write like you're talking to your athlete, not writing
     return NextResponse.json({ description, motionType })
   } catch (err) {
     console.error('[vlm-eval] Gemini API error:', err)
-    return NextResponse.json(
-      { error: 'Gemini API call failed', detail: String(err) },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Gemini API call failed' }, { status: 500 })
   }
 }
