@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T04:46:13.196Z"
+last_updated: "2026-03-03T04:48:12.822Z"
 progress:
   total_phases: 9
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 32
-  completed_plans: 25
+  completed_plans: 26
 ---
 
 # Project State
@@ -67,6 +67,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.3 P03 | 12 | 3 tasks | 6 files |
 | Phase 02.4 P01 | 2 | 2 tasks | 5 files |
 | Phase 02.4 P02 | 2 | 2 tasks | 2 files |
+| Phase 02.4-invite-email-and-feedback P03 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -141,6 +142,8 @@ Recent decisions affecting current work:
 - [Phase 02.4]: RESEND_FROM_EMAIL defaults to noreply@resend.dev — allows dev/staging without domain verification
 - [Phase 02.4]: Vitest class mock pattern for SDK constructors: class MockResend used over vi.fn().mockImplementation() arrow function
 - [Phase 02.4]: Branded email is non-fatal: Supabase invite already sent before Resend call; email failure only logs, never changes inviteAthlete() return value
+- [Phase 02.4]: sendFeedbackEmail() double .eq() guard (id + coach_id) on video query replicates RLS at query level without explicit Supabase policy on video_analyses
+- [Phase 02.4]: Feedback button state machine (idle/sending/sent/error) prop-drilled from ReviewPageClient to MechanicsSidebar — error surfaces after click not as disabled button
 
 ### Roadmap Evolution
 

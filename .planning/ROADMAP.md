@@ -77,7 +77,7 @@ Plans:
 **Goal:** Coach can send a branded invite email to athletes via Resend (in addition to the Supabase auth email) and send a mechanics feedback summary email to athletes directly from the review page (containing the VLM/Gemini analysis summary + link to /submissions).
 **Requirements**: EMAIL-INVITE-01, EMAIL-FEEDBACK-01
 **Depends on:** Phase 2
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 **Approach:** Resend (email) — free tier 3,000 emails/month, no phone number needed, athlete email already exists in coach_athletes.athlete_email. No DB migration needed. Install: `npm install resend`. RESEND_API_KEY must NOT have NEXT_PUBLIC_ prefix (server-side only).
 
