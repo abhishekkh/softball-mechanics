@@ -20,6 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2.4: Invite via Email and Send Feedback Email** - Resend branded invite email + feedback email from review page (completed 2026-03-02)
 - [x] **Phase 2.5: Review UX, Security, Performance and Code** - RLS security, rate limiting, error boundaries, 78 Vitest tests, mobile layout (completed 2026-03-03)
 - [x] **Phase 5: Branding and Marketing** - Diamond Mechanics rebrand, landing page, per-page metadata, favicon, OG image (completed 2026-03-03)
+- [ ] **Phase 06: v1.0 Integration Bug Fixes** - Close 4 integration breaks from audit: middleware auth, athlete upload coach_id, email CTA links (gap closure phase)
 - [ ] **Phase 3: Annotation Workspace and Feedback Delivery** - Frame scrub, slow motion, drawing tools, coaching cues, athlete feedback inbox, session history, side-by-side comparison (v2 scope)
 
 ## Phase Details
@@ -128,6 +129,20 @@ Plans:
 - [ ] 02.2-04-PLAN.md — Review page reads motion_type from DB + ReviewPageClient/usePoseAnalysis/MechanicsSidebar wired with motionType + motion badge in sidebar
 - [ ] 02.2-05-PLAN.md — Gemini Flash VLM prototype route (POST /api/analysis/vlm-eval) + qualitative evaluation checkpoint + RESEARCH.md evaluation results
 
+### Phase 06: v1.0 Integration Bug Fixes (GAP CLOSURE)
+
+**Goal:** Close the 4 integration breaks identified by the v1.0 audit — middleware edge auth bypass, athlete upload coach_id assignment, broken feedback email deep-link, and dead invite email CTA — so all 5 partial v1 requirements are fully satisfied before milestone archive.
+**Requirements**: AUTH-02, AUTH-04, VID-01, EMAIL-INVITE-01, EMAIL-FEEDBACK-01
+**Gap Closure:** Closes all gaps from v1.0-MILESTONE-AUDIT.md
+**Depends on:** Phase 2.5
+**Plans:** TBD
+
+Tasks:
+- [ ] Fix middleware PUBLIC_PATHS — remove `'/'` entry so edge-layer auth redirect fires correctly (AUTH-02, AUTH-04)
+- [ ] Fix presign route athlete upload — thread athleteCoachId server-side so athlete-uploaded videos appear on coach dashboard (VID-01)
+- [ ] Fix feedback email deep-link — update `/review/${videoId}` to `/submissions` until athlete read-only view ships in v2 (EMAIL-FEEDBACK-01)
+- [ ] Fix invite email CTA — change `/auth/callback` (no token) to `/login` to prevent auth_callback_failed errors (EMAIL-INVITE-01)
+
 ### Phase 3: Annotation Workspace and Feedback Delivery *(v2 scope)*
 **Goal**: Coaches can annotate video frames with drawing tools, add written coaching cues, deliver structured feedback packages to athletes, and view full session history per athlete; athletes receive their feedback in a dedicated inbox
 **Depends on**: Phase 2.5
@@ -158,6 +173,7 @@ Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5
 | 2.4 Invite via Email and Feedback Email | 3/3 | Complete | 2026-03-02 |
 | 2.5 Review UX, Security, Performance and Code | 4/4 | Complete | 2026-03-03 |
 | 5. Branding and Marketing | 4/4 | Complete | 2026-03-03 |
+| 6. v1.0 Integration Bug Fixes | 0/TBD | Not started | - |
 | 3. Annotation Workspace and Feedback Delivery | 0/TBD | v2 scope | - |
 
 ### Phase 5: Branding and marketing
