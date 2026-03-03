@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: Integration Bug Fixes
 status: unknown
-last_updated: "2026-03-03T17:52:51.446Z"
+last_updated: "2026-03-03T18:19:21.180Z"
 progress:
   total_phases: 11
   completed_phases: 8
@@ -186,6 +186,8 @@ Recent decisions affecting current work:
 - [Phase 06-01]: Exact-match for '/' in isPublicPath: startsWith('/') matched every URL path — fixed to p === '/' ? pathname === '/' : pathname.startsWith(p)
 - [Phase 06-01]: coachId added back to PresignSchema as optional nullable uuid — trusted only for athlete role; coach role always uses user.id (client coachId ignored for security)
 - [Phase 06-01]: 400 returned when athlete role has no coachId — defense-in-depth API layer validates what upload page resolves server-side
+- [Phase 06-v1-integration-bug-fixes]: Feedback email magic link: admin.auth.admin.generateLink(magiclink) embeds auto-login URL pointing to /auth/callback?next=/submissions — static /submissions required prior login
+- [Phase 06-v1-integration-bug-fixes]: Invite email generateLink: replaced inviteUserByEmail + implicitClient/signInWithOtp with admin generateLink(invite) for new users and generateLink(magiclink) for existing — real action_link embedded in branded email, no parallel Supabase system email needed
 
 ### Roadmap Evolution
 
