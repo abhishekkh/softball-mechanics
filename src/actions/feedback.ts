@@ -55,7 +55,7 @@ export async function sendFeedbackEmail(
         </a>
       </p>
       <p style="color:#9ca3af;font-size:12px;margin-top:24px">
-        You received this because your coach sent you mechanics feedback via the Softball Mechanics app.
+        You received this because your coach sent you mechanics feedback via Diamond Mechanics.
       </p>
     </div>
   `

@@ -125,7 +125,7 @@ export async function inviteAthlete(email: string, coachId: string, athleteName:
       'Your coach has invited you to review your mechanics',
       `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:24px">
         <h2 style="color:#1d4ed8;margin-bottom:16px">You've been invited!</h2>
-        <p style="color:#374151;line-height:1.6">Your coach has invited you to the Softball Mechanics app where you can view detailed AI-powered analysis of your technique.</p>
+        <p style="color:#374151;line-height:1.6">Your coach has invited you to Diamond Mechanics where you can view detailed AI-powered analysis of your technique.</p>
         <p style="margin-top:24px">
           <a href="${inviteLink}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
             Accept Invite &amp; View Your Analysis

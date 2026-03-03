@@ -56,6 +56,9 @@ export default function InvitePage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
+          <div className="mb-8">
+            <span className="text-xl font-extrabold text-gray-900">Diamond Mechanics</span>
+          </div>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4" />
           <p className="text-gray-600">Accepting your invite\u2026</p>
         </div>
@@ -67,6 +70,9 @@ export default function InvitePage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
+          <div className="mb-8">
+            <span className="text-xl font-extrabold text-gray-900">Diamond Mechanics</span>
+          </div>
           <p className="text-green-600 font-medium">Invite accepted! Redirecting to your submissions\u2026</p>
         </div>
       </div>
@@ -76,6 +82,9 @@ export default function InvitePage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center max-w-md px-4">
+        <div className="mb-8">
+          <span className="text-xl font-extrabold text-gray-900">Diamond Mechanics</span>
+        </div>
         <p className="text-red-600 font-medium mb-2">Invite link error</p>
         <p className="text-gray-600 text-sm">{errorMessage}</p>
         <a href="/login" className="text-blue-600 hover:underline text-sm mt-4 block">Go to sign in</a>

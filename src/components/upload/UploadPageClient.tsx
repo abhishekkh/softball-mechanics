@@ -98,7 +98,7 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
             className="mt-0.5 h-4 w-4 flex-shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
           <span className="text-sm text-gray-700">
-            I confirm that I have obtained consent from the athlete (or a parent/guardian if the athlete is a minor) to record, upload, and analyze this video. The video will be stored securely and used solely for softball mechanics analysis.
+            I confirm that I have obtained consent from the athlete (or a parent/guardian if the athlete is a minor) to record, upload, and analyze this video. The video will be stored securely and used solely for baseball and softball mechanics analysis.
           </span>
         </label>
       </div>

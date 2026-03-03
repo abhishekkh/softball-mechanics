@@ -1,3 +1,3 @@
 import { Inngest } from 'inngest'
 
-export const inngest = new Inngest({ id: 'softball-mechanics' })
+export const inngest = new Inngest({ id: 'diamond-mechanics' })
