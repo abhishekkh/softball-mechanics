@@ -64,13 +64,16 @@ Plans:
 
 ### Phase 02.5: Review UX and usability across devices, Security, Performance and Code (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Make the app production-ready, resilient, and performant by closing security gaps, adding error boundaries, expanding test coverage to hitting flags, and fixing mobile review layout — without adding new features.
+**Requirements**: UX-SEC-01, UX-SEC-02, UX-SEC-03, UX-SEC-04, UX-SEC-05, UX-CODE-01, UX-CODE-02, UX-CODE-03, UX-TEST-01, UX-TEST-02, UX-MOBILE-01, UX-MOBILE-02
 **Depends on:** Phase 2
-**Plans:** 0 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 02.5 to break down)
+- [ ] 02.5-01-PLAN.md — Security: RLS migration 008 (fix USING(true) write policies) + presign coachId fix + vlm-eval detail leak + debug log removal + rate limiting in middleware + review page supabase helper fix
+- [ ] 02.5-02-PLAN.md — Code quality: ErrorBoundary component + wrap Review/Upload pages + remove profiles as any (dashboard, upload, roster)
+- [ ] 02.5-03-PLAN.md — Test coverage: hitting mechanics flags tests (5 flags + cross-motion) + angle computation tests (TDD)
+- [ ] 02.5-04-PLAN.md — Mobile UX: sidebar lg:min-h-0 fix + human verify mobile (375px) and desktop review page layout
 
 ### Phase 02.4: Invite via email and send feedback email (INSERTED)
 
