@@ -7,7 +7,7 @@ const PresignSchema = z.object({
   filename: z.string().min(1).max(255),
   contentType: z.string().regex(/^video\//),              // Must be a video MIME type
   athleteId: z.string().uuid().optional().nullable(),     // Optional — coach can upload without athlete assignment (deferred)
-  // coachId intentionally omitted — derived from auth user.id on the server, never trusted from client
+  coachId: z.string().uuid().optional().nullable(),       // Trusted only when authenticated user is athlete role
   motionType: z.enum(['hitting', 'pitching']).default('hitting'),  // Added Phase 2.2
 })
 
@@ -26,7 +26,23 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: parseResult.error.flatten() }, { status: 400 })
   }
 
-  const { filename, contentType, athleteId, motionType } = parseResult.data
+  const { filename, contentType, athleteId, coachId, motionType } = parseResult.data
+
+  // Role-aware coach_id resolution: athlete must provide their coach's ID
+  const role = user.user_metadata?.role ?? 'coach'
+  let resolvedCoachId: string
+  if (role === 'athlete') {
+    if (!coachId) {
+      return NextResponse.json(
+        { error: 'Athlete must be linked to a coach before uploading' },
+        { status: 400 }
+      )
+    }
+    resolvedCoachId = coachId
+  } else {
+    // Coach role: always use authenticated user's own ID (security: never trust client-provided coachId for coaches)
+    resolvedCoachId = user.id
+  }
 
   // Generate a unique video ID upfront (used as R2 key and DB record)
   const videoId = crypto.randomUUID()
@@ -38,7 +54,7 @@ export async function POST(request: NextRequest) {
     id: videoId,
     athlete_id: athleteId ?? null,
     uploaded_by: user.id,
-    coach_id: user.id,
+    coach_id: resolvedCoachId,  // FIXED: uses athlete's actual coach when uploader is athlete
     title: filename.replace(/\.[^.]+$/, ''),  // Strip extension for default title
     raw_r2_key: r2Key,
     status: 'processing',

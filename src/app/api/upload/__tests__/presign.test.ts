@@ -1,27 +1,19 @@
 // src/app/api/upload/__tests__/presign.test.ts
 // TDD: Phase 06 Plan 01 — role-aware coach_id resolution in presign route
 
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { NextRequest } from 'next/server'
 
 // ---------------------------------------------------------------------------
-// vi.hoisted: declare mock fns that are referenced inside vi.mock factories
-// (vi.mock is hoisted to top-of-file by Vitest, so plain `const` would be
-// accessed before initialisation — vi.hoisted() runs before hoisted mocks)
+// Mock dependencies BEFORE importing the route
+// These vi.fn() refs are captured at module scope; vi.mock is hoisted by
+// Vitest but const declarations of vi.fn() before vi.mock are also hoisted
 // ---------------------------------------------------------------------------
-const { mockGetUser, mockFrom } = vi.hoisted(() => ({
-  mockGetUser: vi.fn(),
-  mockFrom: vi.fn(),
-}))
 
-const { mockGetPresignedPutUrl } = vi.hoisted(() => ({
-  mockGetPresignedPutUrl: vi.fn(),
-}))
+const mockGetUser = vi.fn()
+const mockInsert = vi.fn()
+const mockFrom = vi.fn()
 
-// ---------------------------------------------------------------------------
-// Mock modules — factories run at hoist time and can safely reference the
-// fns declared above via vi.hoisted()
-// ---------------------------------------------------------------------------
 vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue({
     auth: { getUser: mockGetUser },
@@ -29,23 +21,14 @@ vi.mock('@/lib/supabase/server', () => ({
   }),
 }))
 
+const mockGetPresignedPutUrl = vi.fn()
 vi.mock('@/lib/r2', () => ({
   getPresignedPutUrl: mockGetPresignedPutUrl,
 }))
 
 // ---------------------------------------------------------------------------
-// Import route AFTER mocks are set up
-// ---------------------------------------------------------------------------
-import { POST } from '../presign/route'
-import { createClient } from '@/lib/supabase/server'
-
-// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-function makeInsertChain(result: unknown) {
-  return { insert: vi.fn().mockResolvedValue(result) }
-}
-
 function makeRequest(body: unknown): NextRequest {
   return new NextRequest('http://localhost/api/upload/presign', {
     method: 'POST',
@@ -55,25 +38,25 @@ function makeRequest(body: unknown): NextRequest {
 }
 
 // ---------------------------------------------------------------------------
-// Tests
+// Tests — use dynamic import pattern (vi.resetModules in beforeEach)
 // ---------------------------------------------------------------------------
 
 describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
   beforeEach(() => {
+    vi.resetModules()
     mockGetUser.mockReset()
     mockFrom.mockReset()
+    mockInsert.mockReset()
     mockGetPresignedPutUrl.mockReset()
     mockGetPresignedPutUrl.mockResolvedValue('https://r2.example.com/presign-url')
-    mockFrom.mockReturnValue(makeInsertChain({ error: null }))
-    vi.mocked(createClient).mockResolvedValue({
-      auth: { getUser: mockGetUser },
-      from: mockFrom,
-    } as never)
+    mockInsert.mockResolvedValue({ error: null })
+    mockFrom.mockReturnValue({ insert: mockInsert })
   })
 
   it('returns 401 when user is not authenticated', async () => {
     mockGetUser.mockResolvedValue({ data: { user: null }, error: null })
 
+    const { POST } = await import('../presign/route')
     const req = makeRequest({ filename: 'test.mp4', contentType: 'video/mp4' })
     const res = await POST(req)
 
@@ -83,8 +66,8 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
   })
 
   it('coach role: uses user.id as coach_id (ignores any coachId in body)', async () => {
-    const coachId = 'coach-uuid-1111-2222-3333-444444444444'
-    const ignoredCoachId = 'other-uuid-aaaa-bbbb-cccc-dddddddddddd'
+    const coachId = '550e8400-e29b-41d4-a716-446655440000'
+    const ignoredCoachId = 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -95,9 +78,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
       error: null,
     })
 
-    const insertChain = makeInsertChain({ error: null })
-    mockFrom.mockReturnValue(insertChain)
-
+    const { POST } = await import('../presign/route')
     const req = makeRequest({
       filename: 'test.mp4',
       contentType: 'video/mp4',
@@ -106,18 +87,18 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
     const res = await POST(req)
 
     expect(res.status).toBe(200)
-    expect(insertChain.insert).toHaveBeenCalledWith(
+    expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({ coach_id: coachId })
     )
     // The provided coachId should NOT be used
-    expect(insertChain.insert).not.toHaveBeenCalledWith(
+    expect(mockInsert).not.toHaveBeenCalledWith(
       expect.objectContaining({ coach_id: ignoredCoachId })
     )
   })
 
   it('athlete role with valid coachId: uses coachId from body as coach_id', async () => {
-    const athleteUserId = 'athlete-uuid-1111-2222-3333-444444444444'
-    const coachId = 'coach-uuid-aaaa-bbbb-cccc-dddddddddddd'
+    const athleteUserId = '6ba7b810-9dad-11d1-80b4-00c04fd430c8'
+    const coachId = '6ba7b811-9dad-11d1-80b4-00c04fd430c8'
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -128,9 +109,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
       error: null,
     })
 
-    const insertChain = makeInsertChain({ error: null })
-    mockFrom.mockReturnValue(insertChain)
-
+    const { POST } = await import('../presign/route')
     const req = makeRequest({
       filename: 'game.mp4',
       contentType: 'video/mp4',
@@ -139,17 +118,17 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
     const res = await POST(req)
 
     expect(res.status).toBe(200)
-    expect(insertChain.insert).toHaveBeenCalledWith(
+    expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({ coach_id: coachId })
     )
     // athlete's own ID should NOT be used as coach_id
-    expect(insertChain.insert).not.toHaveBeenCalledWith(
+    expect(mockInsert).not.toHaveBeenCalledWith(
       expect.objectContaining({ coach_id: athleteUserId })
     )
   })
 
   it('athlete role with null coachId: returns 400 with "Athlete must be linked to a coach" error', async () => {
-    const athleteUserId = 'athlete-uuid-1111-2222-3333-444444444444'
+    const athleteUserId = '6ba7b812-9dad-11d1-80b4-00c04fd430c8'
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -160,6 +139,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
       error: null,
     })
 
+    const { POST } = await import('../presign/route')
     const req = makeRequest({
       filename: 'game.mp4',
       contentType: 'video/mp4',
@@ -173,7 +153,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
   })
 
   it('athlete role with missing coachId: returns 400 with "Athlete must be linked to a coach" error', async () => {
-    const athleteUserId = 'athlete-uuid-1111-2222-3333-444444444444'
+    const athleteUserId = '6ba7b813-9dad-11d1-80b4-00c04fd430c8'
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -184,6 +164,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
       error: null,
     })
 
+    const { POST } = await import('../presign/route')
     const req = makeRequest({
       filename: 'game.mp4',
       contentType: 'video/mp4',
@@ -197,8 +178,8 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
   })
 
   it('PresignSchema accepts coachId as optional nullable uuid', async () => {
-    const athleteUserId = 'athlete-uuid-1111-2222-3333-444444444444'
-    const coachId = 'coach-uuid-aaaa-bbbb-cccc-dddddddddddd'
+    const athleteUserId = '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
+    const coachId = '6ba7b815-9dad-11d1-80b4-00c04fd430c8'
     mockGetUser.mockResolvedValue({
       data: {
         user: {
@@ -209,9 +190,7 @@ describe('POST /api/upload/presign — role-aware coach_id resolution', () => {
       error: null,
     })
 
-    const insertChain = makeInsertChain({ error: null })
-    mockFrom.mockReturnValue(insertChain)
-
+    const { POST } = await import('../presign/route')
     // Valid UUID format for coachId should pass schema validation
     const req = makeRequest({
       filename: 'swing.mp4',
