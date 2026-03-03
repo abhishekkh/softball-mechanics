@@ -78,7 +78,7 @@
 
 - [x] **BRAND-01**: App renamed "Diamond Mechanics" everywhere — all user-facing UI text, email copy, page titles, and consent strings updated; "Softball Mechanics" removed from all user-facing surfaces
 - [x] **BRAND-02**: Diamond blue brand color (oklch ≈ #2563eb) applied to --primary, --ring, and --sidebar-primary tokens in globals.css so it cascades to all shadcn buttons, focus rings, and interactive elements
-- [ ] **BRAND-03**: Public landing page at root URL with hero (app name + tagline + "Start free" CTA), 3-4 feature highlights, and 3-step how-it-works section; copy is warm, community-focused, and addresses both baseball and softball coaches; no pricing, testimonials, demo video, or email capture
+- [x] **BRAND-03**: Public landing page at root URL with hero (app name + tagline + "Start free" CTA), 3-4 feature highlights, and 3-step how-it-works section; copy is warm, community-focused, and addresses both baseball and softball coaches; no pricing, testimonials, demo video, or email capture
 - [ ] **BRAND-04**: App shell nav and auth pages (login, signup) show Diamond Mechanics logo/wordmark; invite acceptance pages (/invite/accept, /invite/[token]) display brand name above status content
 - [x] **BRAND-05**: Per-page `<title>` + `<description>` metadata on all app routes (dashboard, upload, review, roster, submissions); favicon replaced with Diamond Mechanics brand mark (icon.svg); static OG image (opengraph-image.png) for landing page social sharing
 
@@ -127,7 +127,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROST-03 | Phase 4 | Pending |
 | BRAND-01 | Phase 5 | Complete |
 | BRAND-02 | Phase 5 | Complete |
-| BRAND-03 | Phase 5 | Pending |
+| BRAND-03 | Phase 5 | Complete |
 | BRAND-04 | Phase 5 | Pending |
 | BRAND-05 | Phase 5 | Complete |
 

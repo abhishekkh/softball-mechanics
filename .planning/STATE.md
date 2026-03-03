@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T15:57:26.142Z"
+last_updated: "2026-03-03T16:00:29.885Z"
 progress:
   total_phases: 10
   completed_phases: 6
   total_plans: 40
-  completed_plans: 31
+  completed_plans: 32
 ---
 
 # Project State
@@ -74,6 +74,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.5 P04 | 15 | 2 tasks | 1 files |
 | Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P02 | 3 | 2 tasks | 5 files |
 | Phase 05 P01 | 76 | 2 tasks | 2 files |
+| Phase 05-branding-and-marketing P02 | 3 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -165,6 +166,8 @@ Recent decisions affecting current work:
 - [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: Upload page filter excludes ProfileRow entries where full_name is null to match UploadPageClient prop type { id: string; full_name: string }[]
 - [Phase 05]: oklch color space used throughout to match existing shadcn token format; Diamond blue oklch(0.546 0.245 262.881) applied to --primary, --ring, --sidebar-primary, --sidebar-ring
 - [Phase 05]: OG image references /opengraph-image.png as static asset placeholder — image file not created in this plan
+- [Phase 05]: Landing page tagline 'Help every athlete reach their potential.' — warm, athlete-outcome-focused framing
+- [Phase 05]: Landing page features framed as 'As a coach, you can...' — emphasizes coach capability over AI technology
 
 ### Roadmap Evolution
 
