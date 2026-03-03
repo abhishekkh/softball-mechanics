@@ -163,10 +163,20 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 ### Phase 5: Branding and marketing
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Rebrand the app from "Softball Mechanics" to "Diamond Mechanics", build the public-facing marketing landing page at the root URL, apply brand identity consistently across the internal app and auth pages, and deliver SEO/meta assets (per-page titles, favicon, OG image).
+**Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 4 plans
+
+Requirement IDs defined:
+- BRAND-01: App renamed "Diamond Mechanics" everywhere — all user-facing UI text, email copy, page titles, and consent strings
+- BRAND-02: Diamond blue brand color (oklch ≈ #2563eb) cascades across entire app via CSS token updates in globals.css
+- BRAND-03: Public landing page at root URL with hero, feature highlights, and how-it-works sections; warm, community-focused copy for baseball and softball coaches
+- BRAND-04: Auth pages (login, signup) and app shell nav rebranded with Diamond Mechanics logo/wordmark; invite acceptance pages show brand name
+- BRAND-05: Per-page SEO metadata on all app routes; favicon replaced with Diamond Mechanics brand mark; OG image for landing page social sharing
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 5 to break down)
+- [ ] 05-01-PLAN.md — CSS brand tokens (globals.css --primary/--ring/--sidebar-primary → Diamond blue) + root layout metadata (title template, description, OG config)
+- [ ] 05-02-PLAN.md — Diamond Mechanics landing page (hero + features + how it works) + human-verify checkpoint
+- [ ] 05-03-PLAN.md — App shell nav + auth layout + invite pages rebrand + email copy + consent text + Inngest client id
+- [ ] 05-04-PLAN.md — Per-page metadata (5 app routes) + favicon (icon.svg) + OG image (opengraph-image.png) + human-verify checkpoint
