@@ -135,7 +135,7 @@ Plans:
 **Requirements**: AUTH-02, AUTH-04, VID-01, EMAIL-INVITE-01, EMAIL-FEEDBACK-01
 **Gap Closure:** Closes all gaps from v1.0-MILESTONE-AUDIT.md
 **Depends on:** Phase 2.5
-**Plans:** TBD
+**Plans:** 1/2 plans executed
 
 Tasks:
 - [ ] Fix middleware PUBLIC_PATHS — remove `'/'` entry so edge-layer auth redirect fires correctly (AUTH-02, AUTH-04)

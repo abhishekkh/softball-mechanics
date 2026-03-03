@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-milestone_name: milestone
+milestone_name: Integration Bug Fixes
 status: unknown
-last_updated: "2026-03-03T17:06:21.027Z"
+last_updated: "2026-03-03T17:46:38.155Z"
 progress:
-  total_phases: 10
+  total_phases: 11
   completed_phases: 7
-  total_plans: 40
-  completed_plans: 34
+  total_plans: 42
+  completed_plans: 35
 ---
 
 # Project State
@@ -78,6 +78,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 05-branding-and-marketing P03 | 2 | 2 tasks | 8 files |
 | Phase 05-branding-and-marketing P02 | 5 | 2 tasks | 1 files |
 | Phase 05-branding-and-marketing P04 | 15 | 3 tasks | 7 files |
+| Phase 06-v1-integration-bug-fixes P02 | 1 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -179,6 +180,8 @@ Recent decisions affecting current work:
 - [Phase 05-branding-and-marketing]: OG image placed in public/ (not src/app/) to avoid duplicate og:image from Next.js file-convention auto-detection; explicit metadata.openGraph.images in layout.tsx points to /opengraph-image.png
 - [Phase 05-branding-and-marketing]: OG image is a placeholder 1x1 PNG; proper 1200x630 branded image required before production launch
 - [Phase 05-branding-and-marketing]: Static 'Review' title used for dynamic /review/[videoId] route; dynamic per-video titles deferred to future enhancement
+- [Phase 06-v1-integration-bug-fixes]: Feedback email CTA changed to /submissions — athletes fail coach_id check on review page and get bounced to /dashboard
+- [Phase 06-v1-integration-bug-fixes]: Invite branded Resend email CTA changed to /login — /auth/callback with no token causes auth_callback_failed; supplementary email should link to a working page
 
 ### Roadmap Evolution
 

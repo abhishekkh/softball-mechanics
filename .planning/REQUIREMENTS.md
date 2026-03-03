@@ -25,8 +25,8 @@
 
 ### Email Delivery (Phase 02.4)
 
-- [ ] **EMAIL-INVITE-01**: Coach invites an athlete and the athlete receives a branded Resend invite email (in addition to the Supabase auth email) with a link to access the app
-- [ ] **EMAIL-FEEDBACK-01**: Coach can send a mechanics feedback summary email to the athlete directly from the review page, containing the VLM/Gemini analysis summary and a link to /submissions
+- [x] **EMAIL-INVITE-01**: Coach invites an athlete and the athlete receives a branded Resend invite email (in addition to the Supabase auth email) with a link to access the app
+- [x] **EMAIL-FEEDBACK-01**: Coach can send a mechanics feedback summary email to the athlete directly from the review page, containing the VLM/Gemini analysis summary and a link to /submissions
 
 ### Roster & Session Management
 
@@ -109,8 +109,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AI-01 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | AI-02 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | AI-03 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
-| EMAIL-INVITE-01 | Phase 06 (gap closure) | Pending |
-| EMAIL-FEEDBACK-01 | Phase 06 (gap closure) | Pending |
+| EMAIL-INVITE-01 | Phase 06 (gap closure) | Complete |
+| EMAIL-FEEDBACK-01 | Phase 06 (gap closure) | Complete |
 | VID-03 | Phase 3 (v2) | Deferred |
 | VID-04 | Phase 3 (v2) | Deferred |
 | ANN-01 | Phase 3 (v2) | Deferred |
