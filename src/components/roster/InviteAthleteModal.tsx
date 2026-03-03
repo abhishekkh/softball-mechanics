@@ -60,7 +60,7 @@ export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
               <div className="text-center py-4">
                 <p className="text-green-600 font-medium">Invite sent!</p>
                 <p className="text-gray-500 text-sm mt-1">
-                  Your athlete will receive an email with a link to access the app.
+                  Your athlete will receive an email with a link to access the app. A branded invite email has also been sent via your connected email service.
                 </p>
                 <button
                   onClick={handleClose}
