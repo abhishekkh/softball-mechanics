@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T06:03:38.711Z"
+last_updated: "2026-03-03T06:04:36.674Z"
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 36
-  completed_plans: 27
+  completed_plans: 28
 ---
 
 # Project State
@@ -70,6 +70,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.4-invite-email-and-feedback P03 | 5 | 2 tasks | 4 files |
 | Phase 02.4-invite-email-and-feedback P03 | 15 | 3 tasks | 4 files |
 | Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P03 | 3 | 1 tasks | 2 files |
+| Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P01 | 3 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -151,6 +152,10 @@ Recent decisions affecting current work:
 - [Phase 02.4-invite-email-and-feedback]: Deep-link feedback email to /review/[videoId] not /submissions — athlete lands directly on specific video analysis
 - [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: angles.test.ts makeLm() defaults to HIGH visibility — opposite of flags tests LOW default; angle tests test null-return explicitly with VIS_LOW overrides
 - [Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code]: Cross-motion isolation tests grouped in dedicated describe block for discoverability
+- [Phase 02.5]: request.ip not available on NextRequest in Next.js 16 — use x-forwarded-for + x-real-ip headers for IP in rate limiter
+- [Phase 02.5]: coachId removed from PresignSchema entirely — Zod strips unknown keys by default, server derives coach_id from auth user.id
+- [Phase 02.5]: In-memory rate limiter via Map in middleware — resets per cold start, acceptable for v1 without Redis
+- [Phase 02.5]: RLS write policies scoped by video ownership join: video_id IN (SELECT id FROM videos WHERE coach_id = auth.uid())
 
 ### Roadmap Evolution
 
