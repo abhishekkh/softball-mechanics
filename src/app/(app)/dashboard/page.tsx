@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { SessionRow } from '@/components/dashboard/SessionRow'
 import { InviteAthleteModal } from '@/components/roster/InviteAthleteModal'
 
+type ProfileRow = { id: string; full_name: string | null }
+
 const PAGE_SIZE = 10
 
 export default async function DashboardPage({
@@ -28,6 +30,7 @@ export default async function DashboardPage({
     .from('videos')
     .select(`
       id,
+      athlete_id,
       thumbnail_url,
       status,
       uploaded_at,
@@ -36,6 +39,21 @@ export default async function DashboardPage({
     .eq('coach_id', user.id)
     .order('uploaded_at', { ascending: false })
     .range(from, to)
+
+  // Build athlete_id → { name, team } map from coach_athletes for fallback names
+  // and team info (profiles.full_name may be null for athletes who haven't set it yet)
+  const athleteIds = (videos ?? []).map(v => v.athlete_id).filter(Boolean) as string[]
+  const rosterByAthleteId: Record<string, { name: string | null; team: string | null }> = {}
+  if (athleteIds.length > 0) {
+    const { data: rosterRows } = await supabase
+      .from('coach_athletes')
+      .select('athlete_id, athlete_name, team')
+      .in('athlete_id', athleteIds)
+      .eq('coach_id', user.id)
+    for (const row of rosterRows ?? []) {
+      if (row.athlete_id) rosterByAthleteId[row.athlete_id] = { name: row.athlete_name, team: row.team }
+    }
+  }
 
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE)
   const isEmpty = !videos || videos.length === 0
@@ -55,16 +73,20 @@ export default async function DashboardPage({
       ) : (
         <>
           <div className="space-y-2">
-            {videos.map((v) => (
+            {videos.map((v) => {
+              const roster = rosterByAthleteId[v.athlete_id] ?? {}
+              const athleteName = (v.profiles as unknown as ProfileRow | null)?.full_name ?? roster.name ?? ''
+              return (
               <SessionRow
                 key={v.id}
                 videoId={v.id}
                 thumbnailUrl={v.thumbnail_url}
-                athleteName={(v.profiles as any)?.full_name ?? 'Unknown athlete'}
+                athleteName={athleteName}
+                athleteTeam={roster.team ?? undefined}
                 uploadedAt={v.uploaded_at}
                 status={v.status}
               />
-            ))}
+            )})}
           </div>
 
           {totalPages > 1 && (

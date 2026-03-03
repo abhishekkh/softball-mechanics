@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 import { UploadPageClient } from '@/components/upload/UploadPageClient'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
+type ProfileRow = { id: string; full_name: string | null }
+
 function getAdmin() {
   return createAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,8 +32,8 @@ export default async function UploadPage() {
       .eq('status', 'active')
 
     athletes = (data ?? [])
-      .map(r => (r.profiles as any))
-      .filter(Boolean)
+      .map(r => r.profiles as unknown as ProfileRow | null)
+      .filter((p): p is ProfileRow => p !== null && p.full_name !== null) as { id: string; full_name: string }[]
   }
 
   // For athletes: look up their coach via service role (bypasses RLS; handles

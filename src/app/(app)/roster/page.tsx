@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { RosterList, type Athlete } from '@/components/roster/RosterList'
 import { InviteAthleteModal } from '@/components/roster/InviteAthleteModal'
 
+type ProfileRow = { id: string; full_name: string | null }
+
 export default async function RosterPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -16,6 +18,8 @@ export default async function RosterPage() {
     .select(`
       id,
       athlete_email,
+      athlete_name,
+      team,
       status,
       invited_at,
       athlete_id,
@@ -46,7 +50,8 @@ export default async function RosterPage() {
   const athletes: Athlete[] = (rosterData ?? []).map(r => ({
     id: r.id,
     email: r.athlete_email,
-    name: (r.profiles as any)?.full_name,
+    name: (r.profiles as unknown as ProfileRow | null)?.full_name ?? r.athlete_name ?? undefined,
+    team: r.team ?? undefined,
     status: r.status as 'pending' | 'active',
     videoCount: r.athlete_id ? (videoCounts[r.athlete_id] ?? 0) : 0,
     invitedAt: r.invited_at,
