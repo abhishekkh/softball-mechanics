@@ -9,7 +9,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 flex flex-wrap items-center justify-between gap-y-2 py-3">
-          <span className="font-bold text-gray-900">Softball Mechanics</span>
+          <div className="flex items-center gap-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2L18 10L10 18L2 10L10 2Z" fill="currentColor" className="text-primary" />
+            </svg>
+            <span className="font-extrabold text-gray-900">Diamond Mechanics</span>
+          </div>
           <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
             {role === 'coach' ? (
               <>
