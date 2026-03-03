@@ -24,6 +24,9 @@ interface Props {
   vlmCommentary?: string | null
   onRequestCommentary?: () => Promise<void>
   isCommentaryLoading?: boolean
+  onSendFeedbackEmail?: () => Promise<void>
+  feedbackEmailStatus?: 'idle' | 'sending' | 'sent' | 'error'
+  feedbackEmailError?: string | null
 }
 
 function AngleRow({
@@ -116,6 +119,9 @@ export function MechanicsSidebar({
   vlmCommentary,
   onRequestCommentary,
   isCommentaryLoading = false,
+  onSendFeedbackEmail,
+  feedbackEmailStatus = 'idle',
+  feedbackEmailError = null,
 }: Props) {
   const isAnalyzing = analysisStatus === 'analyzing' || analysisStatus === 'pending'
   const isComplete = analysisStatus === 'complete' || analysisStatus === 'low_confidence' || analysisStatus === 'error'
@@ -278,6 +284,27 @@ export function MechanicsSidebar({
                 isCommentaryLoading={isCommentaryLoading}
                 analysisStatus={analysisStatus}
               />
+              {/* Send feedback email — only shown when analysis is complete */}
+              <div className="mt-4">
+                {feedbackEmailStatus === 'sent' ? (
+                  <p className="text-xs text-emerald-400 text-center">Feedback email sent!</p>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={onSendFeedbackEmail}
+                      disabled={!onSendFeedbackEmail || feedbackEmailStatus === 'sending'}
+                      className="w-full py-2 text-xs rounded border border-blue-700 text-blue-300 hover:bg-blue-900/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      title={!onSendFeedbackEmail ? 'No athlete assigned to this video' : 'Send AI feedback summary to athlete via email'}
+                    >
+                      {feedbackEmailStatus === 'sending' ? 'Sending\u2026' : 'Send feedback email'}
+                    </button>
+                    {feedbackEmailStatus === 'error' && feedbackEmailError && (
+                      <p className="text-xs text-red-400 mt-1 text-center">{feedbackEmailError}</p>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </section>
         )}

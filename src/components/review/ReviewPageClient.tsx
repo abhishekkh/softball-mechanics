@@ -6,6 +6,7 @@ import { MechanicsSidebar } from './MechanicsSidebar'
 import { AnalysisTimeline } from './AnalysisTimeline'
 import { usePoseAnalysis } from '@/hooks/usePoseAnalysis'
 import type { FrameAnalysis, MotionType } from '@/types/analysis'
+import { sendFeedbackEmail } from '@/actions/feedback'
 
 interface Props {
   videoId: string
@@ -47,6 +48,10 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
   // VLM commentary state — initialized from DB on page load via vlmSummary from hook
   const [vlmCommentary, setVlmCommentary] = useState<string | null>(null)
   const [isCommentaryLoading, setIsCommentaryLoading] = useState(false)
+
+  // Feedback email state
+  const [feedbackEmailStatus, setFeedbackEmailStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [feedbackEmailError, setFeedbackEmailError] = useState<string | null>(null)
 
   // Sync vlmSummary from hook to local state on initial page load
   useEffect(() => {
@@ -111,6 +116,18 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
     const dataUrl = canvas.toDataURL('image/jpeg', 0.8)
     return dataUrl.replace('data:image/jpeg;base64,', '')
   }, [])
+
+  const handleSendFeedbackEmail = useCallback(async () => {
+    setFeedbackEmailStatus('sending')
+    setFeedbackEmailError(null)
+    const result = await sendFeedbackEmail(videoId)
+    if ('error' in result) {
+      setFeedbackEmailStatus('error')
+      setFeedbackEmailError(result.error)
+    } else {
+      setFeedbackEmailStatus('sent')
+    }
+  }, [videoId])
 
   const handleRequestCommentary = useCallback(async () => {
     const contactFrame = frames.find(f => f.isContact)
@@ -194,6 +211,9 @@ export function ReviewPageClient({ videoId, hlsUrl, videoTitle, motionType }: Pr
           vlmCommentary={vlmCommentary}
           onRequestCommentary={handleRequestCommentary}
           isCommentaryLoading={isCommentaryLoading}
+          onSendFeedbackEmail={handleSendFeedbackEmail}
+          feedbackEmailStatus={feedbackEmailStatus}
+          feedbackEmailError={feedbackEmailError}
         />
       </div>
     </div>
