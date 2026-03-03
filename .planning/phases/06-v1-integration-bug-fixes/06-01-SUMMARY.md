@@ -126,6 +126,15 @@ None - no external service configuration required.
 - Human verification required: confirm `/` loads landing page (not redirected), `/dashboard` redirects to `/login` when unauthenticated, `/upload` redirects to `/login` when unauthenticated
 - Ready for Plan 02 after checkpoint approval
 
+## Self-Check: PASSED
+
+- FOUND: src/middleware.ts
+- FOUND: src/app/api/upload/presign/route.ts
+- FOUND: src/app/api/upload/__tests__/presign.test.ts
+- FOUND: 06-01-SUMMARY.md
+- FOUND: commits 55e829b, 822fee0, db8e10a (all 3 task commits)
+- 84/84 tests pass
+
 ---
 *Phase: 06-v1-integration-bug-fixes*
 *Completed: 2026-03-03*

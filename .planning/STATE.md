@@ -1,31 +1,30 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: Integration Bug Fixes
-status: unknown
-last_updated: "2026-03-03T18:30:04.782Z"
+milestone: v2.0
+milestone_name: Annotation Workspace
+status: planning_next_milestone
+last_updated: "2026-03-03"
 progress:
-  total_phases: 11
-  completed_phases: 8
-  total_plans: 42
-  completed_plans: 36
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-26)
+See: .planning/PROJECT.md (updated 2026-03-03 after v1.0 milestone)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus: Phase 02.5 - Review UX, Security, and Performance (Phase 02.4 complete)
+**Current focus:** Planning v2.0 — Annotation Workspace and Feedback Delivery (Phase 3)
 
 ## Current Position
 
-Phase: 02.4 — Complete (3 of 3 plans done)
-Plan: 3 of 3 in phase 02.4 — 02.4-01 complete (Resend infra); 02.4-02 complete (branded invite email); 02.4-03 complete (feedback email from review page)
-Status: Phase 02.4 fully done. Ready for Phase 02.5 (Review UX, Security, Performance).
-Last activity: 2026-03-02 — 02.4-03 complete (feedback email delivery from review sidebar, human-verify approved)
+**v1.0 ARCHIVED** — All 9 v1 phases complete, 18/18 requirements satisfied, git tag v1.0 pending.
+Status: Ready to start v2.0 with `/gsd:new-milestone`
+Last activity: 2026-03-03 — Phase 06 complete (all integration bug fixes closed); milestone archived
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -86,7 +85,9 @@ Progress: [████████████████████] 75% (Ph
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
+v1.0 key decisions captured in PROJECT.md.
+
+Recent decisions affecting current work (v2.0):
 
 - [Roadmap]: 4-phase structure — Foundation → Annotation → AI → Feedback Delivery
 - [Roadmap]: Research flags Phase 3 (AI) and Phase 5/live sessions (deferred to v2) as needing deeper research before execution
@@ -203,11 +204,13 @@ None yet.
 
 ### Blockers/Concerns
 
-- [Phase 3]: MediaPipe accuracy on softball-specific motions (windmill pitch, full-rotation swing) is unverified. Validate with real softball video during Phase 3 spike before committing to full AI worker build.
-- [Phase 3]: Canvas library choice (Fabric.js vs. Konva.js) — prototype both in Phase 2 spike before committing.
+- [Phase 3 / v2]: Canvas library choice (Fabric.js vs. Konva.js) — research during v2 planning before committing.
+- [v2 pre-launch]: OG image placeholder needs a proper 1200x630 branded design before going public.
+- [v2 pre-launch]: Landing page copy "They see exactly what you see — no login required" is inaccurate — fix before v2.
 
 ## Session Continuity
 
 Last session: 2026-03-03
-Stopped at: Completed 02.5-04-PLAN.md — mobile review page layout fix (lg:min-h-0), human-verified at 375px and desktop. Phase 02.5 fully done (all 4 plans). Ready for Phase 03.
+Stopped at: v1.0 milestone complete. All phases done, archived, git tag pending.
+Resume: Run `/gsd:new-milestone` to start v2.0 planning.
 Resume file: None
