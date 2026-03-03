@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-03T16:00:29.885Z"
+last_updated: "2026-03-03T16:01:45.458Z"
 progress:
   total_phases: 10
   completed_phases: 6
   total_plans: 40
-  completed_plans: 32
+  completed_plans: 33
 ---
 
 # Project State
@@ -75,6 +75,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.5-review-ux-and-usability-across-devices-security-performance-and-code P02 | 3 | 2 tasks | 5 files |
 | Phase 05 P01 | 76 | 2 tasks | 2 files |
 | Phase 05-branding-and-marketing P02 | 3 | 1 tasks | 1 files |
+| Phase 05-branding-and-marketing P03 | 2 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -168,6 +169,9 @@ Recent decisions affecting current work:
 - [Phase 05]: OG image references /opengraph-image.png as static asset placeholder — image file not created in this plan
 - [Phase 05]: Landing page tagline 'Help every athlete reach their potential.' — warm, athlete-outcome-focused framing
 - [Phase 05]: Landing page features framed as 'As a coach, you can...' — emphasizes coach capability over AI technology
+- [Phase 05-branding-and-marketing]: Diamond SVG icon + wordmark used in nav/auth; text-primary class on SVG path inherits brand blue from Plan 01
+- [Phase 05-branding-and-marketing]: Inngest app id changed from softball-mechanics to diamond-mechanics — Inngest Cloud treats as new app, acceptable for rebrand
+- [Phase 05-branding-and-marketing]: Consent text broadened to 'baseball and softball mechanics analysis' — more inclusive and accurate
 
 ### Roadmap Evolution
 
