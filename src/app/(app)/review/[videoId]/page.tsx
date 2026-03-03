@@ -1,6 +1,7 @@
 import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ReviewPageClient } from '@/components/review/ReviewPageClient'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 async function getVideo(videoId: string) {
   const supabase = await createClient()
@@ -33,11 +34,13 @@ export default async function ReviewPage({
   if (video.status !== 'ready') redirect('/dashboard')
 
   return (
-    <ReviewPageClient
-      videoId={video.id}
-      hlsUrl={video.hls_url as string}
-      videoTitle={video.title as string | null}
-      motionType={(video.motion_type ?? 'unknown') as import('@/types/analysis').MotionType}
-    />
+    <ErrorBoundary>
+      <ReviewPageClient
+        videoId={video.id}
+        hlsUrl={video.hls_url as string}
+        videoTitle={video.title as string | null}
+        motionType={(video.motion_type ?? 'unknown') as import('@/types/analysis').MotionType}
+      />
+    </ErrorBoundary>
   )
 }

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { UploadPageClient } from '@/components/upload/UploadPageClient'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 
 function getAdmin() {
   return createAdminClient(
@@ -48,10 +49,12 @@ export default async function UploadPage() {
   }
 
   return (
-    <UploadPageClient
-      coachId={role === 'coach' ? user.id : athleteCoachId}
-      athleteId={role === 'athlete' ? user.id : undefined}
-      athletes={athletes}
-    />
+    <ErrorBoundary>
+      <UploadPageClient
+        coachId={role === 'coach' ? user.id : athleteCoachId}
+        athleteId={role === 'athlete' ? user.id : undefined}
+        athletes={athletes}
+      />
+    </ErrorBoundary>
   )
 }
