@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { SessionRow } from '@/components/dashboard/SessionRow'
 import { InviteAthleteModal } from '@/components/roster/InviteAthleteModal'
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: "View and manage your athletes' recent video submissions.",
+}
 
 type ProfileRow = { id: string; full_name: string | null }
 

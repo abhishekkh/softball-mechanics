@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { UploadPageClient } from '@/components/upload/UploadPageClient'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+
+export const metadata: Metadata = {
+  title: 'Upload',
+  description: 'Upload a video clip for instant AI-powered mechanics analysis.',
+}
 
 type ProfileRow = { id: string; full_name: string | null }
 

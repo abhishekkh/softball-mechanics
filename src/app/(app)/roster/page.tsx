@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { RosterList, type Athlete } from '@/components/roster/RosterList'
 import { InviteAthleteModal } from '@/components/roster/InviteAthleteModal'
+
+export const metadata: Metadata = {
+  title: 'Roster',
+  description: 'Manage your athlete roster and send invitations.',
+}
 
 type ProfileRow = { id: string; full_name: string | null }
 

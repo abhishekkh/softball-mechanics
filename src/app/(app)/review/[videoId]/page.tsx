@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ReviewPageClient } from '@/components/review/ReviewPageClient'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
+
+export const metadata: Metadata = {
+  title: 'Review',
+  description: 'Review pose analysis, mechanics flags, and coaching feedback for this video.',
+}
 
 async function getVideo(videoId: string) {
   const supabase = await createClient()

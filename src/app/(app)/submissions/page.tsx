@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { TranscodingStatus } from '@/components/upload/TranscodingStatus'
+
+export const metadata: Metadata = {
+  title: 'Submissions',
+  description: 'Browse all video submissions from your athletes.',
+}
 
 export default async function SubmissionsPage() {
   const supabase = await createClient()
