@@ -16,16 +16,6 @@
 
 - [x] **VID-01**: Coach or athlete can upload a video from their camera roll (phone or desktop)
 - [x] **VID-02**: Uploaded video is transcoded to HLS for smooth streaming playback
-- [ ] **VID-03**: User can scrub through video frame-by-frame
-- [ ] **VID-04**: User can play video at slow motion speeds (0.25x, 0.5x)
-
-### Annotation
-
-- [ ] **ANN-01**: Coach can freeze a video frame and draw on it (freehand, straight lines, arrows)
-- [ ] **ANN-02**: Coach can place an angle measurement overlay on a frozen frame
-- [ ] **ANN-03**: Coach can add text labels to a frozen frame
-- [ ] **ANN-04**: Coach can select annotation color (minimum: red, green, yellow, white)
-- [ ] **ANN-05**: Annotations are saved as time-indexed JSON and replay in sync with video
 
 ### AI Analysis
 
@@ -38,19 +28,26 @@
 - [x] **EMAIL-INVITE-01**: Coach invites an athlete and the athlete receives a branded Resend invite email (in addition to the Supabase auth email) with a link to access the app
 - [x] **EMAIL-FEEDBACK-01**: Coach can send a mechanics feedback summary email to the athlete directly from the review page, containing the VLM/Gemini analysis summary and a link to /submissions
 
-### Feedback
-
-- [ ] **FEED-01**: Coach can add written coaching cues tied to specific timestamps in the video
-- [ ] **FEED-02**: Athlete can view their feedback package (annotations + coaching cues) in their inbox
-- [ ] **FEED-03**: Coach can load a reference video and compare it side-by-side with the athlete's video, with synchronized scrubbing
-
 ### Roster & Session Management
 
 - [x] **ROST-01**: Coach can view their athlete roster
 - [x] **ROST-02**: Coach can invite an athlete to their roster via a shareable link
-- [ ] **ROST-03**: Coach can view session history for a specific athlete
 
 ## v2 Requirements
+
+### Annotation and Feedback Delivery (Phase 3 — v2)
+
+- [ ] **VID-03**: User can scrub through video frame-by-frame
+- [ ] **VID-04**: User can play video at slow motion speeds (0.25x, 0.5x)
+- [ ] **ANN-01**: Coach can freeze a video frame and draw on it (freehand, straight lines, arrows)
+- [ ] **ANN-02**: Coach can place an angle measurement overlay on a frozen frame
+- [ ] **ANN-03**: Coach can add text labels to a frozen frame
+- [ ] **ANN-04**: Coach can select annotation color (minimum: red, green, yellow, white)
+- [ ] **ANN-05**: Annotations are saved as time-indexed JSON and replay in sync with video
+- [ ] **FEED-01**: Coach can add written coaching cues tied to specific timestamps in the video
+- [ ] **FEED-02**: Athlete can view their feedback package (annotations + coaching cues) in their inbox
+- [ ] **FEED-03**: Coach can load a reference video and compare it side-by-side with the athlete's video, with synchronized scrubbing
+- [ ] **ROST-03**: Coach can view session history for a specific athlete
 
 ### Notifications
 
@@ -114,17 +111,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AI-03 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | EMAIL-INVITE-01 | Phase 02.4 | Complete |
 | EMAIL-FEEDBACK-01 | Phase 02.4 | Complete |
-| VID-03 | Phase 3 | Pending |
-| VID-04 | Phase 3 | Pending |
-| ANN-01 | Phase 3 | Pending |
-| ANN-02 | Phase 3 | Pending |
-| ANN-03 | Phase 3 | Pending |
-| ANN-04 | Phase 3 | Pending |
-| ANN-05 | Phase 3 | Pending |
-| FEED-01 | Phase 4 | Pending |
-| FEED-02 | Phase 4 | Pending |
-| FEED-03 | Phase 4 | Pending |
-| ROST-03 | Phase 4 | Pending |
+| VID-03 | Phase 3 (v2) | Deferred |
+| VID-04 | Phase 3 (v2) | Deferred |
+| ANN-01 | Phase 3 (v2) | Deferred |
+| ANN-02 | Phase 3 (v2) | Deferred |
+| ANN-03 | Phase 3 (v2) | Deferred |
+| ANN-04 | Phase 3 (v2) | Deferred |
+| ANN-05 | Phase 3 (v2) | Deferred |
+| FEED-01 | Phase 3 (v2) | Deferred |
+| FEED-02 | Phase 3 (v2) | Deferred |
+| FEED-03 | Phase 3 (v2) | Deferred |
+| ROST-03 | Phase 3 (v2) | Deferred |
 | BRAND-01 | Phase 5 | Complete |
 | BRAND-02 | Phase 5 | Complete |
 | BRAND-03 | Phase 5 | Complete |
@@ -132,18 +129,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRAND-05 | Phase 5 | Complete |
 
 **Coverage:**
-- v1 requirements: 29 total (22 original + 2 added Phase 02.4 + 5 added Phase 5)
-- Mapped to phases: 29
+- v1 requirements: 18 (11 deferred to v2 — VID-03/04, ANN-01–05, FEED-01–03, ROST-03)
+- Mapped to phases: 18
 - Unmapped: 0
+- v2 deferred from v1.0: 11 (Phase 3 — Annotation and Feedback Delivery)
 
-Phase breakdown:
+Phase breakdown (v1):
 - Phase 1 (Foundation): AUTH-01, AUTH-02, AUTH-03, AUTH-04, VID-01, VID-02, ROST-01, ROST-02 — 8 requirements
 - Phase 2 (AI Pose Analysis): AI-01, AI-02, AI-03 — 3 requirements
 - Phase 02.4 (Email Invite + Feedback): EMAIL-INVITE-01, EMAIL-FEEDBACK-01 — 2 requirements
-- Phase 3 (Annotation Workspace): VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05 — 7 requirements
-- Phase 4 (Feedback Delivery): FEED-01, FEED-02, FEED-03, ROST-03 — 4 requirements
 - Phase 5 (Branding and Marketing): BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05 — 5 requirements
+
+Phase breakdown (v2):
+- Phase 3 (Annotation Workspace and Feedback Delivery): VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05, FEED-01, FEED-02, FEED-03, ROST-03 — 11 requirements
 
 ---
 *Requirements defined: 2026-02-26*
-*Last updated: 2026-03-03 — BRAND-01 through BRAND-05 added for Phase 5 (Branding and Marketing); coverage updated to 29 requirements*
+*Last updated: 2026-03-03 — Phase 3/4 requirements (VID-03/04, ANN-01–05, FEED-01–03, ROST-03) moved to v2 as merged Phase 3 (Annotation Workspace and Feedback Delivery); v1 scope reduced to 18 requirements*

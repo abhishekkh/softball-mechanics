@@ -2,7 +2,7 @@
 
 ## Overview
 
-This roadmap delivers the core upload-analyze-annotate-deliver coaching loop across four phases. Phase 1 establishes the foundation: working video pipeline, auth, and athlete roster management. Phase 2 adds the softball-specific AI pose analysis layer that is the primary differentiator. Phase 3 builds the coach annotation workspace that closes the async feedback loop. Phase 4 delivers the athlete feedback inbox, session history, and side-by-side comparison view. Each phase produces a verifiable, coherent capability before the next begins.
+This roadmap delivers the core upload-analyze-brand coaching loop for the v1.0 MVP. Phase 1 establishes the foundation: working video pipeline, auth, and athlete roster management. Phase 2 adds the softball-specific AI pose analysis layer that is the primary differentiator. Phase 5 delivers the Diamond Mechanics brand identity and public marketing presence. The annotation workspace and in-app feedback delivery loop are scoped to v2 as a merged Phase 3. Each phase produces a verifiable, coherent capability before the next begins.
 
 ## Phases
 
@@ -15,9 +15,12 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Auth, video upload and transcoding pipeline, and athlete roster (gap closure in progress) (completed 2026-02-27)
 - [x] **Phase 2: AI Pose Analysis** - Softball-specific pose skeleton overlay and joint angle computation (completed 2026-02-28)
 - [x] **Phase 2.1: Production Bug Fixes** - Mobile layout, phone upload errors, video display, duration limit, R2 lifecycle, consent gate (completed 2026-02-28)
-- [ ] **Phase 2.2: AI Mechanics Analysis and Model Evaluation** - Motion-type tagging, new mechanics flags, Gemini VLM prototype, qualitative evaluation report
-- [~] **Phase 3: Annotation Workspace** - Coach video review workspace with drawing tools and written coaching notes (DEFERRED — skipped for MVP)
-- [ ] **Phase 4: Feedback Delivery** - Athlete feedback inbox, session history, and side-by-side comparison view
+- [x] **Phase 2.2: AI Mechanics Analysis and Model Evaluation** - Motion-type tagging, new mechanics flags, Gemini VLM prototype, qualitative evaluation report (completed 2026-03-02)
+- [x] **Phase 2.3: Better Pitching Mechanics and Gemini Flash VLM Summary** - Arm Circle + Stride Off Power Line flags, pitching ranges, VLM commentary UI with DB persistence (completed 2026-03-02)
+- [x] **Phase 2.4: Invite via Email and Send Feedback Email** - Resend branded invite email + feedback email from review page (completed 2026-03-02)
+- [x] **Phase 2.5: Review UX, Security, Performance and Code** - RLS security, rate limiting, error boundaries, 78 Vitest tests, mobile layout (completed 2026-03-03)
+- [x] **Phase 5: Branding and Marketing** - Diamond Mechanics rebrand, landing page, per-page metadata, favicon, OG image (completed 2026-03-03)
+- [ ] **Phase 3: Annotation Workspace and Feedback Delivery** - Frame scrub, slow motion, drawing tools, coaching cues, athlete feedback inbox, session history, side-by-side comparison (v2 scope)
 
 ## Phase Details
 
@@ -125,47 +128,43 @@ Plans:
 - [ ] 02.2-04-PLAN.md — Review page reads motion_type from DB + ReviewPageClient/usePoseAnalysis/MechanicsSidebar wired with motionType + motion badge in sidebar
 - [ ] 02.2-05-PLAN.md — Gemini Flash VLM prototype route (POST /api/analysis/vlm-eval) + qualitative evaluation checkpoint + RESEARCH.md evaluation results
 
-### Phase 3: Annotation Workspace *(DEFERRED — skipped for MVP)*
-**Goal**: Coaches can annotate a video frame with drawing tools, add written coaching cues, then deliver a structured feedback package
-**Depends on**: Phase 2
-**Requirements**: VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05
+### Phase 3: Annotation Workspace and Feedback Delivery *(v2 scope)*
+**Goal**: Coaches can annotate video frames with drawing tools, add written coaching cues, deliver structured feedback packages to athletes, and view full session history per athlete; athletes receive their feedback in a dedicated inbox
+**Depends on**: Phase 2.5
+**Requirements**: VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05, FEED-01, FEED-02, FEED-03, ROST-03
 **Success Criteria** (what must be TRUE):
   1. Coach can scrub through video frame-by-frame and play at 0.25x and 0.5x slow motion
   2. Coach can freeze a frame and draw freehand, straight lines, and arrows in at least four colors (red, green, yellow, white)
   3. Coach can place an angle measurement overlay and add text labels on a frozen frame
   4. Annotations replay in sync with the video when the coach scrubs or plays back the session
-**Plans**: TBD
-
-### Phase 4: Feedback Delivery
-**Goal**: Athletes receive their complete feedback package in an inbox, coaches can review full session history per athlete, and coaches can load a reference video for synchronized side-by-side comparison
-**Depends on**: Phase 3
-**Requirements**: FEED-01, FEED-02, FEED-03, ROST-03
-**Success Criteria** (what must be TRUE):
-  1. Coach can add written coaching cues tied to specific timestamps and deliver the complete package to the athlete
-  2. Athlete can open their inbox, see all feedback packages, and watch the annotated video with coaching cues in sync
-  3. Coach can view the full session history for any athlete in their roster
-  4. Coach can load a reference video alongside the athlete's video and scrub both in synchronized lock-step
+  5. Coach can add written coaching cues tied to specific timestamps and deliver the complete feedback package to the athlete
+  6. Athlete can open their inbox, see all feedback packages, and watch the annotated video with coaching cues in sync
+  7. Coach can view the full session history for any athlete in their roster
+  8. Coach can load a reference video alongside the athlete's video and scrub both in synchronized lock-step
 **Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 2.1 → 2.2 → 2.3 → 2.4 → 2.5 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 9/9 | Complete | 2026-02-27 |
 | 2. AI Pose Analysis | 6/6 | Complete | 2026-02-28 |
 | 2.1 Production Bug Fixes | 1/1 | Complete | 2026-02-28 |
-| 2.2 AI Mechanics Analysis and Model Evaluation | 4/5 | In Progress|  |
-| 3. Annotation Workspace | 0/TBD | Not started | - |
-| 4. Feedback Delivery | 0/TBD | Not started | - |
+| 2.2 AI Mechanics Analysis and Model Evaluation | 5/5 | Complete | 2026-03-02 |
+| 2.3 Better Pitching Mechanics and VLM Summary | 3/3 | Complete | 2026-03-02 |
+| 2.4 Invite via Email and Feedback Email | 3/3 | Complete | 2026-03-02 |
+| 2.5 Review UX, Security, Performance and Code | 4/4 | Complete | 2026-03-03 |
+| 5. Branding and Marketing | 4/4 | Complete | 2026-03-03 |
+| 3. Annotation Workspace and Feedback Delivery | 0/TBD | v2 scope | - |
 
 ### Phase 5: Branding and marketing
 
 **Goal:** Rebrand the app from "Softball Mechanics" to "Diamond Mechanics", build the public-facing marketing landing page at the root URL, apply brand identity consistently across the internal app and auth pages, and deliver SEO/meta assets (per-page titles, favicon, OG image).
 **Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05
-**Depends on:** Phase 4
+**Depends on:** Phase 2.5
 **Plans:** 4/4 plans complete
 
 Requirement IDs defined:
@@ -176,7 +175,7 @@ Requirement IDs defined:
 - BRAND-05: Per-page SEO metadata on all app routes; favicon replaced with Diamond Mechanics brand mark; OG image for landing page social sharing
 
 Plans:
-- [ ] 05-01-PLAN.md — CSS brand tokens (globals.css --primary/--ring/--sidebar-primary → Diamond blue) + root layout metadata (title template, description, OG config)
-- [ ] 05-02-PLAN.md — Diamond Mechanics landing page (hero + features + how it works) + human-verify checkpoint
-- [ ] 05-03-PLAN.md — App shell nav + auth layout + invite pages rebrand + email copy + consent text + Inngest client id
-- [ ] 05-04-PLAN.md — Per-page metadata (5 app routes) + favicon (icon.svg) + OG image (opengraph-image.png) + human-verify checkpoint
+- [x] 05-01-PLAN.md — CSS brand tokens (globals.css --primary/--ring/--sidebar-primary → Diamond blue) + root layout metadata (title template, description, OG config) (completed 2026-03-03)
+- [x] 05-02-PLAN.md — Diamond Mechanics landing page (hero + features + how it works) + human-verify checkpoint (completed 2026-03-03)
+- [x] 05-03-PLAN.md — App shell nav + auth layout + invite pages rebrand + email copy + consent text + Inngest client id (completed 2026-03-03)
+- [x] 05-04-PLAN.md — Per-page metadata (5 app routes) + favicon (icon.svg) + OG image (opengraph-image.png) + human-verify checkpoint (completed 2026-03-03)
