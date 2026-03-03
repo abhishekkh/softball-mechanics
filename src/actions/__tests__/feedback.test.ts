@@ -198,7 +198,7 @@ describe('sendFeedbackEmail()', () => {
     )
   })
 
-  it('email body includes link to /submissions', async () => {
+  it('email body includes link to /review/[videoId]', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: 'coach-1' } } })
 
     let callCount = 0
@@ -219,7 +219,7 @@ describe('sendFeedbackEmail()', () => {
     await sendFeedbackEmail('video-id-with-athlete')
 
     const emailHtml = mockSendEmail.mock.calls[0][2] as string
-    expect(emailHtml).toContain('https://example.com/submissions')
+    expect(emailHtml).toContain('https://example.com/review/video-id-with-athlete')
   })
 
   it('returns { error: "Failed to send feedback email..." } when sendEmail throws', async () => {
