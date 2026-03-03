@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: Integration Bug Fixes
 status: unknown
-last_updated: "2026-03-03T17:46:38.155Z"
+last_updated: "2026-03-03T17:52:51.446Z"
 progress:
   total_phases: 11
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 42
-  completed_plans: 35
+  completed_plans: 36
 ---
 
 # Project State
@@ -79,6 +79,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 05-branding-and-marketing P02 | 5 | 2 tasks | 1 files |
 | Phase 05-branding-and-marketing P04 | 15 | 3 tasks | 7 files |
 | Phase 06-v1-integration-bug-fixes P02 | 1 | 2 tasks | 3 files |
+| Phase 06-v1-integration-bug-fixes P01 | 7 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -182,6 +183,9 @@ Recent decisions affecting current work:
 - [Phase 05-branding-and-marketing]: Static 'Review' title used for dynamic /review/[videoId] route; dynamic per-video titles deferred to future enhancement
 - [Phase 06-v1-integration-bug-fixes]: Feedback email CTA changed to /submissions — athletes fail coach_id check on review page and get bounced to /dashboard
 - [Phase 06-v1-integration-bug-fixes]: Invite branded Resend email CTA changed to /login — /auth/callback with no token causes auth_callback_failed; supplementary email should link to a working page
+- [Phase 06-01]: Exact-match for '/' in isPublicPath: startsWith('/') matched every URL path — fixed to p === '/' ? pathname === '/' : pathname.startsWith(p)
+- [Phase 06-01]: coachId added back to PresignSchema as optional nullable uuid — trusted only for athlete role; coach role always uses user.id (client coachId ignored for security)
+- [Phase 06-01]: 400 returned when athlete role has no coachId — defense-in-depth API layer validates what upload page resolves server-side
 
 ### Roadmap Evolution
 

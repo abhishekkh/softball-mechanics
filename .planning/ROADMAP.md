@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2.4: Invite via Email and Send Feedback Email** - Resend branded invite email + feedback email from review page (completed 2026-03-02)
 - [x] **Phase 2.5: Review UX, Security, Performance and Code** - RLS security, rate limiting, error boundaries, 78 Vitest tests, mobile layout (completed 2026-03-03)
 - [x] **Phase 5: Branding and Marketing** - Diamond Mechanics rebrand, landing page, per-page metadata, favicon, OG image (completed 2026-03-03)
-- [ ] **Phase 06: v1.0 Integration Bug Fixes** - Close 4 integration breaks from audit: middleware auth, athlete upload coach_id, email CTA links (gap closure phase)
+- [x] **Phase 06: v1.0 Integration Bug Fixes** - Close 4 integration breaks from audit: middleware auth, athlete upload coach_id, email CTA links (gap closure phase) (completed 2026-03-03)
 - [ ] **Phase 3: Annotation Workspace and Feedback Delivery** - Frame scrub, slow motion, drawing tools, coaching cues, athlete feedback inbox, session history, side-by-side comparison (v2 scope)
 
 ## Phase Details
@@ -135,7 +135,7 @@ Plans:
 **Requirements**: AUTH-02, AUTH-04, VID-01, EMAIL-INVITE-01, EMAIL-FEEDBACK-01
 **Gap Closure:** Closes all gaps from v1.0-MILESTONE-AUDIT.md
 **Depends on:** Phase 2.5
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Tasks:
 - [ ] Fix middleware PUBLIC_PATHS — remove `'/'` entry so edge-layer auth redirect fires correctly (AUTH-02, AUTH-04)

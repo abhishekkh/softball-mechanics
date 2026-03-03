@@ -8,13 +8,13 @@
 ### Authentication
 
 - [x] **AUTH-01**: Coach can create an account with email and password
-- [ ] **AUTH-02**: Coach can log in and stay logged in across browser sessions
+- [x] **AUTH-02**: Coach can log in and stay logged in across browser sessions
 - [x] **AUTH-03**: Coach can invite an athlete via a shareable link (no full account required for athlete)
-- [ ] **AUTH-04**: Athlete can access their submissions and feedback via invite link / magic link
+- [x] **AUTH-04**: Athlete can access their submissions and feedback via invite link / magic link
 
 ### Video
 
-- [ ] **VID-01**: Coach or athlete can upload a video from their camera roll (phone or desktop)
+- [x] **VID-01**: Coach or athlete can upload a video from their camera roll (phone or desktop)
 - [x] **VID-02**: Uploaded video is transcoded to HLS for smooth streaming playback
 
 ### AI Analysis
@@ -99,10 +99,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | AUTH-01 | Phase 1 | Complete |
-| AUTH-02 | Phase 06 (gap closure) | Pending |
+| AUTH-02 | Phase 06 (gap closure) | Complete |
 | AUTH-03 | Phase 1 | Complete |
-| AUTH-04 | Phase 06 (gap closure) | Pending |
-| VID-01 | Phase 06 (gap closure) | Pending |
+| AUTH-04 | Phase 06 (gap closure) | Complete |
+| VID-01 | Phase 06 (gap closure) | Complete |
 | VID-02 | Phase 1 | Complete |
 | ROST-01 | Phase 1 | Complete |
 | ROST-02 | Phase 1 | Complete |
