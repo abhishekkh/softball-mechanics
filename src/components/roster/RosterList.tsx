@@ -2,6 +2,7 @@ interface Athlete {
   id: string
   email: string
   name?: string
+  team?: string
   status: 'pending' | 'active'
   videoCount: number
   invitedAt: string
@@ -39,6 +40,7 @@ export function RosterList({ athletes }: RosterListProps) {
                 <div>
                   <p className="font-medium text-gray-900">{a.name ?? a.email}</p>
                   {a.name && <p className="text-xs text-gray-500">{a.email}</p>}
+                  {a.team && <p className="text-xs text-gray-400">{a.team}</p>}
                 </div>
               </td>
               <td className="px-4 py-3">

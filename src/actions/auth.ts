@@ -57,14 +57,14 @@ export async function signOut() {
   redirect('/login')
 }
 
-export async function inviteAthlete(email: string, coachId: string): Promise<{ success: true; userId: string | undefined } | { error: string }> {
+export async function inviteAthlete(email: string, coachId: string, athleteName: string, team?: string): Promise<{ success: true; userId: string | undefined } | { error: string }> {
   const admin = getAdminClient()
   const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
 
   let userId: string | undefined
 
   const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
-    data: { role: 'athlete', invited_by: coachId },
+    data: { role: 'athlete', invited_by: coachId, full_name: athleteName },
     redirectTo,
   })
 
@@ -105,8 +105,16 @@ export async function inviteAthlete(email: string, coachId: string): Promise<{ s
     await supabase.from('coach_athletes').insert({
       coach_id: coachId,
       athlete_email: email,
+      athlete_name: athleteName,
+      team: team ?? null,
       status: 'pending',
     })
+  } else {
+    // Update name/team in case coach is re-inviting with corrected details
+    await supabase.from('coach_athletes').update({
+      athlete_name: athleteName,
+      team: team ?? null,
+    }).eq('id', existing.id)
   }
 
   // Send branded invite email via Resend (non-fatal — Supabase invite already sent)
@@ -144,7 +152,7 @@ export async function acceptInvite(): Promise<{ success: true } | { error: strin
   }
 
   const admin = getAdminClient()
-  const { error: updateError, count } = await admin
+  const { data: updatedRows, error: updateError } = await admin
     .from('coach_athletes')
     .update({
       athlete_id: user.id,
@@ -153,11 +161,25 @@ export async function acceptInvite(): Promise<{ success: true } | { error: strin
     })
     .eq('athlete_email', user.email!)
     .eq('status', 'pending')
-    .select('id')
+    .select('athlete_name')
 
   if (updateError) {
     console.error('[acceptInvite] update failed:', updateError.message, updateError.code)
     return { error: 'Failed to activate invite. Please try again.' }
+  }
+
+  // Backfill full_name if the profile was created without one (OTP re-invite path)
+  const athleteName = updatedRows?.[0]?.athlete_name
+  if (athleteName) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile?.full_name) {
+      await admin.from('profiles').update({ full_name: athleteName }).eq('id', user.id)
+    }
   }
 
   return { success: true }

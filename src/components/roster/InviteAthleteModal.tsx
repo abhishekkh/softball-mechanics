@@ -9,7 +9,9 @@ interface InviteAthleteModalProps {
 
 export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
   const [open, setOpen] = useState(false)
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [team, setTeam] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -18,20 +20,24 @@ export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
     setStatus('loading')
     setErrorMessage(null)
 
-    const result = await inviteAthlete(email, coachId)
+    const result = await inviteAthlete(email, coachId, name, team || undefined)
     if ('error' in result) {
       setStatus('error')
       setErrorMessage(result.error)
     } else {
       setStatus('sent')
+      setName('')
       setEmail('')
+      setTeam('')
     }
   }
 
   function handleClose() {
     setOpen(false)
     setStatus('idle')
+    setName('')
     setEmail('')
+    setTeam('')
     setErrorMessage(null)
   }
 
@@ -72,6 +78,20 @@ export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
             ) : (
               <form onSubmit={handleInvite} className="space-y-4">
                 <div>
+                  <label htmlFor="athleteName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Athlete name
+                  </label>
+                  <input
+                    id="athleteName"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    placeholder="Jane Smith"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
                   <label htmlFor="athleteEmail" className="block text-sm font-medium text-gray-700 mb-1">
                     Athlete email
                   </label>
@@ -82,6 +102,19 @@ export function InviteAthleteModal({ coachId }: InviteAthleteModalProps) {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="athlete@example.com"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="athleteTeam" className="block text-sm font-medium text-gray-700 mb-1">
+                    Team <span className="text-gray-400 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    id="athleteTeam"
+                    type="text"
+                    value={team}
+                    onChange={(e) => setTeam(e.target.value)}
+                    placeholder="e.g. Varsity, 16U Gold"
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>

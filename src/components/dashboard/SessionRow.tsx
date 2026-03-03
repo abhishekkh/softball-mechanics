@@ -10,6 +10,7 @@ interface SessionRowProps {
   videoId: string
   thumbnailUrl?: string | null
   athleteName: string
+  athleteTeam?: string
   uploadedAt: string
   status: string
 }
@@ -56,7 +57,7 @@ async function fetchAnalysisSummary(videoId: string): Promise<SummaryFrame[] | n
   }))
 }
 
-export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, status: initialStatus }: SessionRowProps) {
+export function SessionRow({ videoId, thumbnailUrl, athleteName, athleteTeam, uploadedAt, status: initialStatus }: SessionRowProps) {
   const { data: statusData } = useQuery({
     queryKey: ['video-status', videoId],
     queryFn: () => fetchVideoStatus(videoId),
@@ -103,7 +104,14 @@ export function SessionRow({ videoId, thumbnailUrl, athleteName, uploadedAt, sta
 
         {/* Athlete info + status + action — stacked so nothing gets squeezed */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-900 truncate">{athleteName}</p>
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-sm font-medium text-gray-900 truncate">{athleteName}</p>
+            {athleteTeam && (
+              <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-medium flex-shrink-0">
+                {athleteTeam}
+              </span>
+            )}
+          </div>
           <p className="text-xs text-gray-500 mt-0.5">
             {new Date(uploadedAt).toLocaleDateString('en-US', {
               month: 'short', day: 'numeric', year: 'numeric',
