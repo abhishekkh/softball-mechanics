@@ -97,7 +97,7 @@ export function AnalysisSummary({
   const isDark = theme === 'dark'
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {/* Stats bar */}
       <div className={`flex gap-3 text-xs ${isDark ? 'text-neutral-400' : 'text-gray-500'}`}>
         <span>{frames.length} frames analyzed</span>
@@ -110,78 +110,48 @@ export function AnalysisSummary({
         </span>
       </div>
 
-      {/* Needs Work */}
-      <section>
-        <h3 className={`text-xs font-semibold uppercase tracking-wider mb-2 ${isDark ? 'text-neutral-500' : 'text-gray-500'}`}>
-          Needs Work
-        </h3>
-        {issues.length === 0 ? (
-          <p className={`text-xs ${isDark ? 'text-neutral-500' : 'text-gray-400'}`}>
-            No mechanics issues detected.
-          </p>
+      {/* Issue + good-angle labels — single wrapping row */}
+      <div className="flex flex-wrap gap-1.5">
+        {issues.length === 0 && goodAngles.length === 0 ? (
+          <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+            isDark ? 'bg-neutral-700 text-neutral-400' : 'bg-gray-100 text-gray-500'
+          }`}>
+            Low visibility — re-film from the side
+          </span>
         ) : (
-          <div className="space-y-1.5">
+          <>
             {issues.map((tally) => (
-              <div
+              <span
                 key={tally.issue}
-                className={`flex items-center justify-between rounded px-2.5 py-2 text-sm ${
+                className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                   tally.severity === 'error'
-                    ? isDark
-                      ? 'bg-red-900/40 border border-red-700'
-                      : 'bg-red-50 border border-red-200'
-                    : isDark
-                      ? 'bg-amber-900/30 border border-amber-700'
-                      : 'bg-amber-50 border border-amber-200'
+                    ? isDark ? 'bg-red-900/60 text-red-300' : 'bg-red-100 text-red-700'
+                    : isDark ? 'bg-amber-900/60 text-amber-300' : 'bg-amber-100 text-amber-700'
                 }`}
               >
-                <span className={tally.severity === 'error'
-                  ? isDark ? 'text-red-300' : 'text-red-700'
-                  : isDark ? 'text-amber-300' : 'text-amber-700'
-                }>
-                  {tally.issue}
-                </span>
-                <span className={`text-xs ml-2 flex-shrink-0 ${isDark ? 'text-neutral-400' : 'text-gray-400'}`}>
-                  {tally.count} {tally.count === 1 ? 'frame' : 'frames'}
-                </span>
-              </div>
+                {tally.issue}
+              </span>
             ))}
-          </div>
-        )}
-      </section>
-
-      {/* Looking Good */}
-      {goodAngles.length > 0 && (
-        <section>
-          <h3 className={`text-xs font-semibold uppercase tracking-wider mb-2 ${isDark ? 'text-neutral-500' : 'text-gray-500'}`}>
-            Looking Good
-          </h3>
-          <div className="space-y-1.5">
+            {issues.length === 0 && (
+              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                isDark ? 'bg-emerald-900/60 text-emerald-300' : 'bg-emerald-100 text-emerald-700'
+              }`}>
+                Clean mechanics
+              </span>
+            )}
             {goodAngles.map((stat) => (
-              <div
+              <span
                 key={stat.label}
-                className={`flex items-center justify-between rounded px-2.5 py-2 text-sm ${
-                  isDark
-                    ? 'bg-emerald-900/30 border border-emerald-700'
-                    : 'bg-emerald-50 border border-emerald-200'
+                className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                  isDark ? 'bg-emerald-900/40 text-emerald-400' : 'bg-emerald-100 text-emerald-700'
                 }`}
               >
-                <span className={isDark ? 'text-emerald-300' : 'text-emerald-700'}>
-                  {stat.label}
-                </span>
-                <span className={`text-xs ml-2 flex-shrink-0 ${isDark ? 'text-neutral-400' : 'text-gray-400'}`}>
-                  {stat.inRangePct}% in range
-                </span>
-              </div>
+                {stat.label} ✓
+              </span>
             ))}
-          </div>
-        </section>
-      )}
-
-      {issues.length === 0 && goodAngles.length === 0 && (
-        <p className={`text-xs ${isDark ? 'text-neutral-500' : 'text-gray-400'}`}>
-          Angle data was low-visibility on most frames. Try re-filming from the side.
-        </p>
-      )}
+          </>
+        )}
+      </div>
 
       {/* AI Commentary — only show when analysis is complete/low_confidence and contact frame exists */}
       {(analysisStatus === 'complete' || analysisStatus === 'low_confidence') &&

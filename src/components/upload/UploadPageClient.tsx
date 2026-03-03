@@ -20,58 +20,59 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
 
   return (
     <div>
-      <h1 className="text-xl font-bold text-gray-900 mb-6">Upload Video</h1>
+      <h1 className="text-xl font-bold text-gray-900 mb-4">Upload Video</h1>
 
-      {isCoach && (
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Assign to athlete (optional)
-          </label>
-          {athletes.length === 0 ? (
-            <p className="text-sm text-gray-500">
-              No active athletes yet.{' '}
-              <a href="/roster" className="text-blue-600 hover:underline">Invite one from the roster</a>{' '}
-              to assign this video.
-            </p>
-          ) : (
-            <select
-              value={selectedAthleteId}
-              onChange={(e) => setSelectedAthleteId(e.target.value)}
-              className="w-full max-w-xs rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Unassigned</option>
-              {athletes.map(a => (
-                <option key={a.id} value={a.id}>{a.full_name}</option>
-              ))}
-            </select>
-          )}
-        </div>
-      )}
-
-      {/* Motion type selector — required for motion-specific analysis */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Motion Type
-        </label>
-        <div className="flex gap-4">
-          {(['hitting', 'pitching'] as const).map((type) => (
-            <label key={type} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="motionType"
-                value={type}
-                checked={motionType === type}
-                onChange={() => setMotionType(type)}
-                className="h-4 w-4 text-blue-600 border-gray-300"
-              />
-              <span className="text-sm text-gray-700 capitalize">{type}</span>
+      {/* Athlete + motion type on one row to keep the upload zone above the fold on mobile */}
+      <div className="flex flex-wrap items-end gap-4 mb-4">
+        {isCoach && (
+          <div className="flex-1 min-w-0">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Athlete (optional)
             </label>
-          ))}
+            {athletes.length === 0 ? (
+              <p className="text-sm text-gray-500">
+                <a href="/roster" className="text-blue-600 hover:underline">Invite from roster</a>
+              </p>
+            ) : (
+              <select
+                value={selectedAthleteId}
+                onChange={(e) => setSelectedAthleteId(e.target.value)}
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Unassigned</option>
+                {athletes.map(a => (
+                  <option key={a.id} value={a.id}>{a.full_name}</option>
+                ))}
+              </select>
+            )}
+          </div>
+        )}
+
+        {/* Motion type selector */}
+        <div className="flex-shrink-0">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Motion
+          </label>
+          <div className="flex gap-3">
+            {(['hitting', 'pitching'] as const).map((type) => (
+              <label key={type} className="flex items-center gap-1.5 cursor-pointer">
+                <input
+                  type="radio"
+                  name="motionType"
+                  value={type}
+                  checked={motionType === type}
+                  onChange={() => setMotionType(type)}
+                  className="h-4 w-4 text-blue-600 border-gray-300"
+                />
+                <span className="text-sm text-gray-700 capitalize">{type}</span>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Framing guidance — locked decision from Phase 2 CONTEXT.md */}
-      <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
+      <div className="mb-4 rounded-lg border border-blue-200 bg-blue-50 p-3">
         <div className="flex gap-3">
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -88,7 +89,7 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
       </div>
 
       {/* Legal consent — must be accepted before upload zone is enabled */}
-      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4">
+      <div className="mb-4 rounded-lg border border-gray-200 bg-white p-3">
         <label className="flex items-start gap-3 cursor-pointer">
           <input
             type="checkbox"
