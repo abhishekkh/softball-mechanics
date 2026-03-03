@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const PUBLIC_PATHS = ['/login', '/signup', '/auth/callback', '/invite', '/api/inngest']
+const PUBLIC_PATHS = ['/', '/login', '/signup', '/auth/callback', '/invite', '/api/inngest']
 
 // In-memory rate limiter — resets per Edge worker cold start (acceptable for v1)
 // Protects against single-user abuse on sensitive API routes
