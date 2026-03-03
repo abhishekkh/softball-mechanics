@@ -7,6 +7,18 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 // Mock dependencies before importing feedback.ts
 // ---------------------------------------------------------------------------
 
+// Mock @supabase/supabase-js (admin client used to generate magic link)
+const mockGenerateLink = vi.fn()
+vi.mock('@supabase/supabase-js', () => ({
+  createClient: vi.fn().mockReturnValue({
+    auth: {
+      admin: {
+        generateLink: mockGenerateLink,
+      },
+    },
+  }),
+}))
+
 // Mock @/lib/supabase/server
 const mockGetUser = vi.fn()
 const mockFrom = vi.fn()
@@ -50,6 +62,14 @@ describe('sendFeedbackEmail()', () => {
     mockGetUser.mockReset()
     mockFrom.mockReset()
     mockSendEmail.mockReset()
+    mockGenerateLink.mockReset()
+    mockGenerateLink.mockResolvedValue({
+      data: {
+        properties: {
+          action_link: 'https://mock-supabase.co/auth/verify?token=test-magic-token',
+        },
+      },
+    })
   })
 
   afterEach(() => {
@@ -198,7 +218,7 @@ describe('sendFeedbackEmail()', () => {
     )
   })
 
-  it('email body includes link to /submissions', async () => {
+  it('email body includes magic link URL for auto-login', async () => {
     mockGetUser.mockResolvedValue({ data: { user: { id: 'coach-1' } } })
 
     let callCount = 0
@@ -219,7 +239,7 @@ describe('sendFeedbackEmail()', () => {
     await sendFeedbackEmail('video-id-with-athlete')
 
     const emailHtml = mockSendEmail.mock.calls[0][2] as string
-    expect(emailHtml).toContain('https://example.com/submissions')
+    expect(emailHtml).toContain('https://mock-supabase.co/auth/verify?token=test-magic-token')
   })
 
   it('returns { error: "Failed to send feedback email..." } when sendEmail throws', async () => {

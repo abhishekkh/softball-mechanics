@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { sendEmail } from '@/lib/email'
 
 export async function sendFeedbackEmail(
@@ -45,12 +46,25 @@ export async function sendFeedbackEmail(
 
   const submissionsUrl = `${process.env.NEXT_PUBLIC_APP_URL}/submissions`
 
+  const admin = createAdminClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+  const { data: linkData } = await admin.auth.admin.generateLink({
+    type: 'magiclink',
+    email: roster.athlete_email,
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/submissions`,
+    },
+  })
+  const ctaUrl = linkData?.properties?.action_link ?? submissionsUrl
+
   const html = `
     <div style="font-family:sans-serif;max-width:540px;margin:0 auto;padding:24px">
       <h2 style="color:#1d4ed8;margin-bottom:16px">Mechanics Feedback from Your Coach</h2>
       <p style="color:#374151;line-height:1.6">${summaryText.replace(/\n/g, '<br/>')}</p>
       <p style="margin-top:24px">
-        <a href="${submissionsUrl}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
+        <a href="${ctaUrl}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
           View Full Analysis
         </a>
       </p>
