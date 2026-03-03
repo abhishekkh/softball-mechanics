@@ -62,34 +62,39 @@ export async function inviteAthlete(email: string, coachId: string, athleteName:
   const redirectTo = `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
 
   let userId: string | undefined
+  let authLink: string | undefined
+  let isNewUser = true
 
-  const { data, error } = await admin.auth.admin.inviteUserByEmail(email, {
-    data: { role: 'athlete', invited_by: coachId, full_name: athleteName },
-    redirectTo,
+  const { data: inviteData, error: inviteError } = await admin.auth.admin.generateLink({
+    type: 'invite',
+    email,
+    options: {
+      data: { role: 'athlete', invited_by: coachId, full_name: athleteName },
+      redirectTo,
+    },
   })
 
-  if (error) {
-    console.error('[inviteAthlete] inviteUserByEmail error:', { status: error.status, message: error.message })
-    if (error.status === 422 || error.message.toLowerCase().includes('already')) {
-      // User already exists — send a magic link via OTP (implicit flow so no PKCE cookie needed)
-      const implicitClient = createAdminClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-        { auth: { flowType: 'implicit' } }
-      )
-      const { error: otpError } = await implicitClient.auth.signInWithOtp({
+  if (inviteError) {
+    console.error('[inviteAthlete] generateLink(invite) error:', { status: inviteError.status, message: inviteError.message })
+    if (inviteError.status === 422 || inviteError.message.toLowerCase().includes('already')) {
+      // Existing user — generate magic link instead
+      isNewUser = false
+      const { data: magicData, error: magicError } = await admin.auth.admin.generateLink({
+        type: 'magiclink',
         email,
-        options: { emailRedirectTo: redirectTo, shouldCreateUser: false },
+        options: { redirectTo },
       })
-      if (otpError) {
-        console.error('[inviteAthlete] signInWithOtp error:', { status: otpError.status, message: otpError.message })
+      if (magicError) {
+        console.error('[inviteAthlete] generateLink(magiclink) error:', { status: magicError.status, message: magicError.message })
         return { error: 'Failed to send invite link. Please try again.' }
       }
+      authLink = magicData?.properties?.action_link
     } else {
-      return { error: `Failed to send invite: ${error.message}` }
+      return { error: `Failed to send invite: ${inviteError.message}` }
     }
   } else {
-    userId = data.user?.id
+    userId = inviteData?.user?.id
+    authLink = inviteData?.properties?.action_link
   }
 
   // Ensure a coach_athletes record exists — insert only if one doesn't already exist
@@ -117,9 +122,8 @@ export async function inviteAthlete(email: string, coachId: string, athleteName:
     }).eq('id', existing.id)
   }
 
-  // Send branded invite email via Resend (non-fatal — Supabase invite already sent)
+  // Send branded invite email via Resend with embedded auth link
   try {
-    const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/login`
     await sendEmail(
       email,
       'Your coach has invited you to review your mechanics',
@@ -127,15 +131,15 @@ export async function inviteAthlete(email: string, coachId: string, athleteName:
         <h2 style="color:#1d4ed8;margin-bottom:16px">You've been invited!</h2>
         <p style="color:#374151;line-height:1.6">Your coach has invited you to Diamond Mechanics where you can view detailed AI-powered analysis of your technique.</p>
         <p style="margin-top:24px">
-          <a href="${inviteLink}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
-            Accept Invite &amp; View Your Analysis
+          <a href="${authLink ?? redirectTo}" style="background:#1d4ed8;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:600">
+            ${isNewUser ? 'Accept Invite &amp; Get Started' : 'View Your Analysis'}
           </a>
         </p>
         <p style="color:#9ca3af;font-size:12px;margin-top:24px">If you did not expect this invitation, you can safely ignore this email.</p>
       </div>`
     )
   } catch (emailErr) {
-    // Non-fatal — Supabase invite email already sent; log and continue
+    // Non-fatal — log and continue
     console.error('[inviteAthlete] Resend branded email failed (non-fatal):', emailErr)
   }
 
