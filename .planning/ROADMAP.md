@@ -62,6 +62,30 @@ Plans:
 - [ ] 02-05-PLAN.md — MechanicsSidebar (joint angles + flags + Prev/Next navigation) + /review/[videoId] review workspace page
 - [x] 02-06-PLAN.md — End-to-end Phase 2 verification checkpoint (skeleton overlay, joint angles, flagging) (completed 2026-02-28)
 
+### Phase 02.5: Review UX and usability across devices, Security, Performance and Code (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 2
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 02.5 to break down)
+
+### Phase 02.4: Invite via email and send feedback email (INSERTED)
+
+**Goal:** Coach can send a branded invite email to athletes via Resend (in addition to the Supabase auth email) and send a mechanics feedback summary email to athletes directly from the review page (containing the VLM/Gemini analysis summary + link to /submissions).
+**Requirements**: EMAIL-INVITE-01, EMAIL-FEEDBACK-01
+**Depends on:** Phase 2
+**Plans:** 1/3 plans executed
+
+**Approach:** Resend (email) — free tier 3,000 emails/month, no phone number needed, athlete email already exists in coach_athletes.athlete_email. No DB migration needed. Install: `npm install resend`. RESEND_API_KEY must NOT have NEXT_PUBLIC_ prefix (server-side only).
+
+Plans:
+- [ ] 02.4-01-PLAN.md — Install resend npm package + src/lib/email.ts Resend sendEmail() wrapper + .env.local.example RESEND_API_KEY docs
+- [ ] 02.4-02-PLAN.md — Extend inviteAthlete() with non-fatal sendEmail() branded invite + InviteAthleteModal success message update
+- [ ] 02.4-03-PLAN.md — sendFeedbackEmail() server action + MechanicsSidebar "Send feedback email" button + ReviewPageClient wiring + human verify checkpoint
+
 ### Phase 02.3: better pitching mechanics analysis and Gemini flash VLM summary (INSERTED)
 
 **Goal:** Add two new pitching mechanics flags (Arm Circle bent elbow, Stride Off Power Line), pitching-specific ideal ranges and sidebar label rename, and Gemini Flash VLM commentary wired into the Session Summary section with DB persistence.

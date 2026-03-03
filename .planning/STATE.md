@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-02T23:27:01.623Z"
+last_updated: "2026-03-03T04:43:18.809Z"
 progress:
-  total_phases: 7
+  total_phases: 9
   completed_phases: 4
-  total_plans: 29
-  completed_plans: 23
+  total_plans: 32
+  completed_plans: 24
 ---
 
 # Project State
@@ -18,14 +18,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-26)
 
 **Core value:** Coaches can give high-quality, specific mechanical feedback to players remotely — not just in-person.
-**Current focus: Phase 02.3 - Better Pitching Mechanics + Gemini VLM Commentary
+**Current focus: Phase 02.4 - Invite via Email and Send Feedback Email (approach changed from SMS to Resend email)
 
 ## Current Position
 
-Phase: 02.3 COMPLETE — All 3 plans done (Better Pitching Mechanics Analysis and Gemini Flash VLM Summary)
-Plan: 3 of 3 in phase 02.3 — Plan 03 complete (Gemini VLM commentary end-to-end)
-Status: Phase 02.3 fully complete — pitching flags, motion-type-aware labels, Gemini VLM commentary all shipped; ready for Phase 3
-Last activity: 2026-03-02 — Completed 02.3-03-PLAN.md (human verify approved)
+Phase: 02.4 — In Progress (1 of 3 plans complete)
+Plan: 1 of 3 in phase 02.4 — 02.4-01 complete (Resend infra); 02.4-02 and 02.4-03 remaining
+Status: Phase 02.4 execution started; sendEmail() utility live; invite and feedback email plans ready
+Last activity: 2026-03-03 — 02.4-01 complete (Resend package installed, email.ts created, env docs updated)
 
 Progress: [████████████████████] 75% (Phase 1 complete, Phase 2 complete, Phase 2.1 complete, Phase 2.2 Plans 01-02 complete)
 
@@ -65,6 +65,7 @@ Progress: [████████████████████] 75% (Ph
 | Phase 02.3 P01 | 5 | 2 tasks | 4 files |
 | Phase 02.3 P02 | 1 | 1 tasks | 1 files |
 | Phase 02.3 P03 | 12 | 3 tasks | 6 files |
+| Phase 02.4 P01 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -133,11 +134,18 @@ Recent decisions affecting current work:
 - [Phase 02.3]: Vitest chosen as first test framework in project — no babel config overhead vs Jest, works cleanly with ESM + TypeScript
 - [Phase 02.3]: isPitching derived const used for label and range selection — single branching point, easy to extend to future motionTypes
 - [Phase 02.3]: extractContactFrame uses video.currentTime seek + seeked event + canvas JPEG; DB persist is non-fatal; vlmSummary from hook synced to local state via useEffect; motionType unknown falls back to hitting for vlm-eval
+- [Phase 02.4]: Approach changed from Twilio SMS to Resend email — free tier 3,000/month, athlete_email already in coach_athletes, no DB migration needed, no phone number/carrier compliance burden
+- [Phase 02.4]: sendEmail() in src/lib/email.ts is non-fatal in invite flow (Supabase invite already sent); fatal in feedback flow (surface error to coach)
+- [Phase 02.4]: RESEND_FROM_EMAIL is optional env var defaulting to 'noreply@resend.dev' — allows dev/staging without domain verification
+- [Phase 02.4]: RESEND_FROM_EMAIL defaults to noreply@resend.dev — allows dev/staging without domain verification
+- [Phase 02.4]: Vitest class mock pattern for SDK constructors: class MockResend used over vi.fn().mockImplementation() arrow function
 
 ### Roadmap Evolution
 
 - Phase 2.2 inserted after Phase 2.1: AI Mechanics Analysis and Model Evaluation (URGENT) — evaluate current MediaPipe accuracy on softball motions, research alternative/better models, improve mechanics feedback quality
 - Phase 02.3 inserted after Phase 2: better pitching mechanics analysis and Gemini flash VLM summary (URGENT)
+- Phase 02.4 inserted after Phase 2: invite via email (Resend) and provide feedback via email from review page (originally SMS/Twilio, replanned 2026-03-02 to Resend email)
+- Phase 02.5 inserted after Phase 2: Review UX and usability across devices, Security, Performance and Code (URGENT)
 
 ### Pending Todos
 
@@ -150,6 +158,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-02
-Stopped at: Completed 02.3-03-PLAN.md — Gemini Flash VLM commentary wired end-to-end; phase 02.3 fully done; Phase 3 (Annotation Workspace) is next.
+Last session: 2026-03-03
+Stopped at: Completed 02.4-01-PLAN.md — Resend infra (email.ts, env docs). Next: execute 02.4-02 (branded invite email) with /gsd:execute-phase.
 Resume file: None

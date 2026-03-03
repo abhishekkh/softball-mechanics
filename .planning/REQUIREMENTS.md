@@ -33,6 +33,11 @@
 - [x] **AI-02**: Joint angles are automatically computed (hip rotation, elbow slot, shoulder tilt)
 - [x] **AI-03**: AI flags potential mechanics issues (e.g., "dropping elbow," "early hip rotation") with confidence score
 
+### Email Delivery (Phase 02.4)
+
+- [x] **EMAIL-INVITE-01**: Coach invites an athlete and the athlete receives a branded Resend invite email (in addition to the Supabase auth email) with a link to access the app
+- [x] **EMAIL-FEEDBACK-01**: Coach can send a mechanics feedback summary email to the athlete directly from the review page, containing the VLM/Gemini analysis summary and a link to /submissions
+
 ### Feedback
 
 - [ ] **FEED-01**: Coach can add written coaching cues tied to specific timestamps in the video
@@ -99,6 +104,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AI-01 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | AI-02 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
 | AI-03 | Phase 2 | Complete (verified 2026-02-28 — 02-06) |
+| EMAIL-INVITE-01 | Phase 02.4 | Complete |
+| EMAIL-FEEDBACK-01 | Phase 02.4 | Complete |
 | VID-03 | Phase 3 | Pending |
 | VID-04 | Phase 3 | Pending |
 | ANN-01 | Phase 3 | Pending |
@@ -112,16 +119,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ROST-03 | Phase 4 | Pending |
 
 **Coverage:**
-- v1 requirements: 22 total
-- Mapped to phases: 22
+- v1 requirements: 24 total (22 original + 2 added Phase 02.4)
+- Mapped to phases: 24
 - Unmapped: 0
 
 Phase breakdown:
 - Phase 1 (Foundation): AUTH-01, AUTH-02, AUTH-03, AUTH-04, VID-01, VID-02, ROST-01, ROST-02 — 8 requirements
 - Phase 2 (AI Pose Analysis): AI-01, AI-02, AI-03 — 3 requirements
+- Phase 02.4 (Email Invite + Feedback): EMAIL-INVITE-01, EMAIL-FEEDBACK-01 — 2 requirements
 - Phase 3 (Annotation Workspace): VID-03, VID-04, ANN-01, ANN-02, ANN-03, ANN-04, ANN-05 — 7 requirements
 - Phase 4 (Feedback Delivery): FEED-01, FEED-02, FEED-03, ROST-03 — 4 requirements
 
 ---
 *Requirements defined: 2026-02-26*
-*Last updated: 2026-02-28 — AI-01/02/03 marked Complete after 02-06 human verification passed (all 5 flows verified)*
+*Last updated: 2026-03-02 — AI-01/02/03 marked Complete after 02-06 human verification passed (all 5 flows verified); SMS-INVITE-01/SMS-FEEDBACK-01 renamed to EMAIL-INVITE-01/EMAIL-FEEDBACK-01 (approach changed from Twilio SMS to Resend email)*
