@@ -29,7 +29,7 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Motion
           </label>
-          <div className="flex gap-3">
+          <div className="flex gap-3 h-10 items-center">
             {(['hitting', 'pitching'] as const).map((type) => (
               <label key={type} className="flex items-center gap-1.5 cursor-pointer">
                 <input
