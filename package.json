@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "vitest run",
     "lint": "eslint",
     "set-r2-lifecycle": "npx tsx --env-file=.env.local scripts/set-r2-lifecycle.ts"
   },
