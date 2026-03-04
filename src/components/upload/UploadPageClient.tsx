@@ -23,9 +23,32 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
       <h1 className="text-xl font-bold text-gray-900 mb-4">Upload Video</h1>
 
       {/* Athlete + motion type on one row to keep the upload zone above the fold on mobile */}
-      <div className="flex flex-wrap items-end gap-4 mb-4">
+      <div className="flex flex-wrap items-end gap-6 mb-4">
+        {/* Motion type selector — left */}
+        <div className="flex-shrink-0">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Motion
+          </label>
+          <div className="flex gap-3">
+            {(['hitting', 'pitching'] as const).map((type) => (
+              <label key={type} className="flex items-center gap-1.5 cursor-pointer">
+                <input
+                  type="radio"
+                  name="motionType"
+                  value={type}
+                  checked={motionType === type}
+                  onChange={() => setMotionType(type)}
+                  className="h-4 w-4 text-blue-600 border-gray-300"
+                />
+                <span className="text-sm text-gray-700 capitalize">{type}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Athlete selector — right */}
         {isCoach && (
-          <div className="flex-1 min-w-0">
+          <div className="w-64">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Athlete (optional)
             </label>
@@ -47,28 +70,6 @@ export function UploadPageClient({ coachId, athleteId, athletes }: UploadPageCli
             )}
           </div>
         )}
-
-        {/* Motion type selector */}
-        <div className="flex-shrink-0">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Motion
-          </label>
-          <div className="flex gap-3">
-            {(['hitting', 'pitching'] as const).map((type) => (
-              <label key={type} className="flex items-center gap-1.5 cursor-pointer">
-                <input
-                  type="radio"
-                  name="motionType"
-                  value={type}
-                  checked={motionType === type}
-                  onChange={() => setMotionType(type)}
-                  className="h-4 w-4 text-blue-600 border-gray-300"
-                />
-                <span className="text-sm text-gray-700 capitalize">{type}</span>
-              </label>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Framing guidance — locked decision from Phase 2 CONTEXT.md */}
